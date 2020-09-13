@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: c35466f136c435646926c0941c582150
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures:
+  - _OverlayTexture: {fileID: 2800000, guid: e64285698901739489102136ff0e27ea, type: 3}
+  - _HalfMask: {fileID: 2800000, guid: 2cf482d5a4a6b9a479b9b668c774fbed, type: 3}
+  - _MainTexture: {fileID: 2800000, guid: 42c94783261da714584d3b5e95331a55, type: 3}
+  - _TrimTexture: {fileID: 2800000, guid: b63842672e7154f4186fb6054e6812c8, type: 3}
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
