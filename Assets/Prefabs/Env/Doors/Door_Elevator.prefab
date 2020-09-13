@@ -197,7 +197,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7400413453902937756}
   m_Layer: 0
-  m_Name: Door-000-Elevator
+  m_Name: Door_Elevator
   m_TagString: Untagged
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -603,11 +603,33 @@ PrefabInstance:
       propertyPath: m_Name
       value: ActualDoor-Elevator
       objectReference: {fileID: 0}
+    - target: {fileID: 7056780506815018639, guid: 70151ba792bf8934c8ca4e4c69e03fe7,
+        type: 3}
+      propertyPath: doorMovingBit
+      value: 
+      objectReference: {fileID: 425632959470239949}
+    - target: {fileID: 7056780506815018639, guid: 70151ba792bf8934c8ca4e4c69e03fe7,
+        type: 3}
+      propertyPath: doorDestination
+      value: 
+      objectReference: {fileID: 8903074669554605409}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 70151ba792bf8934c8ca4e4c69e03fe7, type: 3}
 --- !u!4 &727613316105725727 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2561552338099024200, guid: 70151ba792bf8934c8ca4e4c69e03fe7,
+    type: 3}
+  m_PrefabInstance: {fileID: 2996431088930641495}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8903074669554605409 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5916433649878780726, guid: 70151ba792bf8934c8ca4e4c69e03fe7,
+    type: 3}
+  m_PrefabInstance: {fileID: 2996431088930641495}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &425632959470239949 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3205807402432190106, guid: 70151ba792bf8934c8ca4e4c69e03fe7,
     type: 3}
   m_PrefabInstance: {fileID: 2996431088930641495}
   m_PrefabAsset: {fileID: 0}

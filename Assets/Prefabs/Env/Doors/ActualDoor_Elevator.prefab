@@ -248,8 +248,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c845bdc55dbbda419970fb14b26190c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  triggerColour: {r: 0.99034953, g: 1, b: 0, a: 0.078431375}
-  triggerWireColour: {r: 1, g: 0.7003166, b: 0.1372549, a: 1}
+  triggerColour: {r: 0, g: 0, b: 0, a: 0}
+  triggerWireColour: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &4642320334074819555
 GameObject:
   m_ObjectHideFlags: 0
@@ -263,7 +263,7 @@ GameObject:
   - component: {fileID: 8707007029274546785}
   - component: {fileID: 7056780506815018639}
   m_Layer: 0
-  m_Name: ActualDoor-Elevator
+  m_Name: ActualDoor_Elevator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -310,8 +310,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c845bdc55dbbda419970fb14b26190c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  triggerColour: {r: 0.99034953, g: 1, b: 0, a: 0.078431375}
-  triggerWireColour: {r: 1, g: 0.7003166, b: 0.1372549, a: 1}
+  triggerColour: {r: 0, g: 0, b: 0, a: 0}
+  triggerWireColour: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &7056780506815018639
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -326,7 +326,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   doorMovingBit: {fileID: 3205807402432190106}
   doorDestination: {fileID: 5916433649878780726}
-  doorMoveTime: 0.5
+  doorMoveTime: 0
 --- !u!1 &5916433649878780726
 GameObject:
   m_ObjectHideFlags: 0

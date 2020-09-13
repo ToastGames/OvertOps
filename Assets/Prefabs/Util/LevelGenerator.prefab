@@ -47,12 +47,9 @@ MonoBehaviour:
     type: 3}
   testObject2: {fileID: 7192695510427784256, guid: 05359170e93a9a1409090259cf170030,
     type: 3}
-  RoomCount: 6
+  RoomCount: 4
   RoomPrefabs:
-  - {fileID: 3832913466057085094, guid: 9fd442049e8df804abb972681d0d987b, type: 3}
-  - {fileID: 3832913466057085094, guid: 07e23f58c7763934185bf28902144ce5, type: 3}
-  - {fileID: 3832913466057085094, guid: 6a8942bb1c79cd2499d439bc6815b9f7, type: 3}
-  - {fileID: 3832913466057085094, guid: f926e2765b4cd454d9efb746fe4527b9, type: 3}
+  - {fileID: 292385651791154370, guid: df2e46a7b565be143b233e246a1b50bc, type: 3}
   doorObject: {fileID: 573395455113094864, guid: 2783f55a8a13f504db13b3efc1b00a50,
     type: 3}
   doorPlugObject: {fileID: 7980731827135715702, guid: ea2888c0a9617e24496e04dae7416add,

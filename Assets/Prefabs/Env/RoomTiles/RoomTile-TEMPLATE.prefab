@@ -2773,8 +2773,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c845bdc55dbbda419970fb14b26190c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  triggerColour: {r: 0.89761096, g: 0.9150943, b: 0.58272517, a: 0.08627451}
-  triggerWireColour: {r: 1, g: 0, b: 0.2734213, a: 1}
+  triggerColour: {r: 0, g: 0, b: 0, a: 0}
+  triggerWireColour: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &8806706582321099030
 GameObject:
   m_ObjectHideFlags: 0

@@ -2465,7 +2465,7 @@ PrefabInstance:
     - target: {fileID: 292385651791154370, guid: df2e46a7b565be143b233e246a1b50bc,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 292385651791154371, guid: df2e46a7b565be143b233e246a1b50bc,
         type: 3}
@@ -3924,11 +3924,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8665959728155307983, guid: b1888d0c6b6e5314ba194b9669b3b9cd,
-        type: 3}
-      propertyPath: RoomCount
-      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b1888d0c6b6e5314ba194b9669b3b9cd, type: 3}
