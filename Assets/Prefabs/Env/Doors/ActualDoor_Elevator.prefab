@@ -326,7 +326,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   doorMovingBit: {fileID: 3205807402432190106}
   doorDestination: {fileID: 5916433649878780726}
-  doorMoveTime: 0
+  doorMoveTime: 0.5
 --- !u!1 &5916433649878780726
 GameObject:
   m_ObjectHideFlags: 0
