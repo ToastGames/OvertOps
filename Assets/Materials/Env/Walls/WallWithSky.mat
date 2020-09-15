@@ -89,6 +89,8 @@ Material:
     - _Glossiness: 0
     - _GlossyReflections: 0
     - _Metallic: 0
+    - _NumberOfVariants: 1
+    - _NumberOfVariants1: 2
     - _OcclusionStrength: 1
     - _Offset: 0
     - _QueueOffset: 0

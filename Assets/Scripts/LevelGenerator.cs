@@ -20,7 +20,8 @@ public class LevelGenerator : MonoBehaviour
 
     /////////////////////////////////////////////// YES, currently all child indexes are SUPER hard coded. I should probably fix this and do it a different way at some point to the code isn't so damn precarious
 
-    void Start()
+
+    void Awake()
     {
         bool isCollision = false;
 
@@ -45,6 +46,27 @@ public class LevelGenerator : MonoBehaviour
             BoxCollider currentCollider = newGameObject.transform.GetChild(3).GetComponent<BoxCollider>();  // This 100% relies on the room prefab being set up "properly", with child 4 having a box collider on it
 
             newGameObject.transform.Translate(newGameObject.transform.GetChild(0).transform.localPosition * -1);    // Offset by position of "IN" object (always the first child of the prefab) <-- will fail if it isn't
+
+            ////////////////////////////////////////// assign material type per room
+            // "style list" object is child 12
+            // "panels" object is child 4
+            // children of panels --> 0, 1, 2 are Floors, Roofs, Walls in that order
+
+            int newRoomStyleType = Random.Range(0, newGameObject.transform.GetChild(12).GetComponent<RoomStyleTypes>().roomStyleDefs.Count);
+
+            // floors
+            for (int f = 0; f < newGameObject.transform.GetChild(4).transform.GetChild(0).childCount; f++)
+                newGameObject.transform.GetChild(4).transform.GetChild(0).transform.GetChild(f).GetComponent<MeshRenderer>().material = newGameObject.transform.GetChild(12).GetComponent<RoomStyleTypes>().roomStyleDefs[newRoomStyleType].GetComponent<RoomStyleDef>().floorMaterial;
+
+            // roofs
+            for (int r = 0; r < newGameObject.transform.GetChild(4).transform.GetChild(1).childCount; r++)
+                newGameObject.transform.GetChild(4).transform.GetChild(1).transform.GetChild(r).GetComponent<MeshRenderer>().material = newGameObject.transform.GetChild(12).GetComponent<RoomStyleTypes>().roomStyleDefs[newRoomStyleType].GetComponent<RoomStyleDef>().roofMaterial;
+
+            // walls
+            for (int w = 0; w < newGameObject.transform.GetChild(4).transform.GetChild(2).childCount; w++)
+                newGameObject.transform.GetChild(4).transform.GetChild(2).transform.GetChild(w).GetComponent<MeshRenderer>().material = newGameObject.transform.GetChild(12).GetComponent<RoomStyleTypes>().roomStyleDefs[newRoomStyleType].GetComponent<RoomStyleDef>().wallMaterial;
+
+            ///////
 
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////
             // Intersection detection of room generation is STILL BUGGY AS FUCK. Need to come back to this later with fresh eyes
@@ -102,6 +124,9 @@ public class LevelGenerator : MonoBehaviour
                 {
                     GameObject newPlugObject = Instantiate(doorPlugObject, newGameObject.transform.GetChild(1).transform.GetChild(j).transform.position, newGameObject.transform.GetChild(1).transform.GetChild(j).transform.rotation) as GameObject;
                     newPlugObject.transform.SetParent(newGameObject.transform.GetChild(6).transform);        // parent all plugs to "PLUG" child of prefab
+
+                    // apply wall style material to every plug in the room. this only works on the mesh renderer of the 0th child
+                    newPlugObject.transform.GetChild(0).GetComponent<MeshRenderer>().material = newGameObject.transform.GetChild(12).GetComponent<RoomStyleTypes>().roomStyleDefs[newRoomStyleType].GetComponent<RoomStyleDef>().wallMaterial;
 
                     if (j == chosenExit)            // delete plug object if it's at the same location as the door
                         Destroy(newPlugObject);     // this makes NO sense <-- it works if I check after creating then delete, but not if I check BEFORE creating

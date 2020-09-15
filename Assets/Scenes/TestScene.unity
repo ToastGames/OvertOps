@@ -3932,6 +3932,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 5222274246571829640, guid: 4cebe599eb36b3942977d02b32488bfb,
         type: 3}
+    - target: {fileID: 8665959728155307983, guid: b1888d0c6b6e5314ba194b9669b3b9cd,
+        type: 3}
+      propertyPath: RoomCount
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b1888d0c6b6e5314ba194b9669b3b9cd, type: 3}
 --- !u!1001 &4097551760417536135
@@ -4185,7 +4190,7 @@ PrefabInstance:
     - target: {fileID: 5415688837109266513, guid: e14fdcf473b08fa469324933d366ba9e,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -4
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5415688837109266513, guid: e14fdcf473b08fa469324933d366ba9e,
         type: 3}
@@ -4236,10 +4241,40 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 134306436570783784, guid: 4cebe599eb36b3942977d02b32488bfb,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: e9b76553c51e0ad4383cada63b108a71, type: 2}
+    - target: {fileID: 625575108620316130, guid: 4cebe599eb36b3942977d02b32488bfb,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2505818176143316444, guid: 4cebe599eb36b3942977d02b32488bfb,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2505818176143316444, guid: 4cebe599eb36b3942977d02b32488bfb,
+        type: 3}
+      propertyPath: m_Convex
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3807786784722955918, guid: 4cebe599eb36b3942977d02b32488bfb,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: e9b76553c51e0ad4383cada63b108a71, type: 2}
     - target: {fileID: 5222274246571829640, guid: 4cebe599eb36b3942977d02b32488bfb,
         type: 3}
       propertyPath: m_Name
       value: RoomTile-TEMPLATE
+      objectReference: {fileID: 0}
+    - target: {fileID: 5222274246571829640, guid: 4cebe599eb36b3942977d02b32488bfb,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5222274246571829641, guid: 4cebe599eb36b3942977d02b32488bfb,
         type: 3}

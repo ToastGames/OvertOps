@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-2654621849862463368
+--- !u!114 &-7561235894630021489
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Floor_Sewer_Type1
+  m_Name: SewerFloorWithSky_TEST
   m_Shader: {fileID: 4800000, guid: ad4b22bd8709c6a4781d5b63f1d74fdf, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -44,12 +44,12 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _Floors:
-        m_Texture: {fileID: 2800000, guid: 825a6d1efcb6e5e41aa4db9b2e75f73d, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Mask:
+        m_Texture: {fileID: 2800000, guid: d03f114939d04bb45aa3f74a3d303bbf, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -61,7 +61,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SkyDeleteMe:
-        m_Texture: {fileID: 2800000, guid: 0ade2acc00e28af4997f668fc942f87a, type: 3}
+        m_Texture: {fileID: 2800000, guid: 85902c341ac43ee48a7393e0266d8d18, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
@@ -69,7 +69,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _WallDoor2NoJamb:
-        m_Texture: {fileID: 2800000, guid: 825a6d1efcb6e5e41aa4db9b2e75f73d, type: 3}
+        m_Texture: {fileID: 2800000, guid: a377d0a5f95b24b47832c7d1cb930f73, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _texcoord:
@@ -89,9 +89,9 @@ Material:
     - _Glossiness: 0
     - _GlossyReflections: 0
     - _Metallic: 0
-    - _NumberOfVariants: 8
     - _NumberOfVariants1: 8
     - _OcclusionStrength: 1
+    - _Offset: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _Smoothness: 0.5
