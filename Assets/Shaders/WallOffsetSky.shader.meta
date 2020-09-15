@@ -4,7 +4,6 @@ ShaderImporter:
   externalObjects: {}
   defaultTextures:
   - _WallDoor2NoJamb: {fileID: 2800000, guid: 2a784acf456a5e0478b8d57a45afe1e0, type: 3}
-  - _SkyDeleteMe: {fileID: 2800000, guid: 5779591e98da3ce4284efb9db5f2fc76, type: 3}
   nonModifiableTextures: []
   userData: 
   assetBundleName: 

@@ -28,6 +28,9 @@ public class LevelGenerator : MonoBehaviour
         Vector3 newPos = gameObject.transform.position;
         Quaternion newRot = gameObject.transform.rotation;
 
+        GameObject prevRoom = null;
+        GameObject prevDoor = null;
+
         List<float> testPoints = new List<float>();   // bounds to test          +X , -X , +Z , -Z
         List<float> testPoints2 = new List<float>();  // being tested against
 
@@ -120,6 +123,27 @@ public class LevelGenerator : MonoBehaviour
                 GameObject newDoorObject = Instantiate(doorObject, newPos, newRot) as GameObject;            // create door at out location
                 newDoorObject.transform.SetParent(newGameObject.transform.GetChild(7).transform);            // parent all doors to "DOOR" child of prefab
 
+
+                if (i > 0)
+                {
+                    // set doorway textures for _previous_ doorway (if there is one)
+                    prevDoor.transform.GetChild(0).transform.GetChild(0).GetComponent<MeshRenderer>().material.SetTexture("_OverlayTexture", prevRoom.transform.GetChild(12).GetComponent<RoomStyleTypes>().roomStyleDefs[newRoomStyleType].GetComponent<RoomStyleDef>().DoorFloorTexture);
+                    prevDoor.transform.GetChild(0).transform.GetChild(1).GetComponent<MeshRenderer>().material.SetTexture("_OverlayTexture", prevRoom.transform.GetChild(12).GetComponent<RoomStyleTypes>().roomStyleDefs[newRoomStyleType].GetComponent<RoomStyleDef>().DoorWallTexture);
+                    prevDoor.transform.GetChild(0).transform.GetChild(2).GetComponent<MeshRenderer>().material.SetTexture("_OverlayTexture", prevRoom.transform.GetChild(12).GetComponent<RoomStyleTypes>().roomStyleDefs[newRoomStyleType].GetComponent<RoomStyleDef>().DoorWallTexture);
+                    prevDoor.transform.GetChild(0).transform.GetChild(3).GetComponent<MeshRenderer>().material.SetTexture("_OverlayTexture", prevRoom.transform.GetChild(12).GetComponent<RoomStyleTypes>().roomStyleDefs[newRoomStyleType].GetComponent<RoomStyleDef>().DoorRoofTexture);
+                }
+
+                // set doorway textures for _next_ doorway
+                newDoorObject.transform.GetChild(0).transform.GetChild(0).GetComponent<MeshRenderer>().material.SetTexture("_MainTexture", newGameObject.transform.GetChild(12).GetComponent<RoomStyleTypes>().roomStyleDefs[newRoomStyleType].GetComponent<RoomStyleDef>().DoorFloorTexture);
+                newDoorObject.transform.GetChild(0).transform.GetChild(1).GetComponent<MeshRenderer>().material.SetTexture("_MainTexture", newGameObject.transform.GetChild(12).GetComponent<RoomStyleTypes>().roomStyleDefs[newRoomStyleType].GetComponent<RoomStyleDef>().DoorWallTexture);
+                newDoorObject.transform.GetChild(0).transform.GetChild(2).GetComponent<MeshRenderer>().material.SetTexture("_MainTexture", newGameObject.transform.GetChild(12).GetComponent<RoomStyleTypes>().roomStyleDefs[newRoomStyleType].GetComponent<RoomStyleDef>().DoorWallTexture);
+                newDoorObject.transform.GetChild(0).transform.GetChild(3).GetComponent<MeshRenderer>().material.SetTexture("_MainTexture", newGameObject.transform.GetChild(12).GetComponent<RoomStyleTypes>().roomStyleDefs[newRoomStyleType].GetComponent<RoomStyleDef>().DoorRoofTexture);
+                newDoorObject.transform.GetChild(0).transform.GetChild(0).GetComponent<MeshRenderer>().material.SetTexture("_TrimTexture", newGameObject.transform.GetChild(12).GetComponent<RoomStyleTypes>().roomStyleDefs[newRoomStyleType].GetComponent<RoomStyleDef>().DoorTrimTexture);
+                newDoorObject.transform.GetChild(0).transform.GetChild(1).GetComponent<MeshRenderer>().material.SetTexture("_TrimTexture", newGameObject.transform.GetChild(12).GetComponent<RoomStyleTypes>().roomStyleDefs[newRoomStyleType].GetComponent<RoomStyleDef>().DoorTrimTexture);
+                newDoorObject.transform.GetChild(0).transform.GetChild(2).GetComponent<MeshRenderer>().material.SetTexture("_TrimTexture", newGameObject.transform.GetChild(12).GetComponent<RoomStyleTypes>().roomStyleDefs[newRoomStyleType].GetComponent<RoomStyleDef>().DoorTrimTexture);
+                newDoorObject.transform.GetChild(0).transform.GetChild(3).GetComponent<MeshRenderer>().material.SetTexture("_TrimTexture", newGameObject.transform.GetChild(12).GetComponent<RoomStyleTypes>().roomStyleDefs[newRoomStyleType].GetComponent<RoomStyleDef>().DoorTrimTexture);
+
+
                 for (int j = 0; j < newGameObject.transform.GetChild(1).childCount; j++)                     // creat a PLUG object at ALL OUT locations
                 {
                     GameObject newPlugObject = Instantiate(doorPlugObject, newGameObject.transform.GetChild(1).transform.GetChild(j).transform.position, newGameObject.transform.GetChild(1).transform.GetChild(j).transform.rotation) as GameObject;
@@ -131,6 +155,9 @@ public class LevelGenerator : MonoBehaviour
                     if (j == chosenExit)            // delete plug object if it's at the same location as the door
                         Destroy(newPlugObject);     // this makes NO sense <-- it works if I check after creating then delete, but not if I check BEFORE creating
                 }
+
+                prevRoom = newGameObject;
+                prevDoor = newDoorObject;
             }
 
             if (i == RoomCount - 1)

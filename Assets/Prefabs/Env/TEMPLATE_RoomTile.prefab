@@ -257,7 +257,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5222274246571829641}
   m_Layer: 0
-  m_Name: RoomTile-TEMPLATE
+  m_Name: TEMPLATE_RoomTile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -559,8 +559,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomStyleDefs:
-  - {fileID: 2058034026835496827, guid: 2616be70dcf976c42b81afd173d08b1e, type: 3}
   - {fileID: 2058034026835496827, guid: 1a35887f6b0a0b7428bc5929d1dbb82d, type: 3}
+  - {fileID: 2058034026835496827, guid: 03633b2c693a73949b00dfb009cbef9b, type: 3}
 --- !u!1 &7338252445356598346
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: 12c777002191c4c4baf685dd52a12bfd
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures:
+  - _WallDoor2NoJamb: {fileID: 2800000, guid: 2a784acf456a5e0478b8d57a45afe1e0, type: 3}
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
