@@ -5,8 +5,16 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
+    public enum PlayerState { Idle, Shooting, Reloading, Walking, Hurt, Dying }
+
     public GameObject collisionMarker;
 
+
+    public GameObject playerSpriteObject;
+    public GameObject playerSpriteDefList;
+    private PlayerState playerState;
+    
+    
     public float moveSpeed;
     public float rotSpeed;
 
@@ -20,10 +28,29 @@ public class Player : MonoBehaviour
 
     private Vector3 adjustmentVector;
 
+    private float shootTime;
+    private float reloadTime;
+    private float hurtTime;
+    private float deathTime;
+
+    private float accumulatedShootTime = 0.0f;
+
+
     private void Start()
     {
         //Instantiate(collisionMarker, transform.position, transform.rotation);
+        playerState = PlayerState.Idle;
+
+        shootTime = (1 / playerSpriteObject.GetComponent<Renderer>().material.GetFloat("_FrameRate")) * (playerSpriteDefList.GetComponent<SpriteDefList>().SpriteFramesDefs[1].GetComponent<SpriteFamesDef>().shootingEndFrame - playerSpriteDefList.GetComponent<SpriteDefList>().SpriteFramesDefs[1].GetComponent<SpriteFamesDef>().shootingStartFrame);
+        Debug.Log(shootTime);
     }
+
+
+    private void Update()
+    {
+        CheckState();
+    }
+
 
     void LateUpdate()
     {
@@ -33,6 +60,39 @@ public class Player : MonoBehaviour
         adjustmentVector = Vector3.zero;
 
         transform.Rotate(transform.up, (YRotation * rotSpeed * Time.deltaTime));
+    }
+
+
+    ////////////////////////////////
+
+    private void CheckState()
+    {
+        Material tempMaterial = playerSpriteObject.GetComponent<Renderer>().material;
+
+        // indexes currently hard coded to 1 <-- shotty , need to make this a variable at some point
+
+        if (playerState == PlayerState.Idle)
+        {
+            tempMaterial.SetFloat("_AnimationNumber", playerSpriteDefList.GetComponent<SpriteDefList>().SpriteFramesDefs[1].GetComponent<SpriteFamesDef>().idleAnimNumber);
+            tempMaterial.SetFloat("_FrameOffset", playerSpriteDefList.GetComponent<SpriteDefList>().SpriteFramesDefs[1].GetComponent<SpriteFamesDef>().idleStartFrame);
+            tempMaterial.SetFloat("_FrameCount", playerSpriteDefList.GetComponent<SpriteDefList>().SpriteFramesDefs[1].GetComponent<SpriteFamesDef>().idleEndFrame - playerSpriteDefList.GetComponent<SpriteDefList>().SpriteFramesDefs[1].GetComponent<SpriteFamesDef>().idleStartFrame + 1);
+        }
+        if (playerState == PlayerState.Shooting)
+        {
+            tempMaterial.SetFloat("_AnimationNumber", playerSpriteDefList.GetComponent<SpriteDefList>().SpriteFramesDefs[1].GetComponent<SpriteFamesDef>().shootingAnimNumber);
+            tempMaterial.SetFloat("_FrameOffset", playerSpriteDefList.GetComponent<SpriteDefList>().SpriteFramesDefs[1].GetComponent<SpriteFamesDef>().shootingStartFrame);
+            tempMaterial.SetFloat("_FrameCount", playerSpriteDefList.GetComponent<SpriteDefList>().SpriteFramesDefs[1].GetComponent<SpriteFamesDef>().shootingEndFrame - playerSpriteDefList.GetComponent<SpriteDefList>().SpriteFramesDefs[1].GetComponent<SpriteFamesDef>().shootingStartFrame + 1);
+
+            accumulatedShootTime += Time.deltaTime;
+
+            Debug.Log(accumulatedShootTime);
+
+            if (accumulatedShootTime >= shootTime)
+            {
+                accumulatedShootTime = 0.0f;
+                playerState = PlayerState.Idle;
+            }
+        }
     }
 
     ////////////////////////////////
@@ -98,10 +158,7 @@ public class Player : MonoBehaviour
         {
             if (hit1.transform.gameObject.tag == "Wall")
             {
-                Debug.Log("Ray 1 hit" + hit1.transform.gameObject.name);
                 collisionMarker.transform.position = hit1.point;
-                Debug.Log(hit1.point);
-                Debug.Log(hit1.normal);
                 Debug.DrawLine(hit1.point, hit1.point + hit1.normal, Color.white);
 
                 //adjustmentVector = ((hit1.point - transform.position) * -1) + transform.up; //// old test thing
@@ -115,10 +172,7 @@ public class Player : MonoBehaviour
         {
             if (hit2.transform.gameObject.tag == "Wall")
             {
-                Debug.Log("Ray 2 hit" + hit2.transform.gameObject.name);
                 collisionMarker.transform.position = hit2.point;
-                Debug.Log(hit2.point);
-                Debug.Log(hit2.normal);
                 Debug.DrawLine(hit2.point, hit2.point + hit2.normal, Color.white);
 
                 Vector3 tempVector = (ray2End - hit2.point);
@@ -131,10 +185,7 @@ public class Player : MonoBehaviour
         {
             if (hit3.transform.gameObject.tag == "Wall")
             {
-                Debug.Log("Ray 3 hit" + hit3.transform.gameObject.name);
                 collisionMarker.transform.position = hit3.point;
-                Debug.Log(hit3.point);
-                Debug.Log(hit3.normal);
                 Debug.DrawLine(hit3.point, hit3.point + hit3.normal, Color.white);
 
                 Vector3 tempVector = (ray3End - hit3.point);
@@ -147,10 +198,7 @@ public class Player : MonoBehaviour
         {
             if (hit4.transform.gameObject.tag == "Wall")
             {
-                Debug.Log("Ray 4 hit" + hit4.transform.gameObject.name);
                 collisionMarker.transform.position = hit4.point;
-                Debug.Log(hit4.point);
-                Debug.Log(hit4.normal);
                 Debug.DrawLine(hit4.point, hit4.point + hit4.normal, Color.white);
 
                 Vector3 tempVector = (ray4End - hit4.point);
@@ -163,10 +211,7 @@ public class Player : MonoBehaviour
         {
             if (hit5.transform.gameObject.tag == "Wall")
             {
-                Debug.Log("Ray 5 hit" + hit5.transform.gameObject.name);
                 collisionMarker.transform.position = hit5.point;
-                Debug.Log(hit5.point);
-                Debug.Log(hit5.normal);
                 Debug.DrawLine(hit5.point, hit5.point + hit5.normal, Color.white);
 
                 Vector3 tempVector = (ray5End - hit5.point);
@@ -183,6 +228,7 @@ public class Player : MonoBehaviour
     public void Shoot(InputAction.CallbackContext context)
     {
         Debug.Log("##########");
+        playerState = PlayerState.Shooting;
     }
 
     public void Walk(InputAction.CallbackContext context)

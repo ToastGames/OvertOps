@@ -49,8 +49,9 @@ MonoBehaviour:
     type: 3}
   RoomCount: 4
   RoomPrefabs:
-  - {fileID: 292385651791154370, guid: df2e46a7b565be143b233e246a1b50bc, type: 3}
-  doorObject: {fileID: 573395455113094864, guid: 2783f55a8a13f504db13b3efc1b00a50,
+  - {fileID: 5222274246571829640, guid: 4cebe599eb36b3942977d02b32488bfb, type: 3}
+  - {fileID: 4818482314862527479, guid: 0433172ebc548b94ebd56e06aa3a8875, type: 3}
+  doorObject: {fileID: 573395455113094864, guid: f50fe988f34dedc4787a5dfe9abf7e88,
     type: 3}
   doorPlugObject: {fileID: 7980731827135715702, guid: ea2888c0a9617e24496e04dae7416add,
     type: 3}
