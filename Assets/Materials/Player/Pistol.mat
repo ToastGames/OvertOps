@@ -74,16 +74,16 @@ Material:
     - _Cutoff: 0.5
     - _DstBlend: 0
     - _EnvironmentReflections: 1
-    - _FrameCount: 2
-    - _FrameHeightpx: 192
-    - _FrameOffset: 5
+    - _FrameCount: 1
+    - _FrameHeightpx: 64
+    - _FrameOffset: 0
     - _FrameRate: 10
-    - _FrameWidthpx: 192
+    - _FrameWidthpx: 64
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _ImageHeightpx: 384
-    - _ImageWidthpx: 1152
+    - _ImageHeightpx: 64
+    - _ImageWidthpx: 1024
     - _Metallic: 0
     - _OcclusionStrength: 1
     - _QueueOffset: 0

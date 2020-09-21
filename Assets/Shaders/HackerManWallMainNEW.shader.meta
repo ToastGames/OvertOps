@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: eeea7cf1dbfc20940a14414049a9fc32
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures:
+  - _Grid001: {fileID: 2800000, guid: 72c2bdfc7296f2e4eb108aa76923e1ac, type: 3}
+  - _Streaks1: {fileID: 2800000, guid: 9b82867308cef6e4eaea663747c953a4, type: 3}
+  - _Streaks2: {fileID: 2800000, guid: fadb2d1800c52154f8a171af2cebd297, type: 3}
+  - _Streaks3: {fileID: 2800000, guid: 3e474ed7bf8f7e7438110dfae87e4c30, type: 3}
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -46,11 +46,11 @@ MonoBehaviour:
   spriteMaterial: {fileID: 2100000, guid: 1b04e52f78ca3884ea85b698f51d3108, type: 2}
   spriteName: Shotgun
   idleAnimNumber: 1
-  idleStartFrame: 11
-  idleEndFrame: 12
+  idleStartFrame: 12
+  idleEndFrame: 13
   shootingAnimNumber: 1
-  shootingStartFrame: 1
-  shootingEndFrame: 11
+  shootingStartFrame: 2
+  shootingEndFrame: 5
   reloadingAnimNumber: 1
   reloadingStartFrame: 1
   reloadingEndFrame: 1

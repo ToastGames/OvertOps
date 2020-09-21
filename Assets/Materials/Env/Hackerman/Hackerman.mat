@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Hackerman
-  m_Shader: {fileID: 4800000, guid: 74721bcd08e91f643915985b4c3ca6b1, type: 3}
+  m_Shader: {fileID: 4800000, guid: eeea7cf1dbfc20940a14414049a9fc32, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -99,7 +99,7 @@ Material:
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _GlowExtra: 3
+    - _GlowExtra: 0.8
     - _Matrix1Speed: 0.2
     - _Metallic: 0
     - _OcclusionStrength: 1
@@ -115,7 +115,7 @@ Material:
     - _Streaks3Multiplier: 1
     - _StreaksMultiplier2: 0
     - _Surface: 0
-    - _ThrobIntensity: 1.5
+    - _ThrobIntensity: 0.8
     - _ThrobSpeed: 1
     - _WorkflowMode: 1
     - _ZWrite: 1
