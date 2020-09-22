@@ -48,7 +48,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2055514330
 Transform:
   m_ObjectHideFlags: 0
@@ -308,8 +308,8 @@ MonoBehaviour:
   playerSpriteObject: {fileID: 2055514329}
   playerSpriteDefList: {fileID: 4169707716505336604, guid: 3dea0a8f03fe0f94e96ad876e8fdaa6e,
     type: 3}
-  moveSpeed: 4
-  rotSpeed: 80
+  moveSpeed: 5
+  rotSpeed: 110
   rayCheckLength: 0.3
   collisionWidth: 0.2
 --- !u!136 &9110544893476643930

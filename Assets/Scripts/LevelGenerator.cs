@@ -16,10 +16,12 @@ public class LevelGenerator : MonoBehaviour
     public GameObject levelEndObject;
 
     private GameObject roomParent;
+
     private List<BoxCollider> allRoomColliders = new List<BoxCollider>();
 
     /////////////////////////////////////////////// YES, currently all child indexes are SUPER hard coded. I should probably fix this and do it a different way at some point to the code isn't so damn precarious
 
+   
 
     void Awake()
     {
@@ -36,7 +38,10 @@ public class LevelGenerator : MonoBehaviour
 
         for (int i = 0; i < 4; i++) { testPoints.Add(0.0f); testPoints2.Add(0.0f); } // putting all this on one line to save space because it's not important
 
-        roomParent = GameObject.FindGameObjectWithTag("RoomParent");
+
+        // Assign nodes to variables by tag so it doesn't matter if the prefab heirarchy gets rearranged
+
+        roomParent = GameObject.FindGameObjectWithTag("Room_Parent");
 
         for (int i = 0; i < RoomCount; i++)
         {
@@ -50,24 +55,31 @@ public class LevelGenerator : MonoBehaviour
 
             newGameObject.transform.Translate(newGameObject.transform.GetChild(0).transform.localPosition * -1);    // Offset by position of "IN" object (always the first child of the prefab) <-- will fail if it isn't
 
-            ////////////////////////////////////////// assign material type per room
+            GameObject styleListObject = newGameObject.transform.Find("StyleList").gameObject;
+            GameObject panelParent = newGameObject.transform.Find("Panels").gameObject; // <-----------------------------------------------// not used?
+            GameObject floorsParent = newGameObject.transform.Find("Panels").gameObject.transform.Find("Floors").gameObject;
+            GameObject roofsParent = newGameObject.transform.Find("Panels").gameObject.transform.Find("Roofs").gameObject;
+            GameObject wallsParent = newGameObject.transform.Find("Panels").gameObject.transform.Find("Walls").gameObject;
+
+
+            ////////////////////////////////////////// assign material type per room //////////////// ALL THIS NUMBER SHIT has now been replaced by variables
             // "style list" object is child 12
             // "panels" object is child 4
             // children of panels --> 0, 1, 2 are Floors, Roofs, Walls in that order
 
-            int newRoomStyleType = Random.Range(0, newGameObject.transform.GetChild(12).GetComponent<RoomStyleTypes>().roomStyleDefs.Count);
+            int newRoomStyleType = Random.Range(0, styleListObject.GetComponent<RoomStyleTypes>().roomStyleDefs.Count);
 
             // floors
-            for (int f = 0; f < newGameObject.transform.GetChild(4).transform.GetChild(0).childCount; f++)
-                newGameObject.transform.GetChild(4).transform.GetChild(0).transform.GetChild(f).GetComponent<MeshRenderer>().material = newGameObject.transform.GetChild(12).GetComponent<RoomStyleTypes>().roomStyleDefs[newRoomStyleType].GetComponent<RoomStyleDef>().floorMaterial;
+            for (int f = 0; f < floorsParent.transform.childCount; f++)
+                floorsParent.transform.GetChild(f).GetComponent<MeshRenderer>().material = styleListObject.GetComponent<RoomStyleTypes>().roomStyleDefs[newRoomStyleType].GetComponent<RoomStyleDef>().floorMaterial;
 
             // roofs
-            for (int r = 0; r < newGameObject.transform.GetChild(4).transform.GetChild(1).childCount; r++)
-                newGameObject.transform.GetChild(4).transform.GetChild(1).transform.GetChild(r).GetComponent<MeshRenderer>().material = newGameObject.transform.GetChild(12).GetComponent<RoomStyleTypes>().roomStyleDefs[newRoomStyleType].GetComponent<RoomStyleDef>().roofMaterial;
+            for (int r = 0; r < roofsParent.transform.childCount; r++)
+                roofsParent.transform.GetChild(r).GetComponent<MeshRenderer>().material = styleListObject.GetComponent<RoomStyleTypes>().roomStyleDefs[newRoomStyleType].GetComponent<RoomStyleDef>().roofMaterial;
 
             // walls
-            for (int w = 0; w < newGameObject.transform.GetChild(4).transform.GetChild(2).childCount; w++)
-                newGameObject.transform.GetChild(4).transform.GetChild(2).transform.GetChild(w).GetComponent<MeshRenderer>().material = newGameObject.transform.GetChild(12).GetComponent<RoomStyleTypes>().roomStyleDefs[newRoomStyleType].GetComponent<RoomStyleDef>().wallMaterial;
+            for (int w = 0; w < wallsParent.transform.childCount; w++)
+                wallsParent.transform.GetChild(w).GetComponent<MeshRenderer>().material = styleListObject.GetComponent<RoomStyleTypes>().roomStyleDefs[newRoomStyleType].GetComponent<RoomStyleDef>().wallMaterial;
 
             ///////
 
@@ -96,7 +108,6 @@ public class LevelGenerator : MonoBehaviour
                         (((testPoints[3] > testPoints2[3]) && (testPoints[3] < testPoints2[2])) ||
                          ((testPoints[2] < testPoints2[2]) && (testPoints[2] > testPoints2[3]))))
                     {
-                        //Debug.Log("@@@@@@@@@@@@@@@@");
                         isCollision = true;
                         keepChecking = false;
                     }
@@ -109,9 +120,7 @@ public class LevelGenerator : MonoBehaviour
 
             if (isCollision)
             {
-                //Debug.Log("###############");
                 Destroy(newGameObject);
-                //i--;
             }
             else
             {
@@ -126,22 +135,24 @@ public class LevelGenerator : MonoBehaviour
 
                 if (i > 0)
                 {
+                    GameObject prevStyleListObject = prevRoom.transform.Find("StyleList").gameObject;
+
                     // set doorway textures for _previous_ doorway (if there is one)
-                    prevDoor.transform.GetChild(0).transform.GetChild(0).GetComponent<MeshRenderer>().material.SetTexture("_OverlayTexture", prevRoom.transform.GetChild(12).GetComponent<RoomStyleTypes>().roomStyleDefs[newRoomStyleType].GetComponent<RoomStyleDef>().DoorFloorTexture);
-                    prevDoor.transform.GetChild(0).transform.GetChild(1).GetComponent<MeshRenderer>().material.SetTexture("_OverlayTexture", prevRoom.transform.GetChild(12).GetComponent<RoomStyleTypes>().roomStyleDefs[newRoomStyleType].GetComponent<RoomStyleDef>().DoorWallTexture);
-                    prevDoor.transform.GetChild(0).transform.GetChild(2).GetComponent<MeshRenderer>().material.SetTexture("_OverlayTexture", prevRoom.transform.GetChild(12).GetComponent<RoomStyleTypes>().roomStyleDefs[newRoomStyleType].GetComponent<RoomStyleDef>().DoorWallTexture);
-                    prevDoor.transform.GetChild(0).transform.GetChild(3).GetComponent<MeshRenderer>().material.SetTexture("_OverlayTexture", prevRoom.transform.GetChild(12).GetComponent<RoomStyleTypes>().roomStyleDefs[newRoomStyleType].GetComponent<RoomStyleDef>().DoorRoofTexture);
+                    prevDoor.transform.GetChild(0).transform.GetChild(0).GetComponent<MeshRenderer>().material.SetTexture("_OverlayTexture", prevStyleListObject.GetComponent<RoomStyleTypes>().roomStyleDefs[newRoomStyleType].GetComponent<RoomStyleDef>().DoorFloorTexture);
+                    prevDoor.transform.GetChild(0).transform.GetChild(1).GetComponent<MeshRenderer>().material.SetTexture("_OverlayTexture", prevStyleListObject.GetComponent<RoomStyleTypes>().roomStyleDefs[newRoomStyleType].GetComponent<RoomStyleDef>().DoorWallTexture);
+                    prevDoor.transform.GetChild(0).transform.GetChild(2).GetComponent<MeshRenderer>().material.SetTexture("_OverlayTexture", prevStyleListObject.GetComponent<RoomStyleTypes>().roomStyleDefs[newRoomStyleType].GetComponent<RoomStyleDef>().DoorWallTexture);
+                    prevDoor.transform.GetChild(0).transform.GetChild(3).GetComponent<MeshRenderer>().material.SetTexture("_OverlayTexture", prevStyleListObject.GetComponent<RoomStyleTypes>().roomStyleDefs[newRoomStyleType].GetComponent<RoomStyleDef>().DoorRoofTexture);
                 }
 
                 // set doorway textures for _next_ doorway
-                newDoorObject.transform.GetChild(0).transform.GetChild(0).GetComponent<MeshRenderer>().material.SetTexture("_MainTexture", newGameObject.transform.GetChild(12).GetComponent<RoomStyleTypes>().roomStyleDefs[newRoomStyleType].GetComponent<RoomStyleDef>().DoorFloorTexture);
-                newDoorObject.transform.GetChild(0).transform.GetChild(1).GetComponent<MeshRenderer>().material.SetTexture("_MainTexture", newGameObject.transform.GetChild(12).GetComponent<RoomStyleTypes>().roomStyleDefs[newRoomStyleType].GetComponent<RoomStyleDef>().DoorWallTexture);
-                newDoorObject.transform.GetChild(0).transform.GetChild(2).GetComponent<MeshRenderer>().material.SetTexture("_MainTexture", newGameObject.transform.GetChild(12).GetComponent<RoomStyleTypes>().roomStyleDefs[newRoomStyleType].GetComponent<RoomStyleDef>().DoorWallTexture);
-                newDoorObject.transform.GetChild(0).transform.GetChild(3).GetComponent<MeshRenderer>().material.SetTexture("_MainTexture", newGameObject.transform.GetChild(12).GetComponent<RoomStyleTypes>().roomStyleDefs[newRoomStyleType].GetComponent<RoomStyleDef>().DoorRoofTexture);
-                newDoorObject.transform.GetChild(0).transform.GetChild(0).GetComponent<MeshRenderer>().material.SetTexture("_TrimTexture", newGameObject.transform.GetChild(12).GetComponent<RoomStyleTypes>().roomStyleDefs[newRoomStyleType].GetComponent<RoomStyleDef>().DoorTrimTexture);
-                newDoorObject.transform.GetChild(0).transform.GetChild(1).GetComponent<MeshRenderer>().material.SetTexture("_TrimTexture", newGameObject.transform.GetChild(12).GetComponent<RoomStyleTypes>().roomStyleDefs[newRoomStyleType].GetComponent<RoomStyleDef>().DoorTrimTexture);
-                newDoorObject.transform.GetChild(0).transform.GetChild(2).GetComponent<MeshRenderer>().material.SetTexture("_TrimTexture", newGameObject.transform.GetChild(12).GetComponent<RoomStyleTypes>().roomStyleDefs[newRoomStyleType].GetComponent<RoomStyleDef>().DoorTrimTexture);
-                newDoorObject.transform.GetChild(0).transform.GetChild(3).GetComponent<MeshRenderer>().material.SetTexture("_TrimTexture", newGameObject.transform.GetChild(12).GetComponent<RoomStyleTypes>().roomStyleDefs[newRoomStyleType].GetComponent<RoomStyleDef>().DoorTrimTexture);
+                newDoorObject.transform.GetChild(0).transform.GetChild(0).GetComponent<MeshRenderer>().material.SetTexture("_MainTexture", styleListObject.GetComponent<RoomStyleTypes>().roomStyleDefs[newRoomStyleType].GetComponent<RoomStyleDef>().DoorFloorTexture);
+                newDoorObject.transform.GetChild(0).transform.GetChild(1).GetComponent<MeshRenderer>().material.SetTexture("_MainTexture", styleListObject.GetComponent<RoomStyleTypes>().roomStyleDefs[newRoomStyleType].GetComponent<RoomStyleDef>().DoorWallTexture);
+                newDoorObject.transform.GetChild(0).transform.GetChild(2).GetComponent<MeshRenderer>().material.SetTexture("_MainTexture", styleListObject.GetComponent<RoomStyleTypes>().roomStyleDefs[newRoomStyleType].GetComponent<RoomStyleDef>().DoorWallTexture);
+                newDoorObject.transform.GetChild(0).transform.GetChild(3).GetComponent<MeshRenderer>().material.SetTexture("_MainTexture", styleListObject.GetComponent<RoomStyleTypes>().roomStyleDefs[newRoomStyleType].GetComponent<RoomStyleDef>().DoorRoofTexture);
+                newDoorObject.transform.GetChild(0).transform.GetChild(0).GetComponent<MeshRenderer>().material.SetTexture("_TrimTexture", styleListObject.GetComponent<RoomStyleTypes>().roomStyleDefs[newRoomStyleType].GetComponent<RoomStyleDef>().DoorTrimTexture);
+                newDoorObject.transform.GetChild(0).transform.GetChild(1).GetComponent<MeshRenderer>().material.SetTexture("_TrimTexture", styleListObject.GetComponent<RoomStyleTypes>().roomStyleDefs[newRoomStyleType].GetComponent<RoomStyleDef>().DoorTrimTexture);
+                newDoorObject.transform.GetChild(0).transform.GetChild(2).GetComponent<MeshRenderer>().material.SetTexture("_TrimTexture", styleListObject.GetComponent<RoomStyleTypes>().roomStyleDefs[newRoomStyleType].GetComponent<RoomStyleDef>().DoorTrimTexture);
+                newDoorObject.transform.GetChild(0).transform.GetChild(3).GetComponent<MeshRenderer>().material.SetTexture("_TrimTexture", styleListObject.GetComponent<RoomStyleTypes>().roomStyleDefs[newRoomStyleType].GetComponent<RoomStyleDef>().DoorTrimTexture);
 
 
                 for (int j = 0; j < newGameObject.transform.GetChild(1).childCount; j++)                     // creat a PLUG object at ALL OUT locations
@@ -150,7 +161,7 @@ public class LevelGenerator : MonoBehaviour
                     newPlugObject.transform.SetParent(newGameObject.transform.GetChild(6).transform);        // parent all plugs to "PLUG" child of prefab
 
                     // apply wall style material to every plug in the room. this only works on the mesh renderer of the 0th child
-                    newPlugObject.transform.GetChild(0).GetComponent<MeshRenderer>().material = newGameObject.transform.GetChild(12).GetComponent<RoomStyleTypes>().roomStyleDefs[newRoomStyleType].GetComponent<RoomStyleDef>().wallMaterial;
+                    newPlugObject.transform.GetChild(0).GetComponent<MeshRenderer>().material = styleListObject.GetComponent<RoomStyleTypes>().roomStyleDefs[newRoomStyleType].GetComponent<RoomStyleDef>().wallMaterial;
 
                     if (j == chosenExit)            // delete plug object if it's at the same location as the door
                         Destroy(newPlugObject);     // this makes NO sense <-- it works if I check after creating then delete, but not if I check BEFORE creating

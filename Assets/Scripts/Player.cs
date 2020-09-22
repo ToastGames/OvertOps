@@ -42,7 +42,7 @@ public class Player : MonoBehaviour
         playerState = PlayerState.Idle;
 
         shootTime = (1 / playerSpriteObject.GetComponent<Renderer>().material.GetFloat("_FrameRate")) * (playerSpriteDefList.GetComponent<SpriteDefList>().SpriteFramesDefs[1].GetComponent<SpriteFamesDef>().shootingEndFrame - playerSpriteDefList.GetComponent<SpriteDefList>().SpriteFramesDefs[1].GetComponent<SpriteFamesDef>().shootingStartFrame);
-        Debug.Log(shootTime);
+        //Debug.Log(shootTime);
     }
 
 
@@ -85,7 +85,7 @@ public class Player : MonoBehaviour
 
             accumulatedShootTime += Time.deltaTime;
 
-            Debug.Log(accumulatedShootTime);
+            //Debug.Log(accumulatedShootTime);
 
             if (accumulatedShootTime >= shootTime)
             {
@@ -227,7 +227,7 @@ public class Player : MonoBehaviour
 
     public void Shoot(InputAction.CallbackContext context)
     {
-        Debug.Log("##########");
+        //Debug.Log("##########");
         playerState = PlayerState.Shooting;
     }
 

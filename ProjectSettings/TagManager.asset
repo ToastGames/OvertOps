@@ -4,8 +4,19 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - RoomParent
   - Wall
+  - IN_Parent
+  - OUT_Parent
+  - Bounds_Parent
+  - Panels_Parent
+  - PLUGS_Parent
+  - DOORS_Parent
+  - ITEMS_Parent
+  - MOBS_Parent
+  - PROPS_Parent
+  - BREAKAWAYS_Parent
+  - Room_Parent
+  - StyleList_Holder
   layers:
   - Default
   - TransparentFX

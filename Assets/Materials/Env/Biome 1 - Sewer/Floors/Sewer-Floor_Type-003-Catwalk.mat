@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-7561235894630021489
+--- !u!114 &-2654621849862463368
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Railing
+  m_Name: Sewer-Floor_Type-003-Catwalk
   m_Shader: {fileID: 4800000, guid: ad4b22bd8709c6a4781d5b63f1d74fdf, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -44,12 +44,12 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _MainTex:
-        m_Texture: {fileID: 0}
+    - _Floors:
+        m_Texture: {fileID: 2800000, guid: 825a6d1efcb6e5e41aa4db9b2e75f73d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _Mask:
-        m_Texture: {fileID: 2800000, guid: d03f114939d04bb45aa3f74a3d303bbf, type: 3}
+    - _MainTex:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -61,6 +61,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SkyDeleteMe:
+        m_Texture: {fileID: 2800000, guid: 0ade2acc00e28af4997f668fc942f87a, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Sky_Texture:
         m_Texture: {fileID: 2800000, guid: 5750f44c67721de41833ef5b65a8f823, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -69,7 +73,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _WallDoor2NoJamb:
-        m_Texture: {fileID: 2800000, guid: 0591954d2ed9a2242bcc7b187b6f339e, type: 3}
+        m_Texture: {fileID: 2800000, guid: 2305320161a311645bcdc9d6b1bd9716, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Wall_Texture:
+        m_Texture: {fileID: 2800000, guid: 2305320161a311645bcdc9d6b1bd9716, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _texcoord:
@@ -90,9 +98,8 @@ Material:
     - _GlossyReflections: 0
     - _Metallic: 0
     - _NumberOfVariants: 1
-    - _NumberOfVariants1: 2
+    - _NumberOfVariants1: 8
     - _OcclusionStrength: 1
-    - _Offset: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _Smoothness: 0.5

@@ -656,8 +656,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1257567097}
   m_Layer: 0
-  m_Name: RoomParent
-  m_TagString: RoomParent
+  m_Name: ROOMS
+  m_TagString: Room_Parent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1386,11 +1386,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 5415688837109266512, guid: e14fdcf473b08fa469324933d366ba9e,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5415688837109266513, guid: e14fdcf473b08fa469324933d366ba9e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1460,11 +1455,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoomTile-TEMPLATE
       objectReference: {fileID: 0}
-    - target: {fileID: 5222274246571829640, guid: 4cebe599eb36b3942977d02b32488bfb,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5222274246571829641, guid: 4cebe599eb36b3942977d02b32488bfb,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1473,7 +1463,7 @@ PrefabInstance:
     - target: {fileID: 5222274246571829641, guid: 4cebe599eb36b3942977d02b32488bfb,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -4
       objectReference: {fileID: 0}
     - target: {fileID: 5222274246571829641, guid: 4cebe599eb36b3942977d02b32488bfb,
         type: 3}
@@ -1519,6 +1509,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6704636803271333807, guid: 4cebe599eb36b3942977d02b32488bfb,
+        type: 3}
+      propertyPath: m_TagString
+      value: StyleList_Holder
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4cebe599eb36b3942977d02b32488bfb, type: 3}
