@@ -4,58 +4,99 @@ using UnityEngine;
 
 public class EnemyBasic : MonoBehaviour
 {
-    public enum EnemyState { Idle, Roaming };
+    public GameObject enemyPrefab;
+    public GameObject spritePlane;
 
-    public float moveSpeed;
-    public float proximityThreshold;
+    public float speed;
+    public float wallcollisionRange;
+    public float rayWidth;
+    public float turnVariation;
 
-    private EnemyState enemyState;
-    private Vector3 targetDestination;
-    
+    private GameObject playerTarget;
 
 
     void Start()
     {
-        enemyState = EnemyState.Roaming;
-        targetDestination = PickNewDestination(Vector3.zero);
+        playerTarget = GameObject.FindGameObjectWithTag("Player");
     }
 
     void Update()
     {
-        if (enemyState == EnemyState.Roaming)
+        enemyPrefab.transform.Translate(Vector3.forward * speed * Time.deltaTime);
+        DetectWall();
+
+        spritePlane.transform.LookAt(playerTarget.transform, Vector3.up);
+        spritePlane.transform.eulerAngles = new Vector3(0.0f, spritePlane.transform.eulerAngles.y, 0.0f);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        /*
+        if (other.tag == "Player")
+            other.gameObject.GetComponent<Player>().isDead = true;
+
+        if (other.tag == "PlayerProjectile")
+            Kill();
+        */
+    }
+
+    public void Kill()
+    {
+        Destroy(gameObject);
+    }
+
+    void DetectWall()
+    {
+        RaycastHit hitInfo;
+
+        Vector3 offsetLeft = new Vector3((rayWidth / 2) * -1, 0.0f, 0.0f);
+        Vector3 offsetRight = new Vector3((rayWidth / 2), 0.0f, 0.0f);
+        offsetLeft = Quaternion.AngleAxis(transform.eulerAngles.y, Vector3.up) * offsetLeft;
+        offsetRight = Quaternion.AngleAxis(transform.eulerAngles.y, Vector3.up) * offsetRight;
+
+        Debug.DrawRay(transform.position + offsetLeft, transform.forward * wallcollisionRange, Color.red);
+        Debug.DrawRay(transform.position + offsetRight, transform.forward * wallcollisionRange, Color.blue);
+        //Debug.DrawRay(transform.position, transform.forward * wallcollisionRange, Color.blue);
+
+        if (Physics.Raycast(transform.position + offsetLeft, transform.forward, out hitInfo, wallcollisionRange))
         {
-            //transform.LookAt(targetDestination);
-            //transform.Translate(transform.forward * moveSpeed);
-
-            transform.position = Vector3.MoveTowards(transform.position, targetDestination, moveSpeed);
+            if (hitInfo.collider.gameObject.tag == "Wall")
+            {
+                Debug.DrawRay(hitInfo.point, Vector3.Reflect(transform.forward, hitInfo.normal) * wallcollisionRange, Color.yellow);
+                Reorient(Vector3.Reflect(enemyPrefab.transform.forward, hitInfo.normal));
+            }
         }
-        Debug.DrawLine(transform.position, targetDestination, Color.magenta);
-
-        if (Vector3.Distance(transform.position, targetDestination) < proximityThreshold)
-            targetDestination = PickNewDestination(Vector3.zero);
+        if (Physics.Raycast(transform.position + offsetRight, transform.forward, out hitInfo, wallcollisionRange))
+        {
+            if (hitInfo.collider.gameObject.tag == "Wall")
+            {
+                Debug.DrawRay(hitInfo.point, Vector3.Reflect(transform.forward, hitInfo.normal) * wallcollisionRange, Color.yellow);
+                Reorient(Vector3.Reflect(enemyPrefab.transform.forward, hitInfo.normal));
+            }
+        }
     }
 
-    void OnTriggerEnter(Collider other)
+    void Reorient(Vector3 newDirection)
     {
-        Vector3 tempVector = PickNewDestination(targetDestination);
-        targetDestination = tempVector;
+        float newVariation = Random.Range(-turnVariation, turnVariation);
+
+        enemyPrefab.transform.rotation = Quaternion.LookRotation(newDirection);
+        enemyPrefab.transform.Rotate(0.0f, newVariation, 0.0f);
+
+        //this is honestly a bit of a hack to stop the "getting out of the world" bug
+        //for some reason "LookRotation" sometimes results in non-zero values on the x or z axes
+        enemyPrefab.transform.eulerAngles = new Vector3(0.0f, enemyPrefab.transform.eulerAngles.y, 0.0f);
     }
 
-    private Vector3 PickNewDestination(Vector3 oldDestination)
+    private void OnDrawGizmos()
     {
-        float newX = Random.Range(-100.0f, 100.0f);
-        float newY = 0.0f;
-        float newZ = Random.Range(-100.0f, 100.0f);
+        Vector3 offsetLeft = new Vector3((rayWidth / 2) * -1, 0.0f, 0.0f);
+        Vector3 offsetRight = new Vector3((rayWidth / 2), 0.0f, 0.0f);
+        offsetLeft = Quaternion.AngleAxis(transform.eulerAngles.y, Vector3.up) * offsetLeft;
+        offsetRight = Quaternion.AngleAxis(transform.eulerAngles.y, Vector3.up) * offsetRight;
 
-        if (newX * (oldDestination.x - transform.position.x) > 0.0f)
-            newX = newX * -1;
-
-        if (newZ * (oldDestination.z - transform.position.z) > 0.0f)
-            newZ = newZ * -1;
-
-        Vector3 newVector = new Vector3(newX, newY, newZ);
-
-        return newVector;
+        Debug.DrawRay(transform.position + offsetLeft, transform.forward * wallcollisionRange, Color.red);
+        Debug.DrawRay(transform.position + offsetRight, transform.forward * wallcollisionRange, Color.blue);
     }
 
 }
