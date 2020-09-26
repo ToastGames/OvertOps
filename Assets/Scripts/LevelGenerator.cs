@@ -11,6 +11,7 @@ public class LevelGenerator : MonoBehaviour
 
     public List<GameObject> RoomPrefabs;
     public GameObject doorObject;
+    public GameObject elevatorDoorObject;
     public GameObject doorPlugObject;
     public GameObject levelStartObject;
     public GameObject levelEndObject;
@@ -129,7 +130,11 @@ public class LevelGenerator : MonoBehaviour
                 newPos = newGameObject.transform.GetChild(1).GetChild(chosenExit).transform.position;        // new Pos and Rot for NEXT room determined by randomly chosen out location
                 newRot = newGameObject.transform.GetChild(1).GetChild(chosenExit).transform.rotation;        //
 
-                GameObject newDoorObject = Instantiate(doorObject, newPos, newRot) as GameObject;            // create door at out location
+                GameObject newDoorObject = null;
+                if (i == RoomCount - 1)
+                    newDoorObject = Instantiate(elevatorDoorObject, newPos, newRot) as GameObject;           //create ELEVATOR door at out location
+                else
+                    newDoorObject = Instantiate(doorObject, newPos, newRot) as GameObject;                   // create door at out location
                 newDoorObject.transform.SetParent(newGameObject.transform.GetChild(7).transform);            // parent all doors to "DOOR" child of prefab
 
 
