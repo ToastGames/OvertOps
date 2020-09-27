@@ -47,10 +47,9 @@ MonoBehaviour:
     type: 3}
   testObject2: {fileID: 7192695510427784256, guid: 05359170e93a9a1409090259cf170030,
     type: 3}
-  RoomCount: 3
+  RoomCount: 5
   RoomPrefabs:
   - {fileID: 5222274246571829640, guid: 4cebe599eb36b3942977d02b32488bfb, type: 3}
-  - {fileID: 4818482314862527479, guid: 0433172ebc548b94ebd56e06aa3a8875, type: 3}
   doorObject: {fileID: 573395455113094864, guid: f50fe988f34dedc4787a5dfe9abf7e88,
     type: 3}
   elevatorDoorObject: {fileID: 2547344022091865278, guid: 5e90ddab932c13f40a961f937378ed1a,

@@ -43,9 +43,11 @@ GameObject:
   - component: {fileID: 1607315641528392152}
   - component: {fileID: 4922971988306547123}
   - component: {fileID: 6788910183931751312}
+  - component: {fileID: 7289108525860864067}
+  - component: {fileID: 3121686262242897460}
   m_Layer: 0
-  m_Name: WallFlipped
-  m_TagString: Untagged
+  m_Name: Wall-Left-(flipped)
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -111,6 +113,33 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!65 &7289108525860864067
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3055167630802533218}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 0.1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3121686262242897460
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3055167630802533218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c845bdc55dbbda419970fb14b26190c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  triggerColour: {r: 0.5330188, g: 0.9124484, b: 1, a: 0.33333334}
+  triggerWireColour: {r: 0, g: 0.42802, b: 1, a: 0.4627451}
 --- !u!1 &5587278940998504351
 GameObject:
   m_ObjectHideFlags: 0
@@ -235,9 +264,11 @@ GameObject:
   - component: {fileID: 4538150033937130117}
   - component: {fileID: 3338877687148191781}
   - component: {fileID: 1231956485763377801}
+  - component: {fileID: 4083717507635129575}
+  - component: {fileID: 8515193825590096441}
   m_Layer: 0
-  m_Name: Wall
-  m_TagString: Untagged
+  m_Name: Wall-Right
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -303,6 +334,33 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!65 &4083717507635129575
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7045086182501621417}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 0.1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &8515193825590096441
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7045086182501621417}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c845bdc55dbbda419970fb14b26190c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  triggerColour: {r: 0.5330188, g: 0.9124484, b: 1, a: 0.33333334}
+  triggerWireColour: {r: 0, g: 0.42802, b: 1, a: 0.4627451}
 --- !u!1 &7820167242208965255
 GameObject:
   m_ObjectHideFlags: 0

@@ -54,8 +54,8 @@ public class Door : MonoBehaviour
     {
         if ((other.tag == "Player") && (!isTriggered))
         {
-            transform.GetChild(1).transform.GetChild(0).GetComponent<Renderer>().material.SetTexture("_BaseMap", altTexture);
-            transform.GetChild(1).transform.GetChild(1).GetComponent<Renderer>().material.SetTexture("_BaseMap", altTexture);
+            transform.GetChild(2).transform.GetChild(0).GetComponent<Renderer>().material.SetTexture("_BaseMap", altTexture);
+            transform.GetChild(2).transform.GetChild(1).GetComponent<Renderer>().material.SetTexture("_BaseMap", altTexture);
             isTriggered = true;
         }
     }

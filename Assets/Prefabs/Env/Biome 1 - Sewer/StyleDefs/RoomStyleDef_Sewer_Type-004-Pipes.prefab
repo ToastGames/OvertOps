@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6303505558509772540}
   - component: {fileID: 6950620385906891150}
   m_Layer: 0
-  m_Name: RoomStyleDef_Sewer_Type-001-KneeDeep
+  m_Name: RoomStyleDef_Sewer_Type-004-Pipes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43,10 +43,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a97432dce1857744e899cb7369a21118, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  floorMaterial: {fileID: 2100000, guid: 59e90cfe24ad6034386dcaf7c905c8dd, type: 2}
+  floorMaterial: {fileID: 2100000, guid: d35729dc4bd5be243b1a4abe0445669e, type: 2}
   roofMaterial: {fileID: 2100000, guid: 2a3a9f6b62a98d74fada3b0145f0fc1b, type: 2}
-  wallMaterial: {fileID: 2100000, guid: e9b76553c51e0ad4383cada63b108a71, type: 2}
-  DoorFloorTexture: {fileID: 2800000, guid: e896de59c4a769d49bbb3575d9ada5ed, type: 3}
-  DoorRoofTexture: {fileID: 2800000, guid: bb67eb5e5dfac3e42a792339bdaf7313, type: 3}
-  DoorWallTexture: {fileID: 2800000, guid: 1e4077249f385064d8d12ed2275aa066, type: 3}
+  wallMaterial: {fileID: 2100000, guid: f4bfcb5985cd2ef45ab5653f893e9634, type: 2}
+  DoorFloorTexture: {fileID: 2800000, guid: 6d827623d3fe1f74584db657621b7832, type: 3}
+  DoorRoofTexture: {fileID: 2800000, guid: 92fb1f9239318044787bc80c1bf61169, type: 3}
+  DoorWallTexture: {fileID: 2800000, guid: a6bb94c813c9adc419263b99a2f5467d, type: 3}
   DoorTrimTexture: {fileID: 2800000, guid: b63842672e7154f4186fb6054e6812c8, type: 3}

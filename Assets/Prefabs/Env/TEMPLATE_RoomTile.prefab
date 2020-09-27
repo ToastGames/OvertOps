@@ -747,7 +747,7 @@ GameObject:
   - component: {fileID: 2231307973820914777}
   m_Layer: 0
   m_Name: StyleList
-  m_TagString: Untagged
+  m_TagString: StyleList_Holder
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -781,6 +781,8 @@ MonoBehaviour:
   roomStyleDefs:
   - {fileID: 2058034026835496827, guid: 1a35887f6b0a0b7428bc5929d1dbb82d, type: 3}
   - {fileID: 2058034026835496827, guid: 03633b2c693a73949b00dfb009cbef9b, type: 3}
+  - {fileID: 2058034026835496827, guid: ad55e225eb2ad5a49b453fd925050468, type: 3}
+  - {fileID: 2058034026835496827, guid: 9dff6a55b90d2cb4b97d314926bf0f5b, type: 3}
 --- !u!1 &7338252445356598346
 GameObject:
   m_ObjectHideFlags: 0
@@ -2811,7 +2813,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 59e90cfe24ad6034386dcaf7c905c8dd, type: 2}
+      objectReference: {fileID: 2100000, guid: b5006ba112876d544bda0768fb45d7df, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 43f3d804e1ec66040b5213701aaca259, type: 3}
 --- !u!4 &7429482790412592223 stripped
