@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: TestMob2-SpriteShader
+  m_Name: TestMob2-Red
   m_Shader: {fileID: 4800000, guid: c469610385e121e47954481719b7f6e7, type: 3}
   m_ShaderKeywords: _ALPHAPREMULTIPLY_ON
   m_LightmapFlags: 4

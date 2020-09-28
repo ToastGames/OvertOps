@@ -6,10 +6,10 @@ public class EnemyBasic : MonoBehaviour
 {
     public enum EnemyState { Idle, Patrolling, Agro, Roaming, Shooting, Hurt, Dying }
 
-    public GameObject enemyPrefab;
-    public GameObject spritePlane;
+    private GameObject enemyPrefab;
+    private GameObject spritePlane;
 
-    public EnemyPatrolPath patrolPath;
+    private EnemyPatrolPath patrolPath;
     private GameObject patrolPathParent;
 
     public float speed;
@@ -28,6 +28,12 @@ public class EnemyBasic : MonoBehaviour
 
     void Start()
     {
+        ///////// have to get Game Objects and patrol path manually now that spawner can spawn different enemy types ////////////////
+        enemyPrefab = transform.parent.parent.gameObject;
+        spritePlane = transform.GetChild(0).gameObject;
+        patrolPath = transform.parent.parent.transform.GetChild(1).GetComponent<EnemyPatrolPath>();
+
+
         patrolPathParent = GameObject.FindGameObjectWithTag("Patrol-Paths_Parent");
         patrolPath.gameObject.transform.SetParent(patrolPathParent.transform);
 
