@@ -5,6 +5,10 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
+    /////////////////////////
+    // NEEDS COMMENTS PASS //
+    /////////////////////////
+
     public enum PlayerState { Idle, Shooting, Reloading, Walking, Hurt, Dying }
 
     public GameObject collisionMarker;

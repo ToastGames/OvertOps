@@ -502,60 +502,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2630118958024790268, guid: 45ae19505d2f0944ebe5ae43ad66b3a3,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: aa0004a9973924849b8016e2a2d6b30b, type: 2}
-    - target: {fileID: 4213611990949340746, guid: 45ae19505d2f0944ebe5ae43ad66b3a3,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: aa0004a9973924849b8016e2a2d6b30b, type: 2}
     - target: {fileID: 4642320334074819555, guid: 45ae19505d2f0944ebe5ae43ad66b3a3,
         type: 3}
       propertyPath: m_Name
       value: Sewer-Door_Type-001-Submarine
-      objectReference: {fileID: 0}
-    - target: {fileID: 8707007029274546785, guid: 45ae19505d2f0944ebe5ae43ad66b3a3,
-        type: 3}
-      propertyPath: triggerColour.r
-      value: 0.9433962
-      objectReference: {fileID: 0}
-    - target: {fileID: 8707007029274546785, guid: 45ae19505d2f0944ebe5ae43ad66b3a3,
-        type: 3}
-      propertyPath: triggerColour.g
-      value: 0.67100084
-      objectReference: {fileID: 0}
-    - target: {fileID: 8707007029274546785, guid: 45ae19505d2f0944ebe5ae43ad66b3a3,
-        type: 3}
-      propertyPath: triggerColour.b
-      value: 0.3693485
-      objectReference: {fileID: 0}
-    - target: {fileID: 8707007029274546785, guid: 45ae19505d2f0944ebe5ae43ad66b3a3,
-        type: 3}
-      propertyPath: triggerColour.a
-      value: 0.21176471
-      objectReference: {fileID: 0}
-    - target: {fileID: 8707007029274546785, guid: 45ae19505d2f0944ebe5ae43ad66b3a3,
-        type: 3}
-      propertyPath: triggerWireColour.r
-      value: 0.9553981
-      objectReference: {fileID: 0}
-    - target: {fileID: 8707007029274546785, guid: 45ae19505d2f0944ebe5ae43ad66b3a3,
-        type: 3}
-      propertyPath: triggerWireColour.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8707007029274546785, guid: 45ae19505d2f0944ebe5ae43ad66b3a3,
-        type: 3}
-      propertyPath: triggerWireColour.b
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8707007029274546785, guid: 45ae19505d2f0944ebe5ae43ad66b3a3,
-        type: 3}
-      propertyPath: triggerWireColour.a
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 45ae19505d2f0944ebe5ae43ad66b3a3, type: 3}

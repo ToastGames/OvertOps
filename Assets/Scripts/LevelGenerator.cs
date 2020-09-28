@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class LevelGenerator : MonoBehaviour
 {
+    /////////////////////////
+    // NEEDS COMMENTS PASS //
+    /////////////////////////
+
     public GameObject testObject;
     public GameObject testObject2;
 
