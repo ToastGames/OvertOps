@@ -4,26 +4,82 @@ using UnityEngine;
 
 public class EnemyBasic : MonoBehaviour
 {
+    public enum EnemyState { Idle, Patrolling, Agro, Roaming, Shooting, Hurt, Dying }
+
     public GameObject enemyPrefab;
     public GameObject spritePlane;
+
+    public EnemyPatrolPath patrolPath;
+    private GameObject patrolPathParent;
 
     public float speed;
     public float wallcollisionRange;
     public float rayWidth;
     public float turnVariation;
+    public float nodeProximityThreshold;
 
     private GameObject playerTarget;
 
+    private bool pathLoop;
+    private bool pathGoingForward = true;
+    private int currentNode = 0;
+    private Vector3 currentNodePosition;
+    private EnemyState state;
 
     void Start()
     {
+        patrolPathParent = GameObject.FindGameObjectWithTag("Patrol-Paths_Parent");
+        patrolPath.gameObject.transform.SetParent(patrolPathParent.transform);
+
         playerTarget = GameObject.FindGameObjectWithTag("Player");
+        pathLoop = patrolPath.loop;
+        state = EnemyState.Patrolling;
+        currentNodePosition = patrolPath.pathNodes[currentNode].transform.position;
     }
 
     void Update()
     {
-        enemyPrefab.transform.Translate(Vector3.forward * speed * Time.deltaTime);
-        DetectWall();
+        if (state == EnemyState.Roaming) // ROAMING //////////////////////////////////////////////////
+        {
+            enemyPrefab.transform.Translate(Vector3.forward * speed * Time.deltaTime);
+            DetectWall();
+        }
+        else if (state == EnemyState.Patrolling) // PATROLLING //////////////////////////////////////////////////
+        {
+            Reorient(currentNodePosition - enemyPrefab.transform.position);
+            enemyPrefab.transform.Translate(Vector3.forward * speed * Time.deltaTime);
+
+            if (Mathf.Abs(Vector3.Magnitude(enemyPrefab.transform.position - currentNodePosition)) < nodeProximityThreshold)
+            {
+                if (currentNode == patrolPath.pathNodes.Count - 1)
+                {
+                    if (pathLoop)
+                        currentNode = 0;
+                    else
+                    {
+                        pathGoingForward = false;
+                        currentNode = currentNode - 1;
+                    }
+                }
+                else
+                {
+                    if (pathGoingForward)
+                        currentNode++;
+                    else
+                    {
+                        if (currentNode != 0)
+                            currentNode--;
+                        else
+                        {
+                            currentNode = 1;
+                            pathGoingForward = true;
+                        }
+                    }
+                }
+
+                currentNodePosition = patrolPath.pathNodes[currentNode].transform.position;
+            }
+        }
 
         spritePlane.transform.LookAt(playerTarget.transform, Vector3.up);
         spritePlane.transform.eulerAngles = new Vector3(0.0f, spritePlane.transform.eulerAngles.y, 0.0f);

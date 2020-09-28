@@ -17,6 +17,7 @@ TagManager:
   - BREAKAWAYS_Parent
   - Room_Parent
   - StyleList_Holder
+  - Patrol-Paths_Parent
   layers:
   - Default
   - TransparentFX
