@@ -112,6 +112,9 @@ public class EnemyBasic : MonoBehaviour
 
                 currentNodePosition = patrolPath.pathNodes[currentNode].transform.position; // grab the actual position Vec3 out of the path node game object
             }
+                                // only check for player in PATROLLING state
+            CheckForPlayer();   // check line if sight between enemy and player is free of walls
+
             // END of EPIC IF statement to determine where to go next on the path
         }
 
@@ -135,7 +138,32 @@ public class EnemyBasic : MonoBehaviour
         Destroy(gameObject);                                                // Maybe we want to just turn it off rather than destroy it?
     }
 
-    void DetectWall()       // Does all the heavy lifting for RAOM state                  
+    void CheckForPlayer()
+    {
+        RaycastHit hitInfo; // local variable to store raycast hit info in
+
+        Debug.DrawLine(transform.position + Vector3.up, playerTarget.transform.position + Vector3.up, Color.magenta);
+        if (Physics.Raycast(transform.position + Vector3.up, (playerTarget.transform.position - transform.position) + Vector3.up, out hitInfo))                       // check the LEFT ray for colission
+        {
+            //Debug.Log(hitInfo.transform.gameObject.name);
+            if (hitInfo.transform.gameObject.tag == "Wall")
+            {
+                // do nothing?
+            }
+            else
+            {
+                //Debug.Log("######################");
+                state = EnemyState.Roaming;
+            }
+        }
+        else
+        {
+            //Debug.Log("!!!!!!!!!!!!!!!!!!!!!!");
+            state = EnemyState.Roaming;
+        }
+    }
+
+        void DetectWall()       // Does all the heavy lifting for RAOM state                  
     {
         RaycastHit hitInfo; // local variable to store raycast hit info in
 
@@ -188,6 +216,9 @@ public class EnemyBasic : MonoBehaviour
 
         Debug.DrawRay(transform.position + offsetLeft, transform.forward * wallcollisionRange, Color.red);
         Debug.DrawRay(transform.position + offsetRight, transform.forward * wallcollisionRange, Color.blue);
+
+        ////// Draw line between enemy and player (this is the ray that will be checked for line of sight               // ALSO, probably not going to do shit because the enemies only spawn at runtime now
+        Debug.DrawLine(transform.position + Vector3.up, playerTarget.transform.position + Vector3.up, Color.magenta);   // ok, it does, but only at run time, so there are double magenta lines...
     }
 
 }
