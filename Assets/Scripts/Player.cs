@@ -116,6 +116,9 @@ public class Player : MonoBehaviour
         // Basically doing the exact same thing 5 times with all rays in this function because I am lazy
         // (I should really try and turn this into a list or array at some point and use a for loop)
 
+        // COLLISION DISABLED FOR NOW BECAUSE IT'S FUUUUUUCKED AND GETS IN THE WAY OF TESTING OTHER STUFF
+        /*
+
         // forward facing
         RaycastHit hit1; // right
         RaycastHit hit2; // middle
@@ -224,7 +227,7 @@ public class Player : MonoBehaviour
                 Debug.DrawLine(hit5.point, hit5.point + adjustmentVector, Color.magenta);
             }
         }
-
+        */
     }
 
     //////////////////////////////// INPUT STUFF ////////////////////////////////

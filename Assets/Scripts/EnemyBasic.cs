@@ -40,22 +40,32 @@ public class EnemyBasic : MonoBehaviour
     private GameObject patrolPathParent;        
     private GameObject playerTarget;            // these 5 things are private because they cannot be assigned in te prefab, and have to be scraped out of the scene by traversing the heirarchy
 
-    public float speed;                         // gameplay variables, tweak to taste
-    public float wallcollisionRange;
+    public float wallcollisionRange;            // gameplay variables, tweak to taste
     public float rayWidth;
     public float turnVariation;
     public float nodeProximityThreshold;
+    public float viewAngleThreshold;
+    public float viewRadius;
+    public float forwardAngle = 20.0f;          // pre loading these with some defaults
+    public float backAngle = 90.0f;
 
+    public float patrolSpeed;
+    public float roamSpeed;
+
+    private float speed;                        // speed will change based on state
     private bool pathLoop;                      // this batch of private variables are more about making the enemy behaviour actually do it's thing
     private bool pathGoingForward = true;
     private int currentNode = 0;
     private Vector3 currentNodePosition;        // this probably would have mde more sense to call "destination node" --> its the next path node the enemy is moving towards
     private EnemyState state;
+    private float angleToPlayer = 0.0f;
+    private int curentAnimation = 1;
 
     void Start()
     {
         ///////// have to get Game Objects and patrol path manually now that spawner can spawn different enemy types ////////////////
         enemyPrefab = transform.parent.parent.gameObject;
+        enemyPrefab.transform.rotation = transform.rotation;
         spritePlane = transform.GetChild(0).gameObject;
         patrolPath = transform.parent.parent.transform.GetChild(1).GetComponent<EnemyPatrolPath>();
 
@@ -65,11 +75,16 @@ public class EnemyBasic : MonoBehaviour
         playerTarget = GameObject.FindGameObjectWithTag("Player");                                      // Set the player as the enemy target
         pathLoop = patrolPath.loop;                                                                     // if the path loops or not has to be derived from another object, so it's grabbed here
         state = EnemyState.Patrolling;                                                                  // Set initial STATE to PATROLLING
+        //state = EnemyState.Roaming;
         currentNodePosition = patrolPath.pathNodes[currentNode].transform.position;                     // set "current position" -> the nex path to move to as the first node in the node path position list
+        speed = patrolSpeed;
     }
 
     void Update()
     {
+        CalculateAngleToPlayer();
+        UpdateAnimation();
+
         if (state == EnemyState.Roaming) // ROAMING //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         {
             enemyPrefab.transform.Translate(Vector3.forward * speed * Time.deltaTime);      // just move forward a bit (determined by speed value), that's literally all roam does
@@ -109,17 +124,19 @@ public class EnemyBasic : MonoBehaviour
                         }
                     }
                 }
-
-                currentNodePosition = patrolPath.pathNodes[currentNode].transform.position; // grab the actual position Vec3 out of the path node game object
+                currentNodePosition = patrolPath.pathNodes[currentNode].transform.position;     // grab the actual position Vec3 out of the path node game object
             }
-                                // only check for player in PATROLLING state
+            // only check for player in PATROLLING state
             CheckForPlayer();   // check line if sight between enemy and player is free of walls
 
             // END of EPIC IF statement to determine where to go next on the path
         }
 
-        spritePlane.transform.LookAt(playerTarget.transform, Vector3.up);                                       // billboard sprite object to player
-        spritePlane.transform.eulerAngles = new Vector3(0.0f, spritePlane.transform.eulerAngles.y, 0.0f);       // zero out X and Z angles after billboarding so enemy sprite stays aligned to the vertical ( Y ) axis
+        //spritePlane.transform.LookAt(playerTarget.transform, Vector3.up);                                       // billboard sprite object to player
+        //spritePlane.transform.eulerAngles = new Vector3(0.0f, spritePlane.transform.eulerAngles.y, 0.0f);       // zero out X and Z angles after billboarding so enemy sprite stays aligned to the vertical ( Y ) axis
+
+        // instead of BILLBOARDING TO THE PLAYER, we want him PERPENDICULAR TO THE PLAYER
+        spritePlane.transform.eulerAngles = new Vector3(0.0f, playerTarget.transform.eulerAngles.y, 0.0f);
     }
 
     private void OnTriggerEnter(Collider other)                             // Doesn't do anything yet, but we're going to need this when it comes to getting shot and damaging the player etc
@@ -138,44 +155,117 @@ public class EnemyBasic : MonoBehaviour
         Destroy(gameObject);                                                // Maybe we want to just turn it off rather than destroy it?
     }
 
+    void UpdateAnimation()
+    {
+        // ALL THE NUMBERS (angles) ARE HARD CODED AS FUCK.......... PROBABLY FIX THIS AS SOME POINT
+
+        if ((angleToPlayer > -forwardAngle) && (angleToPlayer < forwardAngle))
+        {
+            curentAnimation = 1;
+            transform.GetChild(0).localScale = new Vector3(2.0f, 2.0f, 2.0f);
+        }
+        else if ((angleToPlayer > -backAngle) && (angleToPlayer < -forwardAngle))
+        {
+            curentAnimation = 2;
+            transform.GetChild(0).localScale = new Vector3(-2.0f, 2.0f, 2.0f);      // X flipped version of anim 2
+        }
+        else if ((angleToPlayer < 180.0f) && (angleToPlayer > backAngle))
+        {
+            curentAnimation = 3;
+            transform.GetChild(0).localScale = new Vector3(2.0f, 2.0f, 2.0f);
+        }
+        else if ((angleToPlayer < backAngle) && (angleToPlayer > forwardAngle))
+        {
+            curentAnimation = 2;
+            transform.GetChild(0).localScale = new Vector3(2.0f, 2.0f, 2.0f);
+        }
+        else if ((angleToPlayer > -180.0f) && (angleToPlayer < -backAngle))
+        {
+            curentAnimation = 3;
+            transform.GetChild(0).localScale = new Vector3(-2.0f, 2.0f, 2.0f);      // X flipped version of anim 3
+        }
+
+        transform.GetChild(0).GetComponent<Renderer>().material.SetFloat("_AnimationNumber", curentAnimation);
+    }
+
+    void CalculateAngleToPlayer()
+    {
+        // honestly, this conversion of dot product to angle came from here:
+        // https://community.khronos.org/t/deriving-angles-from-0-to-360-from-dot-product/49391/2
+
+        Vector3 rayDirection = Vector3.Normalize(playerTarget.transform.position - enemyPrefab.transform.position);
+        Debug.DrawRay(enemyPrefab.transform.position + Vector3.up, rayDirection * viewRadius, Color.magenta);
+        Debug.DrawRay(enemyPrefab.transform.position + Vector3.up, enemyPrefab.transform.forward, Color.cyan);
+
+        float d = Vector3.Dot(rayDirection, enemyPrefab.transform.forward);
+        Vector3 c = Vector3.Cross(rayDirection, enemyPrefab.transform.forward);
+        float tempAngle = Mathf.Acos(d);
+        float tempDir = Vector3.Dot(c, Vector3.up);
+
+        if (tempDir < 0)
+            angleToPlayer = -tempAngle;
+        else
+            angleToPlayer = tempAngle;
+
+        angleToPlayer = (angleToPlayer / Mathf.PI) * 180.0f;
+
+        //Debug.Log(angleToPlayer);
+    }
+
+
     void CheckForPlayer()
     {
         RaycastHit hitInfo; // local variable to store raycast hit info in
+        
+        float distanceToPlayer = Vector3.Magnitude(enemyPrefab.transform.position - playerTarget.transform.position);
+        float tempFloat = Vector3.Dot(Vector3.Normalize(playerTarget.transform.position - enemyPrefab.transform.position), enemyPrefab.transform.forward);  // calculate the dot between the enemy facing and the line between the enemy and the player
+        bool playerSeen = false;
 
-        Debug.DrawLine(transform.position + Vector3.up, playerTarget.transform.position + Vector3.up, Color.magenta);
-        if (Physics.Raycast(transform.position + Vector3.up, (playerTarget.transform.position - transform.position) + Vector3.up, out hitInfo))                       // check the LEFT ray for colission
-        {
-            //Debug.Log(hitInfo.transform.gameObject.name);
-            if (hitInfo.transform.gameObject.tag == "Wall")
+
+        // before checking ANYTHING else, check if the angle (via the dot product) between the enemies view direction and the vector connecting the enemy and the player is less than the threshold
+        // and if the player is within the view radius or not
+        /*
+        if (distanceToPlayer < viewRadius)
+            if (tempFloat < angleToPlayer)
             {
-                // do nothing?
+                if (Physics.Raycast(enemyPrefab.transform.position + Vector3.up, rayDirection, out hitInfo))                       // check line of sight
+                {
+                    if (hitInfo.transform.gameObject.tag == "Wall")
+                    {
+                        playerSeen = false;
+                    }
+                    else
+                    {
+                        playerSeen = true;
+                    }
+                }
+                else
+                {
+                    playerSeen = true;
+                }
             }
-            else
-            {
-                //Debug.Log("######################");
-                state = EnemyState.Roaming;
-            }
-        }
-        else
+        */
+        if (playerSeen)
         {
-            //Debug.Log("!!!!!!!!!!!!!!!!!!!!!!");
             state = EnemyState.Roaming;
+            speed = roamSpeed;
         }
+
     }
 
-        void DetectWall()       // Does all the heavy lifting for RAOM state                  
+    void DetectWall()       // Does all the heavy lifting for RAOM state                  
     {
         RaycastHit hitInfo; // local variable to store raycast hit info in
 
-        Vector3 offsetLeft = new Vector3((rayWidth / 2) * -1, 0.0f, 0.0f);                      // constructing a position that is LEFT of the enemy, by half the "width" of the enemy
-        Vector3 offsetRight = new Vector3((rayWidth / 2), 0.0f, 0.0f);                          // same for the RIGHT
-        offsetLeft = Quaternion.AngleAxis(transform.eulerAngles.y, Vector3.up) * offsetLeft;    // construct a vector that starts at the LEFT offset, and points in the same direction as the enemy is facing
-        offsetRight = Quaternion.AngleAxis(transform.eulerAngles.y, Vector3.up) * offsetRight;  // same for the RIGHT (after rotating, these are then just stored in the same original variables)
+        Vector3 offsetLeft = new Vector3((rayWidth / 2) * -1, 0.0f, 0.0f) + Vector3.up;                      // constructing a position that is LEFT of the enemy, by half the "width" of the enemy
+        Vector3 offsetRight = new Vector3((rayWidth / 2), 0.0f, 0.0f) + Vector3.up;                          // same for the RIGHT
+        offsetLeft = Quaternion.AngleAxis(enemyPrefab.transform.eulerAngles.y, Vector3.up) * offsetLeft;    // construct a vector that starts at the LEFT offset, and points in the same direction as the enemy is facing
+        offsetRight = Quaternion.AngleAxis(enemyPrefab.transform.eulerAngles.y, Vector3.up) * offsetRight;  // same for the RIGHT (after rotating, these are then just stored in the same original variables)
 
-        Debug.DrawRay(transform.position + offsetLeft, transform.forward * wallcollisionRange, Color.red);          // draw a line from the left offset, in the direction the enemy is facing, as long as the "collision range"
-        Debug.DrawRay(transform.position + offsetRight, transform.forward * wallcollisionRange, Color.blue);        // same for right, and colour code them so they can be told apart easily
+        Debug.DrawRay(enemyPrefab.transform.position + offsetLeft, enemyPrefab.transform.forward * wallcollisionRange, Color.red);          // draw a line from the left offset, in the direction the enemy is facing, as long as the "collision range"
+        Debug.DrawRay(enemyPrefab.transform.position + offsetRight, enemyPrefab.transform.forward * wallcollisionRange, Color.blue);        // same for right, and colour code them so they can be told apart easily
 
-        if (Physics.Raycast(transform.position + offsetLeft, transform.forward, out hitInfo, wallcollisionRange))                       // check the LEFT ray for colission
+        if (Physics.Raycast(enemyPrefab.transform.position + offsetLeft, enemyPrefab.transform.forward, out hitInfo, wallcollisionRange))                       // check the LEFT ray for colission
         {
             if (hitInfo.collider.gameObject.tag == "Wall")                                                                              // collision is true if ray intersects colliders tagged "Wall"
             {
@@ -183,7 +273,7 @@ public class EnemyBasic : MonoBehaviour
                 Reorient(Vector3.Reflect(enemyPrefab.transform.forward, hitInfo.normal));                                               // reorient enemy to face (and therefore start moving) down the direction of the reflected vector
             }
         }
-        if (Physics.Raycast(transform.position + offsetRight, transform.forward, out hitInfo, wallcollisionRange))                      // check the RIGHT ray for colission
+        if (Physics.Raycast(enemyPrefab.transform.position + offsetRight, enemyPrefab.transform.forward, out hitInfo, wallcollisionRange))                      // check the RIGHT ray for colission
         {
             if (hitInfo.collider.gameObject.tag == "Wall")                                                                              // collision is true if ray intersects colliders tagged "Wall"
             {
@@ -198,7 +288,9 @@ public class EnemyBasic : MonoBehaviour
         float newVariation = Random.Range(-turnVariation, turnVariation);                                   // There is actually some random variation applied to the reorientation, +- some max bounds
                                                                                                             //   I guess really this probably shouldn't technically happen INSIDE the function, but that's how it is for now
         enemyPrefab.transform.rotation = Quaternion.LookRotation(newDirection);                             // rotate enemy to look EXACTLY at its new target
-        enemyPrefab.transform.Rotate(0.0f, newVariation, 0.0f);                                             // this line here is where the additional rotation variation is applied
+
+        if (state == EnemyState.Roaming)
+            enemyPrefab.transform.Rotate(0.0f, newVariation, 0.0f);                                         // this line here is where the additional rotation variation is applied
 
         enemyPrefab.transform.eulerAngles = new Vector3(0.0f, enemyPrefab.transform.eulerAngles.y, 0.0f);   // zero out X and Z angles after billboarding so enemy sprite stays aligned to the vertical ( Y ) axis
     }
@@ -209,16 +301,18 @@ public class EnemyBasic : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Vector3 offsetLeft = new Vector3((rayWidth / 2) * -1, 0.0f, 0.0f);
-        Vector3 offsetRight = new Vector3((rayWidth / 2), 0.0f, 0.0f);
+        /*
+        Vector3 offsetLeft = new Vector3((rayWidth / 2) * -1, 0.0f, 0.0f) + Vector3.up;
+        Vector3 offsetRight = new Vector3((rayWidth / 2), 0.0f, 0.0f) + Vector3.up;
         offsetLeft = Quaternion.AngleAxis(transform.eulerAngles.y, Vector3.up) * offsetLeft;
         offsetRight = Quaternion.AngleAxis(transform.eulerAngles.y, Vector3.up) * offsetRight;
 
-        Debug.DrawRay(transform.position + offsetLeft, transform.forward * wallcollisionRange, Color.red);
-        Debug.DrawRay(transform.position + offsetRight, transform.forward * wallcollisionRange, Color.blue);
+        Debug.DrawRay(enemyPrefab.transform.position + offsetLeft, enemyPrefab.transform.forward * wallcollisionRange, Color.red);
+        Debug.DrawRay(enemyPrefab.transform.position + offsetRight, enemyPrefab.transform.forward * wallcollisionRange, Color.blue);
 
         ////// Draw line between enemy and player (this is the ray that will be checked for line of sight               // ALSO, probably not going to do shit because the enemies only spawn at runtime now
         Debug.DrawLine(transform.position + Vector3.up, playerTarget.transform.position + Vector3.up, Color.magenta);   // ok, it does, but only at run time, so there are double magenta lines...
+        */
     }
 
 }

@@ -62,7 +62,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SpriteSheet:
-        m_Texture: {fileID: 2800000, guid: 0ba0cb9a4da3e044697d1518e3b044c6, type: 3}
+        m_Texture: {fileID: 2800000, guid: 3422c5fa1cffa8d4b996195121c798f1, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _texcoord:

@@ -95,11 +95,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a9ec2e886af0cc4b8134276b4604bd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 1.6
   wallcollisionRange: 0.4
   rayWidth: 0.6
   turnVariation: 15
   nodeProximityThreshold: 0.05
+  viewAngleThreshold: 5
+  viewRadius: 10
+  patrolSpeed: 0.4
+  roamSpeed: 4
 --- !u!136 &4334717779694377508
 CapsuleCollider:
   m_ObjectHideFlags: 0
