@@ -24,6 +24,8 @@ public class EnemyBasic : MonoBehaviour
     //
     // SHOOTING: When in Agro mode, enemy will periodically stop to shoot at player (Shooting not yet implemented)
     //
+    // MELEE: If within a certain range, will just stop still and start wailing on the player regardless of whatever else was going on (Melee not yet implemented)
+    //
     // HURT: When enemy is damaged in any way, they will pause for a moment and play the hurt animation. After being hurt, enemy will always go straight into Agro state (Hurt not yet implemented)
     //
     // DYING: When health is reduced to 0, swap to this state and play dying animation (Dying not yet implemented)
@@ -32,7 +34,7 @@ public class EnemyBasic : MonoBehaviour
     //       Could also be a good oportunity for the player to be able to interact with the dead bodies in some way? get something from them maybe? (Dead not yet implemented)
 
 
-    public enum EnemyState { Idle, Patrolling, Agro, Roaming, Shooting, Hurt, Dying, Dead }
+    public enum EnemyState { Idle, Patrolling, Agro, Roaming, Shooting, Melee, Hurt, Dying, Dead }
 
     private GameObject enemyPrefab;
     private GameObject spritePlane;
@@ -44,8 +46,9 @@ public class EnemyBasic : MonoBehaviour
     public float rayWidth;
     public float turnVariation;
     public float nodeProximityThreshold;
-    public float viewAngleThreshold;
+    public float viewAngleThreshold;            // this is the "are they looking at me" angle for ilne of sight
     public float viewRadius;
+    public float minimumAlertRadius;
     public float forwardAngle = 20.0f;          // pre loading these with some defaults
     public float backAngle = 90.0f;
 
@@ -216,41 +219,36 @@ public class EnemyBasic : MonoBehaviour
     void CheckForPlayer()
     {
         RaycastHit hitInfo; // local variable to store raycast hit info in
-        
+
+        //float tempFloat = Vector3.Dot(Vector3.Normalize(playerTarget.transform.position - enemyPrefab.transform.position), enemyPrefab.transform.forward);  // calculate the dot between the enemy facing and the line between the enemy and the player
+        Vector3 rayDirection = Vector3.Normalize(playerTarget.transform.position - enemyPrefab.transform.position);
         float distanceToPlayer = Vector3.Magnitude(enemyPrefab.transform.position - playerTarget.transform.position);
-        float tempFloat = Vector3.Dot(Vector3.Normalize(playerTarget.transform.position - enemyPrefab.transform.position), enemyPrefab.transform.forward);  // calculate the dot between the enemy facing and the line between the enemy and the player
         bool playerSeen = false;
 
+        bool rayHit = Physics.Raycast(enemyPrefab.transform.position + Vector3.up, rayDirection, out hitInfo);
 
         // before checking ANYTHING else, check if the angle (via the dot product) between the enemies view direction and the vector connecting the enemy and the player is less than the threshold
         // and if the player is within the view radius or not
-        /*
+
         if (distanceToPlayer < viewRadius)
-            if (tempFloat < angleToPlayer)
+            if (Mathf.Abs(angleToPlayer) < viewAngleThreshold)
             {
-                if (Physics.Raycast(enemyPrefab.transform.position + Vector3.up, rayDirection, out hitInfo))                       // check line of sight
+                playerSeen = true;
+
+                if ((rayHit) && (hitInfo.transform.gameObject.tag == "Wall"))  // check line of sight
                 {
-                    if (hitInfo.transform.gameObject.tag == "Wall")
-                    {
-                        playerSeen = false;
-                    }
-                    else
-                    {
-                        playerSeen = true;
-                    }
-                }
-                else
-                {
-                    playerSeen = true;
+                    playerSeen = false;
                 }
             }
-        */
+
+        if (distanceToPlayer < minimumAlertRadius)      // even if there's no line of sight, if you are closer than this, you alert them anyway
+            playerSeen = true;
+
         if (playerSeen)
         {
             state = EnemyState.Roaming;
             speed = roamSpeed;
         }
-
     }
 
     void DetectWall()       // Does all the heavy lifting for RAOM state                  

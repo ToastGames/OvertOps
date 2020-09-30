@@ -99,8 +99,11 @@ MonoBehaviour:
   rayWidth: 0.6
   turnVariation: 15
   nodeProximityThreshold: 0.05
-  viewAngleThreshold: 5
+  viewAngleThreshold: 20
   viewRadius: 10
+  minimumAlertRadius: 2
+  forwardAngle: 20
+  backAngle: 90
   patrolSpeed: 0.4
   roamSpeed: 4
 --- !u!136 &4334717779694377508
