@@ -66,8 +66,11 @@ public class Player : MonoBehaviour
         transform.Rotate(transform.up, (YRotation * rotSpeed * Time.deltaTime));
     }
 
-
-    ////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //      PLAYER IS FUUUUUUCKED..... BASICALLY GOING TO GUT IT AND START AGAIN
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////
 
     private void CheckState()
     {
@@ -77,12 +80,15 @@ public class Player : MonoBehaviour
 
         if (playerState == PlayerState.Idle)
         {
+            /*
             tempMaterial.SetFloat("_AnimationNumber", playerSpriteDefList.GetComponent<SpriteDefList>().SpriteFramesDefs[1].GetComponent<SpriteFamesDef>().idleAnimNumber);
             tempMaterial.SetFloat("_FrameOffset", playerSpriteDefList.GetComponent<SpriteDefList>().SpriteFramesDefs[1].GetComponent<SpriteFamesDef>().idleStartFrame);
             tempMaterial.SetFloat("_FrameCount", playerSpriteDefList.GetComponent<SpriteDefList>().SpriteFramesDefs[1].GetComponent<SpriteFamesDef>().idleEndFrame - playerSpriteDefList.GetComponent<SpriteDefList>().SpriteFramesDefs[1].GetComponent<SpriteFamesDef>().idleStartFrame + 1);
+            */
         }
         if (playerState == PlayerState.Shooting)
         {
+            /*
             tempMaterial.SetFloat("_AnimationNumber", playerSpriteDefList.GetComponent<SpriteDefList>().SpriteFramesDefs[1].GetComponent<SpriteFamesDef>().shootingAnimNumber);
             tempMaterial.SetFloat("_FrameOffset", playerSpriteDefList.GetComponent<SpriteDefList>().SpriteFramesDefs[1].GetComponent<SpriteFamesDef>().shootingStartFrame);
             tempMaterial.SetFloat("_FrameCount", playerSpriteDefList.GetComponent<SpriteDefList>().SpriteFramesDefs[1].GetComponent<SpriteFamesDef>().shootingEndFrame - playerSpriteDefList.GetComponent<SpriteDefList>().SpriteFramesDefs[1].GetComponent<SpriteFamesDef>().shootingStartFrame + 1);
@@ -96,6 +102,7 @@ public class Player : MonoBehaviour
                 accumulatedShootTime = 0.0f;
                 playerState = PlayerState.Idle;
             }
+            */
         }
     }
 

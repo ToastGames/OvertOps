@@ -29,7 +29,7 @@ public class TriggerDisplay : MonoBehaviour {
     {
         if (bc != null)
         {
-            bc.isTrigger = true;
+            //bc.isTrigger = true; // don't really want to force this... will need it for some colliders too
             Vector3 drawBoxScale = new Vector3(transform.lossyScale.x * bc.size.x, transform.lossyScale.y * bc.size.y, transform.lossyScale.z * bc.size.z);
             Vector3 tempScale = transform.worldToLocalMatrix.MultiplyPoint(transform.lossyScale);
             Vector3 drawBoxPosition = transform.localToWorldMatrix.MultiplyPoint(bc.center);
