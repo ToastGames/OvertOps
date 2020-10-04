@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MobGroup : MonoBehaviour
 {
-    // This script sits on each child of the child MOBS of the each room prefab
+    // This script sits on each child of the child MOBS of each room prefab (the ones named "Group")
     // So we have
     // ROOM
     // > MOBS

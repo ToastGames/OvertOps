@@ -14,6 +14,9 @@ public class Player : MonoBehaviour
 
     public WeaponDefList wepDefs;
     private PlayerState playerState;
+    public MeshRenderer playerSpriteObject;       // this should be obtained from dragging the child object with the spritesheet on it into this variable
+
+    public int currentWeapon;
 
     public float moveSpeed;
     public float rotSpeed;
@@ -56,6 +59,9 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+        playerSpriteObject.material = wepDefs.WeaponDefs[currentWeapon].gameObject.GetComponent<WeaponDef>().spriteSheet;
+
+
         Debug.Log("Player Health: " + health);
 
         CheckState();

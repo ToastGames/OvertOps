@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8806010872656361970}
   - component: {fileID: 2565723394614615303}
   m_Layer: 0
-  m_Name: Player-Weapon-00-Melee-Def
+  m_Name: Player-Weapon-04-Rocket-Def
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43,5 +43,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37423d429a18b564eab6ab196add3313, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteSheet: {fileID: 2100000, guid: e7e8700fc83029e4bab1fd6a4fe05695, type: 2}
+  spriteSheet: {fileID: 2100000, guid: 08da84352a3075d4fb5986045c87eeb8, type: 2}
   name: Melee

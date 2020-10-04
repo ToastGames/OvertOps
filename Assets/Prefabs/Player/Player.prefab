@@ -90,7 +90,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: cc7ec09713a882f489595b34e4c31c04, type: 2}
+  - {fileID: 2100000, guid: a5460c7d25c86744998e42334c166883, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -384,7 +384,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91bb9561f60c14c40b919e5ae559417d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wepDefs: {fileID: 0}
+  wepDefs: {fileID: 1319545160396954706, guid: 3d44deb7d63453c4cb56ba362056ec81, type: 3}
+  playerSpriteObject: {fileID: 2055514331}
+  currentWeapon: 1
   moveSpeed: 6
   rotSpeed: 150
   health: 100
@@ -401,7 +403,7 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.5
-  m_Height: 2
+  m_Height: 3
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
 --- !u!54 &6441688697479395817
@@ -419,7 +421,7 @@ Rigidbody:
   m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 3
 --- !u!114 &5841031550945519498
 MonoBehaviour:
   m_ObjectHideFlags: 0

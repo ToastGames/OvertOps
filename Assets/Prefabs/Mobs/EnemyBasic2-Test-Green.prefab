@@ -59,9 +59,9 @@ MonoBehaviour:
   backAngle: 90
   shootDamage: 4
   meleeDamage: 2
-  patrolSpeed: 2.5
-  roamSpeed: 2.7
-  agroSpeed: 3.3
+  patrolSpeed: 0.5
+  roamSpeed: 0.7
+  agroSpeed: 0.3
   agroShootCyclePeriod: 3
 --- !u!136 &4334717779694377508
 CapsuleCollider:
