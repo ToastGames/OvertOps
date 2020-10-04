@@ -90,7 +90,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a5460c7d25c86744998e42334c166883, type: 2}
+  - {fileID: 2100000, guid: cc7ec09713a882f489595b34e4c31c04, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -384,12 +384,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91bb9561f60c14c40b919e5ae559417d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collisionMarker: {fileID: 0}
-  playerSpriteObject: {fileID: 2055514329}
-  playerSpriteDefList: {fileID: 4169707716505336604, guid: 3dea0a8f03fe0f94e96ad876e8fdaa6e,
-    type: 3}
+  wepDefs: {fileID: 0}
   moveSpeed: 6
   rotSpeed: 150
+  health: 100
   rayCheckLength: 0.3
   collisionWidth: 0.2
 --- !u!136 &9110544893476643930

@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1716268839153428658
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6988825227042122287}
+  - component: {fileID: 7144070859862386742}
+  m_Layer: 0
+  m_Name: Player-Weapon-01-Pistol-Def
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6988825227042122287
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1716268839153428658}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7144070859862386742
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1716268839153428658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 652ae3a4909a8ff4ca3c0ce0cd0ea77d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteMaterial: {fileID: 2100000, guid: a5460c7d25c86744998e42334c166883, type: 2}
+  spriteName: Pistol
+  idleAnimNumber: 1
+  idleStartFrame: 5
+  idleEndFrame: 6
+  shootingAnimNumber: 1
+  shootingStartFrame: 1
+  shootingEndFrame: 6
+  reloadingAnimNumber: 1
+  reloadingStartFrame: 1
+  reloadingEndFrame: 1
+  walkingAnimNumber: 1
+  walkingStartFrame: 1
+  walkingEndFrame: 1
+  hurtAnimNumber: 1
+  hurtStartFrame: 1
+  hurtEndFrame: 1
+  dyingAnimNumber: 1
+  dyingStartFrame: 1
+  dyingEndFrame: 1

@@ -42,6 +42,8 @@ public class EnemyBasic : MonoBehaviour
     private GameObject patrolPathParent;        
     private GameObject playerTarget;            // these 5 things are private because they cannot be assigned in te prefab, and have to be scraped out of the scene by traversing the heirarchy
 
+    public GameObject shootParticles;
+
     public float wallCollisionRange;            // gameplay variables, tweak to taste
     public float rayWidth;
     public float turnVariation;
@@ -51,6 +53,13 @@ public class EnemyBasic : MonoBehaviour
     public float minimumAlertRadius;
     public float forwardAngle = 20.0f;          // pre loading these with some defaults
     public float backAngle = 90.0f;
+
+    ////////////////////////////////
+
+    public int shootDamage;
+    public int meleeDamage;
+
+    ////////////////////////////////
 
     public float patrolSpeed;
     public float roamSpeed;
@@ -65,6 +74,9 @@ public class EnemyBasic : MonoBehaviour
     private EnemyState state;
     private float angleToPlayer = 0.0f;
     private int curentAnimation = 1;
+
+    private float stateTimePassed = 0.0f;
+    private bool canShoot = false;
 
     void Start()
     {
@@ -98,9 +110,14 @@ public class EnemyBasic : MonoBehaviour
         {
             enemyPrefab.transform.Translate(Vector3.forward * speed * Time.deltaTime);      // just move forward a bit (determined by speed value), that's literally all roam does
             DetectWall();                   // ^ why is this Vector3 and not transform?     // this is the function that handles the "pong like" behaviour
+            CheckForPlayer();               // check line if sight between enemy and player is free of walls
         }
         else if (state == EnemyState.Agro)  // AGRO //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         {
+            stateTimePassed += Time.deltaTime;
+            if (stateTimePassed > (agroShootCyclePeriod / 2))
+                canShoot = true;
+
             if ((Time.time % agroShootCyclePeriod) < (agroShootCyclePeriod / 2))            // periodically alternate between 2 sub-states (shooting and moving)
             {
                 //Debug.Log("111111111111111");
@@ -112,7 +129,17 @@ public class EnemyBasic : MonoBehaviour
             {
                 //Debug.Log("222222222222222");
                 transform.GetChild(0).GetComponent<Renderer>().material.SetFloat("_AnimationNumber", 6);      // change to shooting anim
+
+                if (canShoot)
+                {
+                    Instantiate(shootParticles, enemyPrefab.transform.position, Quaternion.identity);
+                    playerTarget.GetComponent<Player>().health -= shootDamage;
+                    stateTimePassed = 0.0f;
+                    canShoot = false;
+                }
             }
+            if (CheckForPlayer() == false)
+                state = EnemyState.Roaming;
         }
         else if (state == EnemyState.Patrolling) // PATROLLING ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         {
@@ -237,7 +264,7 @@ public class EnemyBasic : MonoBehaviour
     }
 
 
-    void CheckForPlayer()
+    bool CheckForPlayer()
     {
         RaycastHit hitInfo; // local variable to store raycast hit info in
 
@@ -270,6 +297,8 @@ public class EnemyBasic : MonoBehaviour
             state = EnemyState.Agro;                    // This is where a PATROLLING enemy, when seen chenges state to AGRO (enemies cannot ever go back to patrolling)
             speed = agroSpeed;
         }
+
+        return playerSeen;
     }
 
     void DetectWall()       // Does all the heavy lifting for RAOM state                  

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6988825227042122287}
   - component: {fileID: 7144070859862386742}
   m_Layer: 0
-  m_Name: Player-Pistol-Def
+  m_Name: Player-Weapon-02-Shotgun-Def
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43,14 +43,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 652ae3a4909a8ff4ca3c0ce0cd0ea77d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteMaterial: {fileID: 2100000, guid: ab2c5bd70ebdc5948b2009bbde8e0ff7, type: 2}
-  spriteName: Pistol
+  spriteMaterial: {fileID: 2100000, guid: 597012bfd14ac7346b55777955b5e465, type: 2}
+  spriteName: Shotgun
   idleAnimNumber: 1
-  idleStartFrame: 5
-  idleEndFrame: 6
+  idleStartFrame: 12
+  idleEndFrame: 13
   shootingAnimNumber: 1
-  shootingStartFrame: 1
-  shootingEndFrame: 6
+  shootingStartFrame: 2
+  shootingEndFrame: 5
   reloadingAnimNumber: 1
   reloadingStartFrame: 1
   reloadingEndFrame: 1
