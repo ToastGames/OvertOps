@@ -18,6 +18,9 @@ TagManager:
   - Room_Parent
   - StyleList_Holder
   - Patrol-Paths_Parent
+  - WallPlayerOnly
+  - WallEnemyOnly
+  - RoomManager
   layers:
   - Default
   - TransparentFX

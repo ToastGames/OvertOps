@@ -315,7 +315,7 @@ public class EnemyBasic : MonoBehaviour
 
         if (Physics.Raycast(enemyPrefab.transform.position + offsetLeft, enemyPrefab.transform.forward, out hitInfo, wallCollisionRange))                       // check the LEFT ray for colission
         {
-            if (hitInfo.collider.gameObject.tag == "Wall")                                                                              // collision is true if ray intersects colliders tagged "Wall"
+            if ((hitInfo.collider.gameObject.tag == "Wall") || (hitInfo.collider.gameObject.tag == "WallEnemyOnly"))                    // collision is true if ray intersects colliders tagged "Wall"
             {
                 Debug.DrawRay(hitInfo.point, Vector3.Reflect(transform.forward, hitInfo.normal) * wallCollisionRange, Color.yellow);    // if colission, draw a debug ray in the reflection direction
                 Reorient(Vector3.Reflect(enemyPrefab.transform.forward, hitInfo.normal));                                               // reorient enemy to face (and therefore start moving) down the direction of the reflected vector
@@ -323,7 +323,7 @@ public class EnemyBasic : MonoBehaviour
         }
         if (Physics.Raycast(enemyPrefab.transform.position + offsetRight, enemyPrefab.transform.forward, out hitInfo, wallCollisionRange))                      // check the RIGHT ray for colission
         {
-            if (hitInfo.collider.gameObject.tag == "Wall")                                                                              // collision is true if ray intersects colliders tagged "Wall"
+            if ((hitInfo.collider.gameObject.tag == "Wall") || (hitInfo.collider.gameObject.tag == "WallEnemyOnly"))                    // collision is true if ray intersects colliders tagged "Wall"
             {
                 Debug.DrawRay(hitInfo.point, Vector3.Reflect(transform.forward, hitInfo.normal) * wallCollisionRange, Color.yellow);    // if colission, draw a debug ray in the reflection direction
                 Reorient(Vector3.Reflect(enemyPrefab.transform.forward, hitInfo.normal));                                               // reorient enemy to face (and therefore start moving) down the direction of the reflected vector

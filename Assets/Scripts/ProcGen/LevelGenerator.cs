@@ -70,21 +70,21 @@ public class LevelGenerator : MonoBehaviour
             ////////////////////////////////////////// assign material type per room //////////////// ALL THIS NUMBER SHIT has now been replaced by variables
             // "style list" object is child 12
             // "panels" object is child 4
-            // children of panels --> 0, 1, 2 are Floors, Roofs, Walls in that order
+            // children of panels --> 0, 1, 2 are Floors, Roofs, Walls in that order, and for all of them, child 0 is "regular"
 
             int newRoomStyleType = Random.Range(0, styleListObject.GetComponent<RoomStyleTypes>().roomStyleDefs.Count);
 
             // floors
             for (int f = 0; f < floorsParent.transform.childCount; f++)
-                floorsParent.transform.GetChild(f).GetComponent<MeshRenderer>().material = styleListObject.GetComponent<RoomStyleTypes>().roomStyleDefs[newRoomStyleType].GetComponent<RoomStyleDef>().floorMaterial;
+                floorsParent.transform.GetChild(0).transform.GetChild(f).GetComponent<MeshRenderer>().material = styleListObject.GetComponent<RoomStyleTypes>().roomStyleDefs[newRoomStyleType].GetComponent<RoomStyleDef>().floorMaterial;
 
             // roofs
             for (int r = 0; r < roofsParent.transform.childCount; r++)
-                roofsParent.transform.GetChild(r).GetComponent<MeshRenderer>().material = styleListObject.GetComponent<RoomStyleTypes>().roomStyleDefs[newRoomStyleType].GetComponent<RoomStyleDef>().roofMaterial;
+                roofsParent.transform.GetChild(0).transform.GetChild(r).GetComponent<MeshRenderer>().material = styleListObject.GetComponent<RoomStyleTypes>().roomStyleDefs[newRoomStyleType].GetComponent<RoomStyleDef>().roofMaterial;
 
             // walls
             for (int w = 0; w < wallsParent.transform.childCount; w++)
-                wallsParent.transform.GetChild(w).GetComponent<MeshRenderer>().material = styleListObject.GetComponent<RoomStyleTypes>().roomStyleDefs[newRoomStyleType].GetComponent<RoomStyleDef>().wallMaterial;
+                wallsParent.transform.GetChild(0).transform.GetChild(w).GetComponent<MeshRenderer>().material = styleListObject.GetComponent<RoomStyleTypes>().roomStyleDefs[newRoomStyleType].GetComponent<RoomStyleDef>().wallMaterial;
 
             ///////
 
