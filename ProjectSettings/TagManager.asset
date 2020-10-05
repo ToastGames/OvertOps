@@ -21,6 +21,7 @@ TagManager:
   - WallPlayerOnly
   - WallEnemyOnly
   - RoomManager
+  - Item
   layers:
   - Default
   - TransparentFX
