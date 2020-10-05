@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 2128188931550836026}
   - component: {fileID: 5556787283547741148}
   - component: {fileID: 2858103683261775642}
+  - component: {fileID: 2016575333758019144}
+  - component: {fileID: 7700770703952132053}
   m_Layer: 0
   m_Name: Pickup-Weapon-003-Plasma
   m_TagString: Untagged
@@ -53,11 +55,37 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2076784489260778355}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 1
   m_Center: {x: 0, y: 0.5, z: 0}
+--- !u!114 &2016575333758019144
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2076784489260778355}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c702f9902efaf648a34dd6adb522fb4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemType: 0
+--- !u!114 &7700770703952132053
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2076784489260778355}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e5f6c3e47d96b94cb62b1bb64c224ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponType: 1
 --- !u!1 &4274659257987741959
 GameObject:
   m_ObjectHideFlags: 0

@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 2128188931550836026}
   - component: {fileID: 5556787283547741148}
   - component: {fileID: 2858103683261775642}
+  - component: {fileID: -5961807438488140208}
+  - component: {fileID: 6636553202235197008}
   m_Layer: 0
   m_Name: Pickup-Key-003-Blue
   m_TagString: Untagged
@@ -53,11 +55,37 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2076784489260778355}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 1
   m_Center: {x: 0, y: 0.5, z: 0}
+--- !u!114 &-5961807438488140208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2076784489260778355}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c702f9902efaf648a34dd6adb522fb4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemType: 2
+--- !u!114 &6636553202235197008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2076784489260778355}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 561036e4ef32b3b4688be5da25586e36, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  keyType: 2
 --- !u!1 &4274659257987741959
 GameObject:
   m_ObjectHideFlags: 0
