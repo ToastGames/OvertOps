@@ -11356,6 +11356,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Panel_Wall (183)
       objectReference: {fileID: 0}
+    - target: {fileID: 1331892400388786641, guid: f8d808f9b2a8bd94fb5fa82623be53da,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4966425391273025860, guid: f8d808f9b2a8bd94fb5fa82623be53da,
         type: 3}
       propertyPath: m_LocalPosition.x
