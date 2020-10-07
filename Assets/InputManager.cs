@@ -49,6 +49,14 @@ public class @InputManager : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Interact"",
+                    ""type"": ""Button"",
+                    ""id"": ""38050d78-8f1a-4183-8f8d-90eb3accea4c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -172,6 +180,17 @@ public class @InputManager : IInputActionCollection, IDisposable
                     ""action"": ""Strafe"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a3ec7bb7-e75a-42c0-ad8f-ed56a3a60d3d"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -201,6 +220,7 @@ public class @InputManager : IInputActionCollection, IDisposable
         m_Player_Walk = m_Player.FindAction("Walk", throwIfNotFound: true);
         m_Player_Turn = m_Player.FindAction("Turn", throwIfNotFound: true);
         m_Player_Strafe = m_Player.FindAction("Strafe", throwIfNotFound: true);
+        m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -254,6 +274,7 @@ public class @InputManager : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_Walk;
     private readonly InputAction m_Player_Turn;
     private readonly InputAction m_Player_Strafe;
+    private readonly InputAction m_Player_Interact;
     public struct PlayerActions
     {
         private @InputManager m_Wrapper;
@@ -262,6 +283,7 @@ public class @InputManager : IInputActionCollection, IDisposable
         public InputAction @Walk => m_Wrapper.m_Player_Walk;
         public InputAction @Turn => m_Wrapper.m_Player_Turn;
         public InputAction @Strafe => m_Wrapper.m_Player_Strafe;
+        public InputAction @Interact => m_Wrapper.m_Player_Interact;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -283,6 +305,9 @@ public class @InputManager : IInputActionCollection, IDisposable
                 @Strafe.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnStrafe;
                 @Strafe.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnStrafe;
                 @Strafe.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnStrafe;
+                @Interact.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
+                @Interact.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
+                @Interact.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -299,6 +324,9 @@ public class @InputManager : IInputActionCollection, IDisposable
                 @Strafe.started += instance.OnStrafe;
                 @Strafe.performed += instance.OnStrafe;
                 @Strafe.canceled += instance.OnStrafe;
+                @Interact.started += instance.OnInteract;
+                @Interact.performed += instance.OnInteract;
+                @Interact.canceled += instance.OnInteract;
             }
         }
     }
@@ -318,5 +346,6 @@ public class @InputManager : IInputActionCollection, IDisposable
         void OnWalk(InputAction.CallbackContext context);
         void OnTurn(InputAction.CallbackContext context);
         void OnStrafe(InputAction.CallbackContext context);
+        void OnInteract(InputAction.CallbackContext context);
     }
 }
