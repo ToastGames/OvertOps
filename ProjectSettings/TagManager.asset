@@ -22,6 +22,9 @@ TagManager:
   - WallEnemyOnly
   - RoomManager
   - Item
+  - Room_Parent_Hackerman
+  - HackermanHiddenWall
+  - Terminal_Parent
   layers:
   - Default
   - TransparentFX

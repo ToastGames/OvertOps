@@ -62,7 +62,7 @@ public class Player : MonoBehaviour
         playerSpriteObject.material = wepDefs.WeaponDefs[currentWeapon].gameObject.GetComponent<WeaponDef>().spriteSheet;
 
 
-        Debug.Log("Player Health: " + health);
+        //Debug.Log("Player Health: " + health);
 
         CheckState();
     }

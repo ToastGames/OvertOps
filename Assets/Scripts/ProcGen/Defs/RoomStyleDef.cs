@@ -17,4 +17,10 @@ public class RoomStyleDef : MonoBehaviour
     public Texture DoorRoofTexture;
     public Texture DoorWallTexture;
     public Texture DoorTrimTexture;
+
+    public Material outerFloorMaterial;
+    public Material outerRoofMaterial;
+    public Material outerWallMaterial;
+
+    public Material midWallMaterial;
 }

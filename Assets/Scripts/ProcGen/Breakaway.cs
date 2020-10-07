@@ -10,18 +10,21 @@ public class Breakaway : MonoBehaviour
 
     void Start()
     {
-        if (Random.Range(0.0f, 100.0f) <= percentageChance)
+        if (gameObject.tag != "HackermanHiddenWall")            // check to make sure this isn't a breakawy clone generated for hackerman world
         {
-            for (int i = 0; i < transform.childCount; i++)
+            if (Random.Range(0.0f, 100.0f) <= percentageChance)
             {
-                transform.GetChild(i).GetComponent<MeshRenderer>().material = materialOptions[Random.Range(0, materialOptions.Count)];
-                if (randomiseOrientation)
-                    transform.GetChild(i).GetComponent<MeshRenderer>().material.SetFloat("_RotationOffset", Mathf.Floor(Random.Range(0.0f, 4.0f)));
+                for (int i = 0; i < transform.childCount; i++)
+                {
+                    transform.GetChild(i).GetComponent<MeshRenderer>().material = materialOptions[Random.Range(0, materialOptions.Count)];
+                    if (randomiseOrientation)
+                        transform.GetChild(i).GetComponent<MeshRenderer>().material.SetFloat("_RotationOffset", Mathf.Floor(Random.Range(0.0f, 4.0f)));
+                }
             }
-        }
-        else
-        {
-            gameObject.SetActive(false);
+            else
+            {
+                gameObject.SetActive(false);
+            }
         }
     }
 }

@@ -50,3 +50,7 @@ MonoBehaviour:
   DoorRoofTexture: {fileID: 2800000, guid: 92fb1f9239318044787bc80c1bf61169, type: 3}
   DoorWallTexture: {fileID: 2800000, guid: a6bb94c813c9adc419263b99a2f5467d, type: 3}
   DoorTrimTexture: {fileID: 2800000, guid: b63842672e7154f4186fb6054e6812c8, type: 3}
+  outerFloorMaterial: {fileID: 2100000, guid: 69933cf715818f14bb1b022157b34c0c, type: 2}
+  outerRoofMaterial: {fileID: 2100000, guid: 69933cf715818f14bb1b022157b34c0c, type: 2}
+  outerWallMaterial: {fileID: 2100000, guid: 69933cf715818f14bb1b022157b34c0c, type: 2}
+  midWallMaterial: {fileID: 2100000, guid: f4bfcb5985cd2ef45ab5653f893e9634, type: 2}

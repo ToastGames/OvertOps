@@ -47,7 +47,7 @@ MonoBehaviour:
     type: 3}
   testObject2: {fileID: 7192695510427784256, guid: 05359170e93a9a1409090259cf170030,
     type: 3}
-  RoomCount: 5
+  RoomCount: 3
   RoomPrefabs:
   - {fileID: 5222274246571829640, guid: 4cebe599eb36b3942977d02b32488bfb, type: 3}
   doorObject: {fileID: 573395455113094864, guid: f50fe988f34dedc4787a5dfe9abf7e88,
@@ -56,7 +56,18 @@ MonoBehaviour:
     type: 3}
   doorPlugObject: {fileID: 7980731827135715702, guid: ea2888c0a9617e24496e04dae7416add,
     type: 3}
+  terminalObject: {fileID: 7980731827135715702, guid: 3ca68f6d7c392994bb234466efb2a976,
+    type: 3}
   levelStartObject: {fileID: 819974517874655100, guid: 8f1c69bd58990af40b27f4b914cc7ec8,
     type: 3}
   levelEndObject: {fileID: 6708548184716081997, guid: ef15495ed41685f4ab01ce40f877ef8d,
     type: 3}
+  hackermanMaterial: {fileID: 2100000, guid: b5006ba112876d544bda0768fb45d7df, type: 2}
+  hackermanMaterialSpecial: {fileID: 2100000, guid: 2149de9556f3c7e4ea42c62cff08cbf5,
+    type: 2}
+  hackermanMaterialHiddenWall: {fileID: 2100000, guid: f0685ebbd7df3f94399a5494a5146799,
+    type: 2}
+  hackermanMaterialInternal: {fileID: 2100000, guid: 0021e4493dfdc7e4eaff631f0292592d,
+    type: 2}
+  hackermanMaterialDoor: {fileID: 2100000, guid: c35c5b1a69a3a7a4ea5a2b849c61d6e1,
+    type: 2}
