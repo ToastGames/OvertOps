@@ -387,8 +387,9 @@ MonoBehaviour:
   wepDefs: {fileID: 1319545160396954706, guid: 3d44deb7d63453c4cb56ba362056ec81, type: 3}
   playerSpriteObject: {fileID: 2055514331}
   currentWeapon: 1
-  moveSpeed: 6
-  rotSpeed: 150
+  moveSpeed: 9
+  strafeSpeed: 7
+  rotSpeed: 20
   health: 100
   rayCheckLength: 0.3
   collisionWidth: 0.2
@@ -508,6 +509,10 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 2565df07-b7d4-46fd-bdc0-06f356e84532
     m_ActionName: Player/Strafe[/Keyboard/q,/Keyboard/e]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 38050d78-8f1a-4183-8f8d-90eb3accea4c
+    m_ActionName: Player/Interact[/Keyboard/f]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard and Mouse
   m_DefaultActionMap: Player

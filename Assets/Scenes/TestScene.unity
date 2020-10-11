@@ -24277,18 +24277,13 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 214070991, guid: e14fdcf473b08fa469324933d366ba9e, type: 3}
-      propertyPath: currentWeapon
-      value: 5
+      propertyPath: rotSpeed
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5415688837109266512, guid: e14fdcf473b08fa469324933d366ba9e,
         type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 5415688837109266512, guid: e14fdcf473b08fa469324933d366ba9e,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5415688837109266513, guid: e14fdcf473b08fa469324933d366ba9e,
         type: 3}

@@ -19,6 +19,7 @@ public class Player : MonoBehaviour
     public int currentWeapon;
 
     public float moveSpeed;
+    public float strafeSpeed;
     public float rotSpeed;
 
     public int health = 100;
@@ -29,20 +30,19 @@ public class Player : MonoBehaviour
     public float rayCheckLength;
     public float collisionWidth;
 
-    private Vector3 moveVector;
-    private float LRMovement;
-    private float FBMovement;
-    private float YRotation;
+    private Vector3 moveVector = new Vector3();
+    private float LRMovement = 0.0f;
+    private float FBMovement = 0.0f;
+    private float YRotation = 0.0f;
 
-    private Vector3 adjustmentVector;
+    //private Vector3 adjustmentVector = new Vector3();        // what? delete?
 
     private float shootTime;
     private float reloadTime;
     private float hurtTime;
     private float deathTime;
 
-    private float accumulatedShootTime = 0.0f;
-
+    //private float accumulatedShootTime = 0.0f;               // what? delete?
 
     private void Start()
     {
@@ -61,13 +61,15 @@ public class Player : MonoBehaviour
     {
         playerSpriteObject.material = wepDefs.WeaponDefs[currentWeapon].gameObject.GetComponent<WeaponDef>().spriteSheet;
 
+        CheckCollision();
+        CalculateMovement();
 
         //Debug.Log("Player Health: " + health);
 
         CheckState();
     }
 
-
+    /* // probably delete this function
     void LateUpdate()
     {
         CalculateMovement();
@@ -77,6 +79,7 @@ public class Player : MonoBehaviour
         adjustmentVector = Vector3.zero;                                            //
         transform.Rotate(transform.up, (YRotation * rotSpeed * Time.deltaTime));    //
     }
+    */
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //
@@ -127,10 +130,37 @@ public class Player : MonoBehaviour
 
     private void CalculateMovement()
     {
-        Vector3 tempVector = new Vector3(LRMovement * moveSpeed * Time.deltaTime, 0.0f, FBMovement * moveSpeed * Time.deltaTime);
-        Vector3 rotatedTempVector = Quaternion.AngleAxis(transform.rotation.y, transform.up) * tempVector;
+        //Vector3 tempVector = new Vector3(LRMovement * moveSpeed * Time.deltaTime, 0.0f, FBMovement * moveSpeed * Time.deltaTime);
+        //Vector3 rotatedTempVector = Quaternion.AngleAxis(transform.rotation.y, transform.up) * tempVector;
 
-        moveVector = rotatedTempVector;
+        //moveVector = rotatedTempVector;
+
+        ///////////////////////////// ^ above is my first attempt, bleow is very simlar, but better code adapted from Richard
+
+
+        // apply movement and strafing
+
+        Vector3 targetVelocity = transform.forward * FBMovement * moveSpeed;
+        targetVelocity += transform.right * LRMovement * strafeSpeed;
+
+        Vector3 moveDifference = targetVelocity - moveVector;
+
+        moveVector += moveDifference * moveSpeed * Time.deltaTime;
+        Vector3.ClampMagnitude(moveVector, moveSpeed);
+
+        // final movement
+
+        Vector3 finalVelocity = moveVector;
+        finalVelocity.y = 0.0f;
+        transform.position += finalVelocity * Time.deltaTime;
+
+        // rotation
+        
+        Vector3 playerRotation = transform.rotation.eulerAngles;
+        playerRotation.y += YRotation * rotSpeed;
+
+        transform.rotation = Quaternion.Euler(playerRotation);
+        
     }
 
 
@@ -269,19 +299,17 @@ public class Player : MonoBehaviour
     public void Walk(InputAction.CallbackContext context)
     {
         //moveVector = transform.right * moveSpeed * Time.deltaTime * context.ReadValue<float>();
-        //Debug.Log("walk" + context.ReadValue<float>());
-        FBMovement = context.ReadValue<float>();
-    }
 
-    public void Turn(InputAction.CallbackContext context)
-    {
-        //Debug.Log("turn" + context.ReadValue<float>());
-        YRotation = context.ReadValue<float>();
+        FBMovement = context.ReadValue<float>();
     }
 
     public void Strafe(InputAction.CallbackContext context)
     {
-        //Debug.Log("strafe" + context.ReadValue<float>());
         LRMovement = context.ReadValue<float>();
+    }
+
+    public void Turn(InputAction.CallbackContext context)
+    {
+        YRotation = context.ReadValue<float>();
     }
 }
