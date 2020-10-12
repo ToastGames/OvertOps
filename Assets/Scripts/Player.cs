@@ -85,7 +85,7 @@ public class Player : MonoBehaviour
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //
-    //      PLAYER IS FUUUUUUCKED..... BASICALLY GOING TO GUT IT AND START AGAIN
+    //      PLAYER IS FUUUUUUCKED..... BASICALLY GOING TO GUT IT AND START AGAIN        // <-- currently in the process of doing so, its _better_ but still has big problems
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -183,6 +183,9 @@ public class Player : MonoBehaviour
         // ok, this stuff I added myself;
         mouseRotation = mouseDelta.x * mouseRotSpeed * Time.deltaTime;
         Mathf.Clamp(mouseRotation, -mouseRotSpeed, mouseRotSpeed);
+
+        //// rotate move vector // ok, this doesn't do shit apparently
+        //moveVector = Quaternion.AngleAxis(mouseRotation, Vector3.up) * moveVector;
     }
 
 
@@ -313,10 +316,23 @@ public class Player : MonoBehaviour
             float rayIncrement = (rayArcWidth * 2) / rayCount;
 
             RaycastHit hitInfo;
-            //Vector3 checkVector = moveVector;
-            //checkVector.x -= rayArcWidth;
-            //checkVector.x += rayIncrement * i;
-            //Vector3 normalisedMoveVector = Vector3.Normalize(checkVector);
+
+            ///////////////////////////////////// this section that tries to calculate an arc of rays is fucked, but I've wasted enough time on it for now, come back to it later)
+            /*
+            Vector3 tempVector = Vector3.forward;
+            tempVector.x -= rayArcWidth;
+            tempVector.x += rayIncrement * i;
+
+            float tempAngle = Mathf.Acos(Vector3.Dot(Vector3.forward, transform.forward) / (Vector3.forward.magnitude * transform.forward.magnitude));
+            Quaternion tempRotation = Quaternion.AngleAxis(-tempAngle, Vector3.up);
+            tempVector = tempRotation * tempVector;
+            
+            /////////////////////////////////////
+
+            Vector3 checkVector = transform.forward;// + tempVector;  // by commenting out this tempvector getting added on, it's essentially skipping all the shit above
+
+            Vector3 normalisedMoveVector = Vector3.Normalize(checkVector);
+            */
             Vector3 normalisedMoveVector = Vector3.Normalize(moveVector);
 
             ////Quaternion tempQuat = Quaternion.LookRotation(Vector3.Normalize(moveVector + new Vector3(rayIncrement * i, 0.0f, 0.0f)));

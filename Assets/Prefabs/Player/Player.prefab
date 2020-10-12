@@ -387,9 +387,9 @@ MonoBehaviour:
   wepDefs: {fileID: 1319545160396954706, guid: 3d44deb7d63453c4cb56ba362056ec81, type: 3}
   playerSpriteObject: {fileID: 2055514331}
   currentWeapon: 1
-  moveSpeed: 10
-  strafeSpeed: 8
-  rotSpeed: 4
+  moveSpeed: 9
+  strafeSpeed: 7
+  rotSpeed: 5
   mouseRotSpeed: 5
   health: 100
   rayCount: 10
