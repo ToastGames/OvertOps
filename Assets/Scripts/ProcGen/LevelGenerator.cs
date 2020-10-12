@@ -175,9 +175,9 @@ public class LevelGenerator : MonoBehaviour
 
             for (int d = 0; d < doorsParent.transform.childCount; d++)
             {
-                doorsParent.transform.GetChild(d).transform.GetChild(2).transform.GetChild(0).GetComponent<MeshRenderer>().material = hackermanMaterialDoor;
-                doorsParent.transform.GetChild(d).transform.GetChild(2).transform.GetChild(1).GetComponent<MeshRenderer>().material = hackermanMaterialDoor;
-                doorsParent.transform.GetChild(d).transform.GetChild(2).transform.GetChild(2).GetComponent<MeshRenderer>().material = hackermanMaterialHiddenWall;
+                doorsParent.transform.GetChild(d).transform.GetChild(1).transform.GetChild(0).GetComponent<MeshRenderer>().material = hackermanMaterialDoor;
+                doorsParent.transform.GetChild(d).transform.GetChild(1).transform.GetChild(1).GetComponent<MeshRenderer>().material = hackermanMaterialDoor;
+                doorsParent.transform.GetChild(d).transform.GetChild(1).transform.GetChild(2).GetComponent<MeshRenderer>().material = hackermanMaterialHiddenWall;
             }
 
             // HIDE SHIT WE DON'T NEED FOR NOW <-- Enemies, Pickups and Props
@@ -333,9 +333,9 @@ public class LevelGenerator : MonoBehaviour
                 for (int d = 0; d < doorsParent.transform.GetChild(0).transform.childCount; d++)
                     doorsParent.transform.GetChild(0).transform.GetChild(d).GetComponent<MeshRenderer>().material = hackermanMaterial;
 
-                doorsParent.transform.GetChild(1).transform.GetChild(2).transform.GetChild(0).GetComponent<MeshRenderer>().material = hackermanMaterialDoor;
-                doorsParent.transform.GetChild(1).transform.GetChild(2).transform.GetChild(1).GetComponent<MeshRenderer>().material = hackermanMaterialDoor;
-                doorsParent.transform.GetChild(1).transform.GetChild(2).transform.GetChild(2).GetComponent<MeshRenderer>().material = hackermanMaterialHiddenWall;
+                doorsParent.transform.GetChild(1).transform.GetChild(1).transform.GetChild(0).GetComponent<MeshRenderer>().material = hackermanMaterialDoor;
+                doorsParent.transform.GetChild(1).transform.GetChild(1).transform.GetChild(1).GetComponent<MeshRenderer>().material = hackermanMaterialDoor;
+                doorsParent.transform.GetChild(1).transform.GetChild(1).transform.GetChild(2).GetComponent<MeshRenderer>().material = hackermanMaterialHiddenWall;
 
 
             }   // END OF ROOM FOR LOOP

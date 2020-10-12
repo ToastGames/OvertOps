@@ -25,6 +25,7 @@ TagManager:
   - Room_Parent_Hackerman
   - HackermanHiddenWall
   - Terminal_Parent
+  - HACKERMANOBJECTS_Parent
   layers:
   - Default
   - TransparentFX
