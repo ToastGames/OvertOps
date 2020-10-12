@@ -58,8 +58,8 @@ public class Door : MonoBehaviour
     {
         if ((other.tag == "Player") && (!isTriggered))  // it will only be triggerable by the player
         {
-            transform.GetChild(2).transform.GetChild(0).GetComponent<Renderer>().material.SetTexture("_BaseMap", altTexture);       // when triggered the two "faces" of the door have their texture changed
-            transform.GetChild(2).transform.GetChild(1).GetComponent<Renderer>().material.SetTexture("_BaseMap", altTexture);       // to whatever texture is set in the inspector
+            transform.GetChild(1).transform.GetChild(0).GetComponent<Renderer>().material.SetTexture("_BaseMap", altTexture);       // when triggered the two "faces" of the door have their texture changed
+            transform.GetChild(1).transform.GetChild(1).GetComponent<Renderer>().material.SetTexture("_BaseMap", altTexture);       // to whatever texture is set in the inspector
             isTriggered = true;                                                                                                     // triggering the door sets this bool to true so the movement stuff above knows the door's been triggered
         }
     }

@@ -22020,7 +22020,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &560766063075988493
 Transform:
   m_ObjectHideFlags: 0
@@ -22102,6 +22102,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: HackermanTesterCube
+      objectReference: {fileID: 0}
+    - target: {fileID: 89250885258491681, guid: 01fe87927848a7a41a534512fb2c0810,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2138052781868475271, guid: 01fe87927848a7a41a534512fb2c0810,
         type: 3}
@@ -22639,6 +22644,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: LevelGenerator
+      objectReference: {fileID: 0}
+    - target: {fileID: 2112276520246929597, guid: b1888d0c6b6e5314ba194b9669b3b9cd,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2112276520246929598, guid: b1888d0c6b6e5314ba194b9669b3b9cd,
         type: 3}
@@ -24276,10 +24286,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 214070991, guid: e14fdcf473b08fa469324933d366ba9e, type: 3}
-      propertyPath: rotSpeed
-      value: 8
-      objectReference: {fileID: 0}
     - target: {fileID: 5415688837109266512, guid: e14fdcf473b08fa469324933d366ba9e,
         type: 3}
       propertyPath: m_Name
@@ -24369,6 +24375,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: TEMPLATE_RoomTile
+      objectReference: {fileID: 0}
+    - target: {fileID: 5222274246571829640, guid: 4cebe599eb36b3942977d02b32488bfb,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5222274246571829641, guid: 4cebe599eb36b3942977d02b32488bfb,
         type: 3}
@@ -25529,6 +25540,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SkyTesterCube
+      objectReference: {fileID: 0}
+    - target: {fileID: 2774354612422559258, guid: a90fb2f2b0cafdc45b66f93284f010d5,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4185684956059472572, guid: a90fb2f2b0cafdc45b66f93284f010d5,
         type: 3}

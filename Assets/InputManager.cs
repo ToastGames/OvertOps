@@ -36,7 +36,7 @@ public class @InputManager : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": ""Turn"",
-                    ""type"": ""Button"",
+                    ""type"": ""Value"",
                     ""id"": ""a1a0ea4c-6511-46d2-b1d9-940f702e2d39"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
@@ -129,7 +129,7 @@ public class @InputManager : IInputActionCollection, IDisposable
                 {
                     ""name"": ""negative"",
                     ""id"": ""62c87a3f-e733-48e3-8c35-0d7df8cf26ad"",
-                    ""path"": ""<Keyboard>/a"",
+                    ""path"": ""<Keyboard>/q"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard and Mouse"",
@@ -140,7 +140,7 @@ public class @InputManager : IInputActionCollection, IDisposable
                 {
                     ""name"": ""positive"",
                     ""id"": ""e2476bc9-1f09-4e62-be20-854a2bf5e522"",
-                    ""path"": ""<Keyboard>/d"",
+                    ""path"": ""<Keyboard>/e"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard and Mouse"",
@@ -162,7 +162,7 @@ public class @InputManager : IInputActionCollection, IDisposable
                 {
                     ""name"": ""negative"",
                     ""id"": ""0dec7567-bf0f-4899-8a1e-d89e3200018f"",
-                    ""path"": ""<Keyboard>/q"",
+                    ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard and Mouse"",
@@ -173,7 +173,7 @@ public class @InputManager : IInputActionCollection, IDisposable
                 {
                     ""name"": ""positive"",
                     ""id"": ""12fcc251-4470-459c-b597-6baa64989cc0"",
-                    ""path"": ""<Keyboard>/e"",
+                    ""path"": ""<Keyboard>/d"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard and Mouse"",

@@ -21,31 +21,33 @@ public class Player : MonoBehaviour
     public float moveSpeed;
     public float strafeSpeed;
     public float rotSpeed;
+    public float mouseRotSpeed;
 
     public int health = 100;
-
-
-    // variables below this line need reassessing ///////////////////////////////////////////////////////////
-    
-    public float rayCheckLength;
-    public float collisionWidth;
 
     private Vector3 moveVector = new Vector3();
     private float LRMovement = 0.0f;
     private float FBMovement = 0.0f;
     private float YRotation = 0.0f;
+    private float mouseRotation = 0.0f;
 
-    //private Vector3 adjustmentVector = new Vector3();        // what? delete?
+    public int rayCount = 10;
+
+    public float rayCheckLength;
+    public float collisionWidth;
+    public float rayArcWidth;
+
+    // variables below this line need reassessing ///////////////////////////////////////////////////////////
 
     private float shootTime;
     private float reloadTime;
     private float hurtTime;
     private float deathTime;
 
-    //private float accumulatedShootTime = 0.0f;               // what? delete?
 
     private void Start()
     {
+        Cursor.visible = false;
         playerState = PlayerState.Idle;
 
         {
@@ -61,7 +63,7 @@ public class Player : MonoBehaviour
     {
         playerSpriteObject.material = wepDefs.WeaponDefs[currentWeapon].gameObject.GetComponent<WeaponDef>().spriteSheet;
 
-        CheckCollision();
+        CheckMouseMovement();
         CalculateMovement();
 
         //Debug.Log("Player Health: " + health);
@@ -130,12 +132,12 @@ public class Player : MonoBehaviour
 
     private void CalculateMovement()
     {
+        {   
         //Vector3 tempVector = new Vector3(LRMovement * moveSpeed * Time.deltaTime, 0.0f, FBMovement * moveSpeed * Time.deltaTime);
         //Vector3 rotatedTempVector = Quaternion.AngleAxis(transform.rotation.y, transform.up) * tempVector;
 
         //moveVector = rotatedTempVector;
-
-        ///////////////////////////// ^ above is my first attempt, bleow is very simlar, but better code adapted from Richard
+        }   // this is my first attempt, bleow is very simlar, but better code adapted from Richard
 
 
         // apply movement and strafing
@@ -150,17 +152,37 @@ public class Player : MonoBehaviour
 
         // final movement
 
-        Vector3 finalVelocity = moveVector;
-        finalVelocity.y = 0.0f;
-        transform.position += finalVelocity * Time.deltaTime;
+        CheckCollision();
+
+        moveVector.y = 0.0f;
+        transform.position += moveVector * Time.deltaTime;
 
         // rotation
         
         Vector3 playerRotation = transform.rotation.eulerAngles;
-        playerRotation.y += YRotation * rotSpeed;
+        playerRotation.y += (YRotation + mouseRotation) * rotSpeed;
 
         transform.rotation = Quaternion.Euler(playerRotation);
         
+    }
+
+    private void CheckMouseMovement()
+    {
+        // Why the FUCK does this work?
+        // this was copy and pasted from the unity online help basically;
+        // https://docs.unity3d.com/Packages/com.unity.inputsystem@1.0/manual/Actions.html
+        //
+        // and it works NOTHING like all the other "new inputs system" fucking bullshit I've found online. this is SO MUCH SIMPLER!
+        // maybe look into a way to do ALL INPUT like this
+        // also wtf is "var"?
+
+        var mouse = Mouse.current;
+        Vector2 mouseDelta = mouse.delta.ReadValue();
+        //Debug.Log(currentMouseDelta);
+
+        // ok, this stuff I added myself;
+        mouseRotation = mouseDelta.x * mouseRotSpeed * Time.deltaTime;
+        Mathf.Clamp(mouseRotation, -mouseRotSpeed, mouseRotSpeed);
     }
 
 
@@ -283,6 +305,84 @@ public class Player : MonoBehaviour
             }
             */
         } // old fucked shit
+
+        // ok, let's try this again
+
+        for (int i = 0; i < rayCount; i++)
+        {
+            float rayIncrement = (rayArcWidth * 2) / rayCount;
+
+            RaycastHit hitInfo;
+            //Vector3 checkVector = moveVector;
+            //checkVector.x -= rayArcWidth;
+            //checkVector.x += rayIncrement * i;
+            //Vector3 normalisedMoveVector = Vector3.Normalize(checkVector);
+            Vector3 normalisedMoveVector = Vector3.Normalize(moveVector);
+
+            ////Quaternion tempQuat = Quaternion.LookRotation(Vector3.Normalize(moveVector + new Vector3(rayIncrement * i, 0.0f, 0.0f)));
+            ////Vector3 normalisedMoveVector = Vector3.RotateTowards(moveVector, tempQuat.eulerAngles, 1000.0f, 1000.0f);
+
+            
+
+            Debug.DrawRay(transform.position + Vector3.up, normalisedMoveVector + (transform.forward * rayCheckLength), new Color(1.0f, 0.5f, 0.0f));
+            Debug.DrawRay(transform.position + Vector3.up + (transform.right * collisionWidth), normalisedMoveVector, new Color(1.0f, 0.5f, 0.0f));
+            Debug.DrawRay(transform.position + Vector3.up - (transform.right * collisionWidth), normalisedMoveVector, new Color(1.0f, 0.5f, 0.0f));
+
+            if (Physics.Raycast(transform.position + Vector3.up, normalisedMoveVector + (transform.forward * rayCheckLength), out hitInfo, rayCheckLength))
+            {
+                if ((hitInfo.transform.gameObject.tag == "Wall") || (hitInfo.transform.gameObject.tag == "WallPlayerOnly"))
+                {
+                    Debug.DrawRay(hitInfo.point, hitInfo.normal, new Color(1.0f, 0.5f, 0.5f));
+
+                    {
+                        /*
+                        if (Mathf.Abs(hitInfo.normal.z) > 0.0f)
+                        {
+                            ////Vector3 temp = transform.TransformPoint(moveVector);
+                            ////temp.z = 0.0f;
+                            ////moveVector = transform.InverseTransformPoint(temp);
+
+                            //moveVector.z = 0.0f;
+
+
+                            //////Vector3 temp = transform.TransformPoint(moveVector);
+                            //////float newMagnitude = temp.x;
+                            //////moveVector = new Vector3(newMagnitude, 0.0f, 0.0f);
+                            //moveVector = Vector3.Normalize(moveVector);
+
+                            //////Debug.DrawRay(transform.position, moveVector, new Color(0.5f, 0.0f, 1.0f));
+
+
+                            moveVector = hitInfo.normal;
+                        }   // several fucked attempts in here
+                        if (Mathf.Abs(hitInfo.normal.x) > 0.0f)
+                            moveVector.x = 0.0f;
+                        */
+                    }   // several fucked attempts in here
+
+                    //moveVector = hitInfo.normal * rayCheckLength;
+                    moveVector = Vector3.Reflect(moveVector, hitInfo.normal);
+                }
+            }
+            if (Physics.Raycast(transform.position + Vector3.up + (transform.right * collisionWidth), normalisedMoveVector, out hitInfo, rayCheckLength))
+            {
+                if ((hitInfo.transform.gameObject.tag == "Wall") || (hitInfo.transform.gameObject.tag == "WallPlayerOnly"))
+                {
+                    Debug.DrawRay(hitInfo.point, hitInfo.normal, new Color(1.0f, 0.5f, 0.5f));
+                    //moveVector = hitInfo.normal * rayCheckLength;
+                    moveVector = Vector3.Reflect(moveVector, hitInfo.normal);
+                }
+            }
+            if (Physics.Raycast(transform.position + Vector3.up - (transform.right * collisionWidth), normalisedMoveVector, out hitInfo, rayCheckLength))
+            {
+                if ((hitInfo.transform.gameObject.tag == "Wall") || (hitInfo.transform.gameObject.tag == "WallPlayerOnly"))
+                {
+                    Debug.DrawRay(hitInfo.point, hitInfo.normal, new Color(1.0f, 0.5f, 0.5f));
+                    //moveVector = hitInfo.normal * rayCheckLength;
+                    moveVector = Vector3.Reflect(moveVector, hitInfo.normal);
+                }
+            }
+        }
     }
 
     /////////////////////////////////////////////////////////////////////////////
@@ -298,8 +398,6 @@ public class Player : MonoBehaviour
 
     public void Walk(InputAction.CallbackContext context)
     {
-        //moveVector = transform.right * moveSpeed * Time.deltaTime * context.ReadValue<float>();
-
         FBMovement = context.ReadValue<float>();
     }
 
