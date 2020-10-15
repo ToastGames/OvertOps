@@ -11,7 +11,7 @@ public class PropGroup : MonoBehaviour
     // > > Random
     // > > > Group1
     // > > > Group2
-    // > > > Group2
+    // > > > Group3
     //
     // This script sits on the "groups" listed above
     // Each group has multiple children, each a prop prefab (of ANY of the 4 types), and when the level is generated, only one enemy from each group is kept

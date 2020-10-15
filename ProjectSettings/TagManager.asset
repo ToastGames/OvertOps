@@ -26,6 +26,7 @@ TagManager:
   - HackermanHiddenWall
   - Terminal_Parent
   - HACKERMANOBJECTS_Parent
+  - Object_Parent_Hackerman
   layers:
   - Default
   - TransparentFX
@@ -38,8 +39,8 @@ TagManager:
   - Bounds
   - FakeScreen
   - DontRender
-  - 
-  - 
+  - HACKERMANONLY
+  - HUD
   - 
   - 
   - 

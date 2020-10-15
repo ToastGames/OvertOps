@@ -32,6 +32,10 @@ public class LevelGenerator : MonoBehaviour
     private GameObject terminalParent;
 
     private List<BoxCollider> allRoomColliders = new List<BoxCollider>();
+    private List<GameObject> hackermanPickups = new List<GameObject>();
+
+    public GameObject lineObject;
+    public float linePercentChance;
 
     /////////////////////////////////////////////// YES, currently all child indexes are SUPER hard coded. I should probably fix this and do it a different way at some point to the code isn't so damn precarious
 
@@ -185,6 +189,26 @@ public class LevelGenerator : MonoBehaviour
             newHackermanRoom.transform.Find("ITEMS").gameObject.SetActive(false);
             newHackermanRoom.transform.Find("MOBS").gameObject.SetActive(false);
             newHackermanRoom.transform.Find("PROPS").gameObject.SetActive(false);
+
+            newHackermanRoom.transform.Find("HACKERMAN").gameObject.SetActive(true);
+            newGameObject.transform.Find("HACKERMAN").gameObject.SetActive(false);      // make sure hackerman objects are only on in hackman space
+
+            for (int h = 0; h < newHackermanRoom.transform.Find("HACKERMAN").transform.GetChild(0).childCount; h++)        // for every hackerman "Group", if it's child "Group Container" is unhidden, then add all it's child prefabs to the list of pickups
+            {
+                if (newHackermanRoom.transform.Find("HACKERMAN").transform.GetChild(0).transform.GetChild(h).gameObject.activeSelf)
+                {
+                    for (int g = 0; g < newHackermanRoom.transform.Find("HACKERMAN").transform.GetChild(0).transform.GetChild(h).childCount; g++)
+                    {
+                        for (int b = 0; b < newHackermanRoom.transform.Find("HACKERMAN").transform.GetChild(0).transform.GetChild(h).transform.GetChild(g).childCount; b++)
+                        {
+                            hackermanPickups.Add(newHackermanRoom.transform.Find("HACKERMAN").transform.GetChild(0).transform.GetChild(h).transform.GetChild(g).transform.GetChild(b).gameObject);
+                        }
+                    }
+                }
+            }
+
+            newHackermanRoom.transform.Find("HACKERMAN").transform.SetParent(GameObject.FindGameObjectWithTag("Object_Parent_Hackerman").transform);
+
 
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -343,7 +367,39 @@ public class LevelGenerator : MonoBehaviour
             if (i == RoomCount - 1)
                Instantiate(levelEndObject, newPos, newRot); // close off the level with an elevator (LEVEL-END prefab)
         }
-    }
+
+        // after all the rooms are generated, create line connections between random hackerman pickups
+
+        for (int i = 0; i < hackermanPickups.Count; i++)
+        {
+            if (Random.Range(0, 100) > (100.0f-linePercentChance))
+            {
+                int newConnection = Random.Range(0, hackermanPickups.Count);
+                if (newConnection != i)
+                {
+                    GameObject newLine = Instantiate(lineObject, hackermanPickups[i].transform.position, Quaternion.identity) as GameObject;
+                    newLine.transform.SetParent(hackermanPickups[i].transform);
+                    newLine.GetComponent<LineRenderer>().SetPosition(0, hackermanPickups[i].transform.position);
+                    newLine.GetComponent<LineRenderer>().SetPosition(1, hackermanPickups[newConnection].transform.position);
+                }
+            }
+        }
 
 
+        // then hide the whole hackerman parent object
+
+        GameObject.FindGameObjectWithTag("Object_Parent_Hackerman").gameObject.SetActive(false);
+
+
+
+        // this is just to check the correct number of objects are in the hackerman pickup list
+        /*
+        for (int i = 0; i < hackermanPickups.Count; i++)
+        {
+            Debug.Log(hackermanPickups[i]);
+        }
+        Debug.Log(hackermanPickups.Count);
+        */
+
+    }   // end of Awake() function
 }

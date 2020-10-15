@@ -7,6 +7,13 @@ public class Terminal : MonoBehaviour
 {
     private bool active = false;
 
+    private GameObject hackermanPickupObjects;
+
+    private void Awake()
+    {
+        hackermanPickupObjects = GameObject.FindGameObjectWithTag("Object_Parent_Hackerman");
+    }
+
     void Update()
     {
         
@@ -18,6 +25,9 @@ public class Terminal : MonoBehaviour
 
         other.transform.Translate(Vector3.up * 4);
         other.transform.Rotate(new Vector3(0.0f, 180.0f, 0.0f));
+
+        hackermanPickupObjects.SetActive(true); // activate the hackerman bonus objects (they are hidden by default so they don't render through the roof)
+
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

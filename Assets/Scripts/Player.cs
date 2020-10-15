@@ -37,6 +37,9 @@ public class Player : MonoBehaviour
     public float collisionWidth;
     public float rayArcWidth;
 
+    [HideInInspector]
+    public float currentMovementSpeed;
+
     // variables below this line need reassessing ///////////////////////////////////////////////////////////
 
     private float shootTime;
@@ -149,6 +152,8 @@ public class Player : MonoBehaviour
 
         moveVector += moveDifference * moveSpeed * Time.deltaTime;
         Vector3.ClampMagnitude(moveVector, moveSpeed);
+
+        currentMovementSpeed = moveVector.magnitude;
 
         // final movement
 

@@ -47,7 +47,7 @@ MonoBehaviour:
     type: 3}
   testObject2: {fileID: 7192695510427784256, guid: 05359170e93a9a1409090259cf170030,
     type: 3}
-  RoomCount: 5
+  RoomCount: 3
   RoomPrefabs:
   - {fileID: 5222274246571829640, guid: 4cebe599eb36b3942977d02b32488bfb, type: 3}
   doorObject: {fileID: 573395455113094864, guid: f50fe988f34dedc4787a5dfe9abf7e88,
@@ -71,3 +71,6 @@ MonoBehaviour:
     type: 2}
   hackermanMaterialDoor: {fileID: 2100000, guid: c35c5b1a69a3a7a4ea5a2b849c61d6e1,
     type: 2}
+  lineObject: {fileID: 5197568281040942818, guid: df69ec70d43a1024aa37b9bbc4b0686f,
+    type: 3}
+  linePercentChance: 15
