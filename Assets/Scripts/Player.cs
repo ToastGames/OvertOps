@@ -51,6 +51,7 @@ public class Player : MonoBehaviour
     private void Start()
     {
         Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
         playerState = PlayerState.Idle;
 
         {

@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Sewer-DoorWay-Roof
+  m_Name: Sewer-DoorWay-000-Wall
   m_Shader: {fileID: 4800000, guid: c35466f136c435646926c0941c582150, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -40,7 +40,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTexture:
-        m_Texture: {fileID: 2800000, guid: e64285698901739489102136ff0e27ea, type: 3}
+        m_Texture: {fileID: 2800000, guid: e9601a0a9ba6ee14a8b90799c0b72b4f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -52,7 +52,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OverlayTexture:
-        m_Texture: {fileID: 2800000, guid: e64285698901739489102136ff0e27ea, type: 3}
+        m_Texture: {fileID: 2800000, guid: 4533245e7e040dc48a73eb2b8591ca64, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
