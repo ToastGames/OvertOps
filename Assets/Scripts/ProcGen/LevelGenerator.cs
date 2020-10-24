@@ -37,6 +37,8 @@ public class LevelGenerator : MonoBehaviour
     public GameObject lineObject;
     public float linePercentChance;
 
+    private int fuckItCounter = 0;
+
     /////////////////////////////////////////////// YES, currently all child indexes are SUPER hard coded. I should probably fix this and do it a different way at some point to the code isn't so damn precarious
 
    
@@ -71,143 +73,197 @@ public class LevelGenerator : MonoBehaviour
             int roomChoice = Random.Range(0, RoomPrefabs.Count);                                            // pick and instantiate random room (STUPIDLY called NEWGAMEOBJECT instead of NEW ROOM)
             GameObject newGameObject = Instantiate(RoomPrefabs[roomChoice], newPos, newRot) as GameObject;  //
 
-            //////////////////////////////////////////////////////////////////////////////////////////////////
+            ////////////////////////////////////////////////////////////////////////////////////////////////// SPAWN ROOM
 
             newGameObject.transform.SetParent(roomParent.transform);
             BoxCollider currentCollider = newGameObject.transform.GetChild(3).GetComponent<BoxCollider>();  // This 100% relies on the room prefab being set up "properly", with child 4 having a box collider on it
 
             newGameObject.transform.Translate(newGameObject.transform.GetChild(0).transform.localPosition * -1);    // Offset by position of "IN" object (always the first child of the prefab) <-- will fail if it isn't
 
+            ////////////////////////////////////////////////////////////////////////////////////////////////// CHECK FOR ROOM COLLISIONS
 
-            GameObject newHackermanRoom = Instantiate(RoomPrefabs[roomChoice], newGameObject.transform.position + Vector3.up * 4, newRot) as GameObject;  // create a duplicate of every room above the original to be used as CYBERSPACE (Hackerman)
-            newHackermanRoom.transform.SetParent(roomParentHackerman.transform);
+            Vector3 pos0 = currentCollider.transform.position + Vector3.up;
 
+            //  "top right corner"
+            Vector3 pos1 = currentCollider.transform.position + currentCollider.center + new Vector3(currentCollider.size.x / 2, currentCollider.size.y / 2, currentCollider.size.z / 2);
+            pos1 = (Quaternion.Euler(currentCollider.transform.eulerAngles) * (pos1 - currentCollider.transform.position)) + currentCollider.transform.position - Vector3.up;                   // this rotation is the magic secret sauce
 
-            GameObject styleListObject = newGameObject.transform.Find("StyleList").gameObject;
-            GameObject panelParent = newGameObject.transform.Find("Panels").gameObject; // <-----------------------------------------------// not used?
-            GameObject floorsParent = newGameObject.transform.Find("Panels").gameObject.transform.Find("Floors").gameObject;
-            GameObject roofsParent = newGameObject.transform.Find("Panels").gameObject.transform.Find("Roofs").gameObject;
-            GameObject wallsParent = newGameObject.transform.Find("Panels").gameObject.transform.Find("Walls").gameObject;
+            //  "top left corner"
+            Vector3 pos2 = currentCollider.transform.position + currentCollider.center + new Vector3((currentCollider.size.x / 2) * -1, currentCollider.size.y / 2, currentCollider.size.z / 2);
+            pos2 = (Quaternion.Euler(currentCollider.transform.eulerAngles) * (pos2 - currentCollider.transform.position)) + currentCollider.transform.position - Vector3.up;
 
+            //  "bottom right corner"
+            Vector3 pos3 = currentCollider.transform.position + currentCollider.center + new Vector3(currentCollider.size.x / 2, currentCollider.size.y / 2, (currentCollider.size.z / 2) * -1);
+            pos3 = (Quaternion.Euler(currentCollider.transform.eulerAngles) * (pos3 - currentCollider.transform.position)) + currentCollider.transform.position - Vector3.up;
 
-            ////////////////////////////////////////// assign material type per room //////////////// ALL THIS NUMBER SHIT has now been replaced by variables
-            // "style list" object is child 12
-            // "panels" object is child 4
-            // children of panels --> 0, 1, 2 are Floors, Roofs, Walls in that order, and for all of them, child 0 is "regular"
+            //  "bottom left corner"
+            Vector3 pos4 = currentCollider.transform.position + currentCollider.center + new Vector3((currentCollider.size.x / 2) * -1, currentCollider.size.y / 2, (currentCollider.size.z / 2) * -1);
+            pos4 = (Quaternion.Euler(currentCollider.transform.eulerAngles) * (pos4 - currentCollider.transform.position)) + currentCollider.transform.position - Vector3.up;
 
-            int newRoomStyleType = Random.Range(0, styleListObject.GetComponent<RoomStyleTypes>().roomStyleDefs.Count);
-
-            //
-            // REGULAR
-            //
-            // floors
-            for (int f = 0; f < floorsParent.transform.GetChild(0).transform.childCount; f++)
-                floorsParent.transform.GetChild(0).transform.GetChild(f).GetComponent<MeshRenderer>().material = styleListObject.GetComponent<RoomStyleTypes>().roomStyleDefs[newRoomStyleType].GetComponent<RoomStyleDef>().floorMaterial;
-
-            // roofs
-            for (int r = 0; r < roofsParent.transform.GetChild(0).transform.childCount; r++)
-                roofsParent.transform.GetChild(0).transform.GetChild(r).GetComponent<MeshRenderer>().material = styleListObject.GetComponent<RoomStyleTypes>().roomStyleDefs[newRoomStyleType].GetComponent<RoomStyleDef>().roofMaterial;
-
-            // walls
-            for (int w = 0; w < wallsParent.transform.GetChild(0).transform.childCount; w++)
-                wallsParent.transform.GetChild(0).transform.GetChild(w).GetComponent<MeshRenderer>().material = styleListObject.GetComponent<RoomStyleTypes>().roomStyleDefs[newRoomStyleType].GetComponent<RoomStyleDef>().wallMaterial;
-            //
-            // OUTER
-            //
-            // floors
-            for (int f = 0; f < floorsParent.transform.GetChild(1).transform.childCount; f++)
-                floorsParent.transform.GetChild(1).transform.GetChild(f).GetComponent<MeshRenderer>().material = styleListObject.GetComponent<RoomStyleTypes>().roomStyleDefs[newRoomStyleType].GetComponent<RoomStyleDef>().outerFloorMaterial;
-
-            // roofs
-            for (int r = 0; r < roofsParent.transform.GetChild(1).transform.childCount; r++)
-                roofsParent.transform.GetChild(1).transform.GetChild(r).GetComponent<MeshRenderer>().material = styleListObject.GetComponent<RoomStyleTypes>().roomStyleDefs[newRoomStyleType].GetComponent<RoomStyleDef>().outerRoofMaterial;
-
-            // walls
-            for (int w = 0; w < wallsParent.transform.GetChild(1).transform.childCount; w++)
-                wallsParent.transform.GetChild(1).transform.GetChild(w).GetComponent<MeshRenderer>().material = styleListObject.GetComponent<RoomStyleTypes>().roomStyleDefs[newRoomStyleType].GetComponent<RoomStyleDef>().outerWallMaterial;
-
-            //
-            // MID <-- these are the walls that the player can't walk through, but separate the "play space" from the "sky tiles"
-            //
-            // walls
-            for (int w = 0; w < wallsParent.transform.GetChild(2).transform.childCount; w++)
-                wallsParent.transform.GetChild(2).transform.GetChild(w).GetComponent<MeshRenderer>().material = styleListObject.GetComponent<RoomStyleTypes>().roomStyleDefs[newRoomStyleType].GetComponent<RoomStyleDef>().midWallMaterial;
-
-
-            ///////////////////////////////////////////////////////////// After changing texture on all room panels, change material on all Hackerman panels to "Hackerman"
-
-            floorsParent = newHackermanRoom.transform.Find("Panels").gameObject.transform.Find("Floors").gameObject;                        // These 3 variables are recycled from above
-            roofsParent = newHackermanRoom.transform.Find("Panels").gameObject.transform.Find("Roofs").gameObject;                          //
-            wallsParent = newHackermanRoom.transform.Find("Panels").gameObject.transform.Find("Walls").gameObject;                          //
-            GameObject internalWallsParent = newHackermanRoom.transform.Find("Panels").gameObject.transform.Find("Internal").gameObject;    // This one isn't
-            GameObject featureWallsParent = newHackermanRoom.transform.Find("Panels").gameObject.transform.Find("Features").gameObject;     // This one isn't
-            GameObject breakAwayWallsParent = newHackermanRoom.transform.Find("BREAKAWAYS").gameObject;                                     // This one isn't either
-
-            for (int f = 0; f < floorsParent.transform.GetChild(0).transform.childCount; f++)
-                floorsParent.transform.GetChild(0).transform.GetChild(f).GetComponent<MeshRenderer>().material = hackermanMaterial;
-            for (int r = 0; r < roofsParent.transform.GetChild(0).transform.childCount; r++)
-                roofsParent.transform.GetChild(0).transform.GetChild(r).GetComponent<MeshRenderer>().material = hackermanMaterial;
-            for (int w = 0; w < wallsParent.transform.GetChild(0).transform.childCount; w++)
-                wallsParent.transform.GetChild(0).transform.GetChild(w).GetComponent<MeshRenderer>().material = hackermanMaterial;
-            for (int f = 0; f < floorsParent.transform.GetChild(1).transform.childCount; f++)
-                floorsParent.transform.GetChild(1).transform.GetChild(f).GetComponent<MeshRenderer>().material = hackermanMaterial;
-            for (int r = 0; r < roofsParent.transform.GetChild(1).transform.childCount; r++)
-                roofsParent.transform.GetChild(1).transform.GetChild(r).GetComponent<MeshRenderer>().material = hackermanMaterial;
-            for (int w = 0; w < wallsParent.transform.GetChild(1).transform.childCount; w++)
-                wallsParent.transform.GetChild(1).transform.GetChild(w).GetComponent<MeshRenderer>().material = hackermanMaterial;
-            for (int w = 0; w < wallsParent.transform.GetChild(2).transform.childCount; w++)
-                wallsParent.transform.GetChild(2).transform.GetChild(w).GetComponent<MeshRenderer>().material = hackermanMaterial;                  // up to here is repeats of above, regular room texture replacement stuff
-
-            for (int iw = 0; iw < internalWallsParent.transform.GetChild(0).transform.childCount; iw++)
-                internalWallsParent.transform.GetChild(0).transform.GetChild(iw).GetComponent<MeshRenderer>().material = hackermanMaterialInternal;
-            for (int iw = 0; iw < internalWallsParent.transform.GetChild(1).transform.childCount; iw++)
-                internalWallsParent.transform.GetChild(1).transform.GetChild(iw).GetComponent<MeshRenderer>().material = hackermanMaterialInternal; // up to here is internal (transparent) walls
-
-            for (int f = 0; f < featureWallsParent.transform.childCount; f++)
-                featureWallsParent.transform.GetChild(f).GetComponent<MeshRenderer>().material = hackermanMaterialSpecial;                         // up to here is "feture wall, floors and roofs"
-
-            for (int ba = 0; ba < breakAwayWallsParent.transform.childCount; ba++)
             {
-                breakAwayWallsParent.transform.GetChild(ba).tag = "HackermanHiddenWall";
-                for (int baChild = 0; baChild < breakAwayWallsParent.transform.GetChild(ba).transform.childCount; baChild++)
-                    breakAwayWallsParent.transform.GetChild(ba).transform.GetChild(baChild).GetComponent<MeshRenderer>().material = hackermanMaterialHiddenWall;    // up to here are BREAKAWAY walls
+            /*
+            Instantiate(testObject, pos0, currentCollider.transform.rotation);
+            Instantiate(testObject2, pos1, currentCollider.transform.rotation);
+            Instantiate(testObject2, pos2, currentCollider.transform.rotation);
+            Instantiate(testObject2, pos3, currentCollider.transform.rotation);
+            Instantiate(testObject2, pos4, currentCollider.transform.rotation);
+            Debug.Log(allRoomColliders.Count);
+            */
             }
 
-            // DOORS (are a bit of a fuck around to change to hackerman materials)
-
-            GameObject doorsParent = newHackermanRoom.transform.Find("DOORS").gameObject.transform.GetChild(0).gameObject;      // Find Door Parent Object (which is actually it's first child called "Internal"
-
-            for (int d = 0; d < doorsParent.transform.childCount; d++)
+            for (int b = 0; b < allRoomColliders.Count; b++)
             {
-                doorsParent.transform.GetChild(d).transform.GetChild(1).transform.GetChild(0).GetComponent<MeshRenderer>().material = hackermanMaterialDoor;
-                doorsParent.transform.GetChild(d).transform.GetChild(1).transform.GetChild(1).GetComponent<MeshRenderer>().material = hackermanMaterialDoor;
-                doorsParent.transform.GetChild(d).transform.GetChild(1).transform.GetChild(2).GetComponent<MeshRenderer>().material = hackermanMaterialHiddenWall;
+                if (allRoomColliders[b].bounds.Contains(pos1) || allRoomColliders[b].bounds.Contains(pos2) || allRoomColliders[b].bounds.Contains(pos3) || allRoomColliders[b].bounds.Contains(pos4))
+                    isCollision = true;
+                else
+                    isCollision = false;
             }
 
-            // HIDE SHIT WE DON'T NEED FOR NOW <-- Enemies, Pickups and Props
+            allRoomColliders.Add(currentCollider);
 
-            newHackermanRoom.transform.Find("ITEMS").gameObject.SetActive(false);
-            newHackermanRoom.transform.Find("MOBS").gameObject.SetActive(false);
-            newHackermanRoom.transform.Find("PROPS").gameObject.SetActive(false);
+            //////////////////////////////////////////////////////////////////////////////////////////////////
+            //////////////////////////////////////////////////////////////////////////////////////////////////
 
-            newHackermanRoom.transform.Find("HACKERMAN").gameObject.SetActive(true);
-            newGameObject.transform.Find("HACKERMAN").gameObject.SetActive(false);      // make sure hackerman objects are only on in hackman space
-
-            for (int h = 0; h < newHackermanRoom.transform.Find("HACKERMAN").transform.GetChild(0).childCount; h++)        // for every hackerman "Group", if it's child "Group Container" is unhidden, then add all it's child prefabs to the list of pickups
+            if (isCollision)
             {
-                if (newHackermanRoom.transform.Find("HACKERMAN").transform.GetChild(0).transform.GetChild(h).gameObject.activeSelf)
+                Destroy(newGameObject);
+                if (fuckItCounter < 10)
+                    i--;
+                fuckItCounter++;
+                isCollision = false;
+                Debug.Log("************");
+            }
+            else
+            {
+                GameObject newHackermanRoom = Instantiate(RoomPrefabs[roomChoice], newGameObject.transform.position + Vector3.up * 4, newRot) as GameObject;  // create a duplicate of every room above the original to be used as CYBERSPACE (Hackerman)
+                newHackermanRoom.transform.SetParent(roomParentHackerman.transform);
+
+
+                GameObject styleListObject = newGameObject.transform.Find("StyleList").gameObject;
+                GameObject panelParent = newGameObject.transform.Find("Panels").gameObject; // <-----------------------------------------------// not used?
+                GameObject floorsParent = newGameObject.transform.Find("Panels").gameObject.transform.Find("Floors").gameObject;
+                GameObject roofsParent = newGameObject.transform.Find("Panels").gameObject.transform.Find("Roofs").gameObject;
+                GameObject wallsParent = newGameObject.transform.Find("Panels").gameObject.transform.Find("Walls").gameObject;
+
+
+                ////////////////////////////////////////// assign material type per room //////////////// ALL THIS NUMBER SHIT has now been replaced by variables
+                // "style list" object is child 12
+                // "panels" object is child 4
+                // children of panels --> 0, 1, 2 are Floors, Roofs, Walls in that order, and for all of them, child 0 is "regular"
+
+                int newRoomStyleType = Random.Range(0, styleListObject.GetComponent<RoomStyleTypes>().roomStyleDefs.Count);
+
+                //
+                // REGULAR
+                //
+                // floors
+                for (int f = 0; f < floorsParent.transform.GetChild(0).transform.childCount; f++)
+                    floorsParent.transform.GetChild(0).transform.GetChild(f).GetComponent<MeshRenderer>().material = styleListObject.GetComponent<RoomStyleTypes>().roomStyleDefs[newRoomStyleType].GetComponent<RoomStyleDef>().floorMaterial;
+
+                // roofs
+                for (int r = 0; r < roofsParent.transform.GetChild(0).transform.childCount; r++)
+                    roofsParent.transform.GetChild(0).transform.GetChild(r).GetComponent<MeshRenderer>().material = styleListObject.GetComponent<RoomStyleTypes>().roomStyleDefs[newRoomStyleType].GetComponent<RoomStyleDef>().roofMaterial;
+
+                // walls
+                for (int w = 0; w < wallsParent.transform.GetChild(0).transform.childCount; w++)
+                    wallsParent.transform.GetChild(0).transform.GetChild(w).GetComponent<MeshRenderer>().material = styleListObject.GetComponent<RoomStyleTypes>().roomStyleDefs[newRoomStyleType].GetComponent<RoomStyleDef>().wallMaterial;
+                //
+                // OUTER
+                //
+                // floors
+                for (int f = 0; f < floorsParent.transform.GetChild(1).transform.childCount; f++)
+                    floorsParent.transform.GetChild(1).transform.GetChild(f).GetComponent<MeshRenderer>().material = styleListObject.GetComponent<RoomStyleTypes>().roomStyleDefs[newRoomStyleType].GetComponent<RoomStyleDef>().outerFloorMaterial;
+
+                // roofs
+                for (int r = 0; r < roofsParent.transform.GetChild(1).transform.childCount; r++)
+                    roofsParent.transform.GetChild(1).transform.GetChild(r).GetComponent<MeshRenderer>().material = styleListObject.GetComponent<RoomStyleTypes>().roomStyleDefs[newRoomStyleType].GetComponent<RoomStyleDef>().outerRoofMaterial;
+
+                // walls
+                for (int w = 0; w < wallsParent.transform.GetChild(1).transform.childCount; w++)
+                    wallsParent.transform.GetChild(1).transform.GetChild(w).GetComponent<MeshRenderer>().material = styleListObject.GetComponent<RoomStyleTypes>().roomStyleDefs[newRoomStyleType].GetComponent<RoomStyleDef>().outerWallMaterial;
+
+                //
+                // MID <-- these are the walls that the player can't walk through, but separate the "play space" from the "sky tiles"
+                //
+                // walls
+                for (int w = 0; w < wallsParent.transform.GetChild(2).transform.childCount; w++)
+                    wallsParent.transform.GetChild(2).transform.GetChild(w).GetComponent<MeshRenderer>().material = styleListObject.GetComponent<RoomStyleTypes>().roomStyleDefs[newRoomStyleType].GetComponent<RoomStyleDef>().midWallMaterial;
+
+
+                ///////////////////////////////////////////////////////////// After changing texture on all room panels, change material on all Hackerman panels to "Hackerman"
+
+                floorsParent = newHackermanRoom.transform.Find("Panels").gameObject.transform.Find("Floors").gameObject;                        // These 3 variables are recycled from above
+                roofsParent = newHackermanRoom.transform.Find("Panels").gameObject.transform.Find("Roofs").gameObject;                          //
+                wallsParent = newHackermanRoom.transform.Find("Panels").gameObject.transform.Find("Walls").gameObject;                          //
+                GameObject internalWallsParent = newHackermanRoom.transform.Find("Panels").gameObject.transform.Find("Internal").gameObject;    // This one isn't
+                GameObject featureWallsParent = newHackermanRoom.transform.Find("Panels").gameObject.transform.Find("Features").gameObject;     // This one isn't
+                GameObject breakAwayWallsParent = newHackermanRoom.transform.Find("BREAKAWAYS").gameObject;                                     // This one isn't either
+
+                for (int f = 0; f < floorsParent.transform.GetChild(0).transform.childCount; f++)
+                    floorsParent.transform.GetChild(0).transform.GetChild(f).GetComponent<MeshRenderer>().material = hackermanMaterial;
+                for (int r = 0; r < roofsParent.transform.GetChild(0).transform.childCount; r++)
+                    roofsParent.transform.GetChild(0).transform.GetChild(r).GetComponent<MeshRenderer>().material = hackermanMaterial;
+                for (int w = 0; w < wallsParent.transform.GetChild(0).transform.childCount; w++)
+                    wallsParent.transform.GetChild(0).transform.GetChild(w).GetComponent<MeshRenderer>().material = hackermanMaterial;
+                for (int f = 0; f < floorsParent.transform.GetChild(1).transform.childCount; f++)
+                    floorsParent.transform.GetChild(1).transform.GetChild(f).GetComponent<MeshRenderer>().material = hackermanMaterial;
+                for (int r = 0; r < roofsParent.transform.GetChild(1).transform.childCount; r++)
+                    roofsParent.transform.GetChild(1).transform.GetChild(r).GetComponent<MeshRenderer>().material = hackermanMaterial;
+                for (int w = 0; w < wallsParent.transform.GetChild(1).transform.childCount; w++)
+                    wallsParent.transform.GetChild(1).transform.GetChild(w).GetComponent<MeshRenderer>().material = hackermanMaterial;
+                for (int w = 0; w < wallsParent.transform.GetChild(2).transform.childCount; w++)
+                    wallsParent.transform.GetChild(2).transform.GetChild(w).GetComponent<MeshRenderer>().material = hackermanMaterial;                  // up to here is repeats of above, regular room texture replacement stuff
+
+                for (int iw = 0; iw < internalWallsParent.transform.GetChild(0).transform.childCount; iw++)
+                    internalWallsParent.transform.GetChild(0).transform.GetChild(iw).GetComponent<MeshRenderer>().material = hackermanMaterialInternal;
+                for (int iw = 0; iw < internalWallsParent.transform.GetChild(1).transform.childCount; iw++)
+                    internalWallsParent.transform.GetChild(1).transform.GetChild(iw).GetComponent<MeshRenderer>().material = hackermanMaterialInternal; // up to here is internal (transparent) walls
+
+                for (int f = 0; f < featureWallsParent.transform.childCount; f++)
+                    featureWallsParent.transform.GetChild(f).GetComponent<MeshRenderer>().material = hackermanMaterialSpecial;                         // up to here is "feture wall, floors and roofs"
+
+                for (int ba = 0; ba < breakAwayWallsParent.transform.childCount; ba++)
                 {
-                    for (int g = 0; g < newHackermanRoom.transform.Find("HACKERMAN").transform.GetChild(0).transform.GetChild(h).childCount; g++)
+                    breakAwayWallsParent.transform.GetChild(ba).tag = "HackermanHiddenWall";
+                    for (int baChild = 0; baChild < breakAwayWallsParent.transform.GetChild(ba).transform.childCount; baChild++)
+                        breakAwayWallsParent.transform.GetChild(ba).transform.GetChild(baChild).GetComponent<MeshRenderer>().material = hackermanMaterialHiddenWall;    // up to here are BREAKAWAY walls
+                }
+
+                // DOORS (are a bit of a fuck around to change to hackerman materials)
+
+                GameObject doorsParent = newHackermanRoom.transform.Find("DOORS").gameObject.transform.GetChild(0).gameObject;      // Find Door Parent Object (which is actually it's first child called "Internal"
+
+                for (int d = 0; d < doorsParent.transform.childCount; d++)
+                {
+                    doorsParent.transform.GetChild(d).transform.GetChild(1).transform.GetChild(0).GetComponent<MeshRenderer>().material = hackermanMaterialDoor;
+                    doorsParent.transform.GetChild(d).transform.GetChild(1).transform.GetChild(1).GetComponent<MeshRenderer>().material = hackermanMaterialDoor;
+                    doorsParent.transform.GetChild(d).transform.GetChild(1).transform.GetChild(2).GetComponent<MeshRenderer>().material = hackermanMaterialHiddenWall;
+                }
+
+                // HIDE SHIT WE DON'T NEED FOR NOW <-- Enemies, Pickups and Props
+
+                newHackermanRoom.transform.Find("ITEMS").gameObject.SetActive(false);
+                newHackermanRoom.transform.Find("MOBS").gameObject.SetActive(false);
+                newHackermanRoom.transform.Find("PROPS").gameObject.SetActive(false);
+
+                newHackermanRoom.transform.Find("HACKERMAN").gameObject.SetActive(true);
+                newGameObject.transform.Find("HACKERMAN").gameObject.SetActive(false);      // make sure hackerman objects are only on in hackman space
+
+                for (int h = 0; h < newHackermanRoom.transform.Find("HACKERMAN").transform.GetChild(0).childCount; h++)        // for every hackerman "Group", if it's child "Group Container" is unhidden, then add all it's child prefabs to the list of pickups
+                {
+                    if (newHackermanRoom.transform.Find("HACKERMAN").transform.GetChild(0).transform.GetChild(h).gameObject.activeSelf)
                     {
-                        for (int b = 0; b < newHackermanRoom.transform.Find("HACKERMAN").transform.GetChild(0).transform.GetChild(h).transform.GetChild(g).childCount; b++)
+                        for (int g = 0; g < newHackermanRoom.transform.Find("HACKERMAN").transform.GetChild(0).transform.GetChild(h).childCount; g++)
                         {
-                            hackermanPickups.Add(newHackermanRoom.transform.Find("HACKERMAN").transform.GetChild(0).transform.GetChild(h).transform.GetChild(g).transform.GetChild(b).gameObject);
+                            for (int b = 0; b < newHackermanRoom.transform.Find("HACKERMAN").transform.GetChild(0).transform.GetChild(h).transform.GetChild(g).childCount; b++)
+                            {
+                                hackermanPickups.Add(newHackermanRoom.transform.Find("HACKERMAN").transform.GetChild(0).transform.GetChild(h).transform.GetChild(g).transform.GetChild(b).gameObject);
+                            }
                         }
                     }
                 }
-            }
 
-            newHackermanRoom.transform.Find("HACKERMAN").transform.SetParent(GameObject.FindGameObjectWithTag("Object_Parent_Hackerman").transform);
+                newHackermanRoom.transform.Find("HACKERMAN").transform.SetParent(GameObject.FindGameObjectWithTag("Object_Parent_Hackerman").transform);
 
 
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -253,72 +309,11 @@ public class LevelGenerator : MonoBehaviour
             }   //turning off old version and starting again from scratch
 
 
-            Vector3 pos0 = currentCollider.transform.position + Vector3.up;
+            // changed location of this shit to way up the top straight after the room gets spawned
 
-            //  "top right corner"
-            Vector3 pos1 = currentCollider.transform.position + currentCollider.center + new Vector3(currentCollider.size.x / 2, currentCollider.size.y / 2, currentCollider.size.z / 2);
-            pos1 = (Quaternion.Euler(currentCollider.transform.eulerAngles) * (pos1 - currentCollider.transform.position)) + currentCollider.transform.position - Vector3.up;                   // this rotation is the magic secret sauce
-
-            //  "top left corner"
-            Vector3 pos2 = currentCollider.transform.position + currentCollider.center + new Vector3((currentCollider.size.x / 2) * -1, currentCollider.size.y / 2, currentCollider.size.z / 2);
-            pos2 = (Quaternion.Euler(currentCollider.transform.eulerAngles) * (pos2 - currentCollider.transform.position)) + currentCollider.transform.position - Vector3.up;
-
-            //  "bottom right corner"
-            Vector3 pos3 = currentCollider.transform.position + currentCollider.center + new Vector3(currentCollider.size.x / 2, currentCollider.size.y / 2, (currentCollider.size.z / 2) * -1);
-            pos3 = (Quaternion.Euler(currentCollider.transform.eulerAngles) * (pos3 - currentCollider.transform.position)) + currentCollider.transform.position - Vector3.up;
-
-            //  "bottom left corner"
-            Vector3 pos4 = currentCollider.transform.position + currentCollider.center + new Vector3((currentCollider.size.x / 2) * -1, currentCollider.size.y / 2, (currentCollider.size.z / 2) * -1);
-            pos4 = (Quaternion.Euler(currentCollider.transform.eulerAngles) * (pos4 - currentCollider.transform.position)) + currentCollider.transform.position - Vector3.up;
-
-
-            Instantiate(testObject, pos0, currentCollider.transform.rotation);
-            Instantiate(testObject2, pos1, currentCollider.transform.rotation);
-            Instantiate(testObject2, pos2, currentCollider.transform.rotation);
-            Instantiate(testObject2, pos3, currentCollider.transform.rotation);
-            Instantiate(testObject2, pos4, currentCollider.transform.rotation);
-
-            Debug.Log(allRoomColliders.Count);
-            
-            for (int b = 0; b < allRoomColliders.Count; b++)
-            {
-                if (allRoomColliders[b].bounds.Contains(pos1))
-                {
-                    Debug.Log("INTERSECTION!!!!!! " + currentCollider.transform.parent.gameObject.name + " into Room - " + b + " - pos1");
-                    isCollision = true;
-                }
-                else if (allRoomColliders[b].bounds.Contains(pos2))
-                {
-                    Debug.Log("INTERSECTION!!!!!! " + currentCollider.transform.parent.gameObject.name + " into Room - " + b + " - pos2");
-                    isCollision = true;
-                }
-                else if (allRoomColliders[b].bounds.Contains(pos3))
-                {
-                    Debug.Log("INTERSECTION!!!!!! " + currentCollider.transform.parent.gameObject.name + " into Room - " + b + " - pos3");
-                    isCollision = true;
-                }
-                else if (allRoomColliders[b].bounds.Contains(pos4))
-                {
-                    Debug.Log("INTERSECTION!!!!!! " + currentCollider.transform.parent.gameObject.name + " into Room - " + b + " - pos4");
-                    isCollision = true;
-                }
-                else
-                {
-                    Debug.Log("all good");
-                    isCollision = false;
-                }
-            }
-
-            allRoomColliders.Add(currentCollider);
 
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-            if (isCollision)
-            {
-                Destroy(newGameObject);
-            }
-            else
-            {
                 int chosenExit = Random.Range(0, newGameObject.transform.GetChild(1).childCount);                // get number of "OUT" locations, "OUT" has to be the second child, and has to have a non zero amount of children
                 int terminalLocation = -1;
 
