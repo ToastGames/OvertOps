@@ -216,6 +216,9 @@ public class LevelGenerator : MonoBehaviour
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////
             // Intersection detection of room generation is STILL BUGGY AS FUCK. Need to come back to this later with fresh eyes
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+            {
+            /*
             testPoints[0] = currentCollider.transform.position.x + currentCollider.bounds.extents.x;
             testPoints[1] = currentCollider.transform.position.x - currentCollider.bounds.extents.x;
             testPoints[2] = currentCollider.transform.position.z + currentCollider.bounds.extents.z;
@@ -246,6 +249,68 @@ public class LevelGenerator : MonoBehaviour
                 }
             }
             allRoomColliders.Add(currentCollider);  // <-- do I still need this shit? maybe strip it out later if other method ends up working
+            */
+            }   //turning off old version and starting again from scratch
+
+
+            Vector3 pos0 = currentCollider.transform.position + Vector3.up;
+
+            //  "top right corner"
+            Vector3 pos1 = currentCollider.transform.position + currentCollider.center + new Vector3(currentCollider.size.x / 2, currentCollider.size.y / 2, currentCollider.size.z / 2);
+            pos1 = (Quaternion.Euler(currentCollider.transform.eulerAngles) * (pos1 - currentCollider.transform.position)) + currentCollider.transform.position - Vector3.up;                   // this rotation is the magic secret sauce
+
+            //  "top left corner"
+            Vector3 pos2 = currentCollider.transform.position + currentCollider.center + new Vector3((currentCollider.size.x / 2) * -1, currentCollider.size.y / 2, currentCollider.size.z / 2);
+            pos2 = (Quaternion.Euler(currentCollider.transform.eulerAngles) * (pos2 - currentCollider.transform.position)) + currentCollider.transform.position - Vector3.up;
+
+            //  "bottom right corner"
+            Vector3 pos3 = currentCollider.transform.position + currentCollider.center + new Vector3(currentCollider.size.x / 2, currentCollider.size.y / 2, (currentCollider.size.z / 2) * -1);
+            pos3 = (Quaternion.Euler(currentCollider.transform.eulerAngles) * (pos3 - currentCollider.transform.position)) + currentCollider.transform.position - Vector3.up;
+
+            //  "bottom left corner"
+            Vector3 pos4 = currentCollider.transform.position + currentCollider.center + new Vector3((currentCollider.size.x / 2) * -1, currentCollider.size.y / 2, (currentCollider.size.z / 2) * -1);
+            pos4 = (Quaternion.Euler(currentCollider.transform.eulerAngles) * (pos4 - currentCollider.transform.position)) + currentCollider.transform.position - Vector3.up;
+
+
+            Instantiate(testObject, pos0, currentCollider.transform.rotation);
+            Instantiate(testObject2, pos1, currentCollider.transform.rotation);
+            Instantiate(testObject2, pos2, currentCollider.transform.rotation);
+            Instantiate(testObject2, pos3, currentCollider.transform.rotation);
+            Instantiate(testObject2, pos4, currentCollider.transform.rotation);
+
+            Debug.Log(allRoomColliders.Count);
+            
+            for (int b = 0; b < allRoomColliders.Count; b++)
+            {
+                if (allRoomColliders[b].bounds.Contains(pos1))
+                {
+                    Debug.Log("INTERSECTION!!!!!! " + currentCollider.transform.parent.gameObject.name + " into Room - " + b + " - pos1");
+                    isCollision = true;
+                }
+                else if (allRoomColliders[b].bounds.Contains(pos2))
+                {
+                    Debug.Log("INTERSECTION!!!!!! " + currentCollider.transform.parent.gameObject.name + " into Room - " + b + " - pos2");
+                    isCollision = true;
+                }
+                else if (allRoomColliders[b].bounds.Contains(pos3))
+                {
+                    Debug.Log("INTERSECTION!!!!!! " + currentCollider.transform.parent.gameObject.name + " into Room - " + b + " - pos3");
+                    isCollision = true;
+                }
+                else if (allRoomColliders[b].bounds.Contains(pos4))
+                {
+                    Debug.Log("INTERSECTION!!!!!! " + currentCollider.transform.parent.gameObject.name + " into Room - " + b + " - pos4");
+                    isCollision = true;
+                }
+                else
+                {
+                    Debug.Log("all good");
+                    isCollision = false;
+                }
+            }
+
+            allRoomColliders.Add(currentCollider);
+
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
             if (isCollision)
