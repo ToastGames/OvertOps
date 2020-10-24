@@ -14,9 +14,9 @@ public class EnemyType : MonoBehaviour
 
     void Awake()                                                                                            // Done on Awake so it happens before all the other level set up
     {
-        int selection = Random.Range(0, enemyTypes.Count);                                              // randomly choose from the list of possible enemy "Guts"
+        int selection = Random.Range(0, enemyTypes.Count);                                                  // randomly choose from the list of possible enemy "Guts"
 
-        GameObject newEnemy = Instantiate(enemyTypes[selection], transform.position, Quaternion.identity);  // instantiate randomly chosen enemy prefab
+        GameObject newEnemy = Instantiate(enemyTypes[selection], transform.position, transform.parent.parent.parent.parent.rotation);   //Quaternion.identity);  // instantiate randomly chosen enemy prefab
         newEnemy.transform.SetParent(transform);                                                            // parent new prefab to this object
     }
 }

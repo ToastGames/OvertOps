@@ -27,6 +27,7 @@ TagManager:
   - Terminal_Parent
   - HACKERMANOBJECTS_Parent
   - Object_Parent_Hackerman
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -41,7 +42,7 @@ TagManager:
   - DontRender
   - HACKERMANONLY
   - HUD
-  - 
+  - Enemies
   - 
   - 
   - 

@@ -201,7 +201,7 @@ GameObject:
   - component: {fileID: 5006919869109081050}
   m_Layer: 0
   m_Name: DoorMovingBit
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -234,7 +234,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2, y: 2, z: 2}
+  m_Size: {x: 2, y: 2, z: 0.2}
   m_Center: {x: 0, y: 1, z: 0}
 --- !u!114 &5006919869109081050
 MonoBehaviour:
@@ -326,7 +326,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   doorMovingBit: {fileID: 3205807402432190106}
   doorDestination: {fileID: 5916433649878780726}
+  doorPauseTime: 0
   doorMoveTime: 0.5
+  altTexture: {fileID: 0}
 --- !u!1 &5916433649878780726
 GameObject:
   m_ObjectHideFlags: 0

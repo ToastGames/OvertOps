@@ -11,12 +11,17 @@ public class Player : MonoBehaviour
 
     public enum PlayerState { Idle, Shooting, Reloading, Walking, Hurt, Dying }
 
+    private CharacterController playerController;
 
     public WeaponDefList wepDefs;
     private PlayerState playerState;
     public MeshRenderer playerSpriteObject;       // this should be obtained from dragging the child object with the spritesheet on it into this variable
 
-    public int currentWeapon;
+    public int currentWeapon = 1;
+    private bool justFired = false;
+    private bool firing = false;
+    private bool canFire = true;
+    private float timePassed = 0.0f;
 
     public float moveSpeed;
     public float strafeSpeed;
@@ -37,9 +42,21 @@ public class Player : MonoBehaviour
     public float collisionWidth;
     public float rayArcWidth;
 
-    [HideInInspector]
-    public float currentMovementSpeed;
+    [HideInInspector] public float currentMovementSpeed;
+    [HideInInspector] public bool inHackerman = false;
 
+    ////////////////////////////////////////////// Weapon Stuff <-- Replace most of this with Weapon Def stuff
+
+    public GameObject shotFXPistol;
+    //public GameObject shotFXShotgun;
+    //public GameObject shotFXPlasma;
+    //public GameObject shotFXRocket;
+    //public GameObject shotFXChaingun;
+
+    public float pistolFireTime;
+
+
+    //////////////////////////////////////////////
     // variables below this line need reassessing ///////////////////////////////////////////////////////////
 
     private float shootTime;
@@ -53,6 +70,8 @@ public class Player : MonoBehaviour
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         playerState = PlayerState.Idle;
+
+        playerController = GetComponent<CharacterController>();
 
         {
             //Instantiate(collisionMarker, transform.position, transform.rotation);
@@ -128,10 +147,52 @@ public class Player : MonoBehaviour
                 }
                 */
             } // old fucked shit
+
+            timePassed += Time.deltaTime;
+
+            if (justFired)
+            {
+                justFired = false;
+                shotFXPistol.SetActive(true);
+                firing = true;
+            }
+            if (firing)
+            {
+                if (currentWeapon == 1)
+                {
+                    if (timePassed >= pistolFireTime)
+                    {
+                        CheckHitscanShot();
+
+                        shotFXPistol.SetActive(false);
+                        timePassed = 0.0f;
+                        firing = false;
+                        canFire = true;
+                    }
+                }
+            }
         }
     }
 
     ////////////////////////////////
+
+    private void CheckHitscanShot()
+    {
+        RaycastHit hitInfo; // local variable to store raycast hit info in
+        LayerMask mask = ~(13);
+
+        Debug.DrawRay(transform.position + Vector3.up, transform.forward * 50.0f, Color.black, 1.0f);
+
+        if (Physics.Raycast(transform.position + Vector3.up, transform.forward, out hitInfo, Mathf.Infinity, mask, QueryTriggerInteraction.Collide))
+        {
+            Debug.Log(hitInfo.transform.gameObject);
+
+            if (hitInfo.transform.gameObject.tag == "Enemy")
+            {
+                Destroy(hitInfo.transform.gameObject);
+            }
+        }
+    }
 
 
     private void CalculateMovement()
@@ -158,13 +219,26 @@ public class Player : MonoBehaviour
 
         // final movement
 
-        CheckCollision();
+        {
+            //CheckCollision(); 
+        } /////////////////////////////////////////////////////////////////// old, replaced by character controller
 
         moveVector.y = 0.0f;
-        transform.position += moveVector * Time.deltaTime;
+
+        {
+
+            //transform.position += moveVector * Time.deltaTime;  
+        } /////////////////////////////////////////////////////////////////// old, replaced by character controller
+
+        playerController.Move(moveVector * Time.deltaTime);
+
+        if (!inHackerman)
+            transform.position = new Vector3(transform.position.x, 0.0f, transform.position.z);     // this is a hack to keep the player on the floor because the doors can push the player controller downwards
+        else
+            transform.position = new Vector3(transform.position.x, 4.0f, transform.position.z);     // yes, the height of the hackerman rooms is a total magic number (4)
 
         // rotation
-        
+
         Vector3 playerRotation = transform.rotation.eulerAngles;
         playerRotation.y += (YRotation + mouseRotation) * rotSpeed;
 
@@ -194,6 +268,8 @@ public class Player : MonoBehaviour
         //moveVector = Quaternion.AngleAxis(mouseRotation, Vector3.up) * moveVector;
     }
 
+
+    // this function should probably be deleted, as should all the "old" commented out crap. will clean this all up later once everything is working
 
     private void CheckCollision()
     {
@@ -405,7 +481,10 @@ public class Player : MonoBehaviour
                 }
             }
         }
-    }
+    }  /////////////////////////////////////////////////////////////////// old, replaced by character controller
+
+
+
 
     /////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////
@@ -415,7 +494,12 @@ public class Player : MonoBehaviour
     public void Shoot(InputAction.CallbackContext context)
     {
         //Debug.Log("##########");
-        playerState = PlayerState.Shooting;
+        if (canFire)
+        {
+            playerState = PlayerState.Shooting;
+            justFired = true;
+            canFire = false;
+        }
     }
 
     public void Walk(InputAction.CallbackContext context)

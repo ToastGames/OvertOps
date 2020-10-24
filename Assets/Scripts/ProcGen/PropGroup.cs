@@ -21,7 +21,7 @@ public class PropGroup : MonoBehaviour
     private List<GameObject> potentialProps = new List<GameObject>();
     private BoxCollider bounds;
 
-    void Start()
+    void Awake()
     {
         bounds = GetComponent<BoxCollider>();
 
