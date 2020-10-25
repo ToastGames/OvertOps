@@ -87,19 +87,14 @@ public class EnemyBasic : MonoBehaviour
         patrolPath = transform.parent.parent.transform.GetChild(1).GetComponent<EnemyPatrolPath>();
 
 
-
         patrolPathParent = GameObject.FindGameObjectWithTag("Patrol-Paths_Parent");                     // The patrol paths for all enemies actually get detached and reparented to a master parent in the scene (I cannot remember why)
         patrolPath.gameObject.transform.SetParent(patrolPathParent.transform);                          // so after finding the parent in the line above, it is then attached to it here
-
-        // ^ why was I doing this again? It only seems to be causing problems
-        // wait, never mind, I have discovered why
-        // I'm going to have to put this into a separate function, that gets called after all the rooms have been generated
-
 
 
         playerTarget = GameObject.FindGameObjectWithTag("Player");                                      // Set the player as the enemy target
         pathLoop = patrolPath.loop;                                                                     // if the path loops or not has to be derived from another object, so it's grabbed here
         state = EnemyState.Patrolling;                                                                  // Set initial STATE to PATROLLING
+        //state = EnemyState.Idle;
         //state = EnemyState.Roaming;
         currentNodePosition = patrolPath.pathNodes[currentNode].transform.position;                     // set "current position" -> the nex path to move to as the first node in the node path position list
         enemyPrefab.transform.position = patrolPath.pathNodes[0].transform.position;

@@ -47,7 +47,7 @@ MonoBehaviour:
     type: 3}
   testObject2: {fileID: 7192695510427784256, guid: 05359170e93a9a1409090259cf170030,
     type: 3}
-  RoomCount: 6
+  RoomCount: 4
   RoomPrefabs:
   - {fileID: 4604455631257033578, guid: b55cd101b2737dd45aa37c5a86d92785, type: 3}
   - {fileID: 5317768823311363746, guid: b6d00dcc422084343bdf1aa245d13898, type: 3}
