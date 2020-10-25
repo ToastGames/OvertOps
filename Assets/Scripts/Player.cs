@@ -72,13 +72,6 @@ public class Player : MonoBehaviour
         playerState = PlayerState.Idle;
 
         playerController = GetComponent<CharacterController>();
-
-        {
-            //Instantiate(collisionMarker, transform.position, transform.rotation);
-
-            //shootTime = (1 / playerSpriteObject.GetComponent<Renderer>().material.GetFloat("_FrameRate")) * (playerSpriteDefList.GetComponent<SpriteDefList>().SpriteFramesDefs[1].GetComponent<SpriteFamesDef>().shootingEndFrame - playerSpriteDefList.GetComponent<SpriteDefList>().SpriteFramesDefs[1].GetComponent<SpriteFamesDef>().shootingStartFrame);
-            //Debug.Log(shootTime);
-        } // old fucked shit
     }
 
 
@@ -89,22 +82,8 @@ public class Player : MonoBehaviour
         CheckMouseMovement();
         CalculateMovement();
 
-        //Debug.Log("Player Health: " + health);
-
         CheckState();
     }
-
-    /* // probably delete this function
-    void LateUpdate()
-    {
-        CalculateMovement();
-        CheckCollision();
-
-        transform.Translate(moveVector + adjustmentVector);                         // Let's do this differently --> see Richard's code
-        adjustmentVector = Vector3.zero;                                            //
-        transform.Rotate(transform.up, (YRotation * rotSpeed * Time.deltaTime));    //
-    }
-    */
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //
@@ -130,24 +109,6 @@ public class Player : MonoBehaviour
         }
         if (playerState == PlayerState.Shooting)
         {
-            {
-                /*
-                tempMaterial.SetFloat("_AnimationNumber", playerSpriteDefList.GetComponent<SpriteDefList>().SpriteFramesDefs[1].GetComponent<SpriteFamesDef>().shootingAnimNumber);
-                tempMaterial.SetFloat("_FrameOffset", playerSpriteDefList.GetComponent<SpriteDefList>().SpriteFramesDefs[1].GetComponent<SpriteFamesDef>().shootingStartFrame);
-                tempMaterial.SetFloat("_FrameCount", playerSpriteDefList.GetComponent<SpriteDefList>().SpriteFramesDefs[1].GetComponent<SpriteFamesDef>().shootingEndFrame - playerSpriteDefList.GetComponent<SpriteDefList>().SpriteFramesDefs[1].GetComponent<SpriteFamesDef>().shootingStartFrame + 1);
-
-                accumulatedShootTime += Time.deltaTime;
-
-                //Debug.Log(accumulatedShootTime);
-
-                if (accumulatedShootTime >= shootTime)
-                {
-                    accumulatedShootTime = 0.0f;
-                    playerState = PlayerState.Idle;
-                }
-                */
-            } // old fucked shit
-
             timePassed += Time.deltaTime;
 
             if (justFired)
@@ -197,14 +158,6 @@ public class Player : MonoBehaviour
 
     private void CalculateMovement()
     {
-        {   
-        //Vector3 tempVector = new Vector3(LRMovement * moveSpeed * Time.deltaTime, 0.0f, FBMovement * moveSpeed * Time.deltaTime);
-        //Vector3 rotatedTempVector = Quaternion.AngleAxis(transform.rotation.y, transform.up) * tempVector;
-
-        //moveVector = rotatedTempVector;
-        }   // this is my first attempt, bleow is very simlar, but better code adapted from Richard
-
-
         // apply movement and strafing
 
         Vector3 targetVelocity = transform.forward * FBMovement * moveSpeed;
@@ -219,16 +172,7 @@ public class Player : MonoBehaviour
 
         // final movement
 
-        {
-            //CheckCollision(); 
-        } /////////////////////////////////////////////////////////////////// old, replaced by character controller
-
         moveVector.y = 0.0f;
-
-        {
-
-            //transform.position += moveVector * Time.deltaTime;  
-        } /////////////////////////////////////////////////////////////////// old, replaced by character controller
 
         playerController.Move(moveVector * Time.deltaTime);
 
@@ -258,232 +202,12 @@ public class Player : MonoBehaviour
 
         var mouse = Mouse.current;
         Vector2 mouseDelta = mouse.delta.ReadValue();
-        //Debug.Log(currentMouseDelta);
 
         // ok, this stuff I added myself;
         mouseRotation = mouseDelta.x * mouseRotSpeed * Time.deltaTime;
         Mathf.Clamp(mouseRotation, -mouseRotSpeed, mouseRotSpeed);
 
-        //// rotate move vector // ok, this doesn't do shit apparently
-        //moveVector = Quaternion.AngleAxis(mouseRotation, Vector3.up) * moveVector;
     }
-
-
-    // this function should probably be deleted, as should all the "old" commented out crap. will clean this all up later once everything is working
-
-    private void CheckCollision()
-    {
-        {
-            // Basically doing the exact same thing 5 times with all rays in this function because I am lazy
-            // (I should really try and turn this into a list or array at some point and use a for loop)
-
-            // COLLISION DISABLED FOR NOW BECAUSE IT'S FUUUUUUCKED AND GETS IN THE WAY OF TESTING OTHER STUFF
-            /*
-
-            // forward facing
-            RaycastHit hit1; // right
-            RaycastHit hit2; // middle
-            RaycastHit hit3; // left
-
-            // sideways facing
-            RaycastHit hit4; // right
-            RaycastHit hit5; // middle
-
-            Vector3 ray1Start = new Vector3();
-            Vector3 ray1End = new Vector3();
-            Vector3 ray2Start = new Vector3();
-            Vector3 ray2End = new Vector3();
-            Vector3 ray3Start = new Vector3();
-            Vector3 ray3End = new Vector3();
-            ///////
-            Vector3 ray4Start = new Vector3();
-            Vector3 ray4End = new Vector3();
-            Vector3 ray5Start = new Vector3();
-            Vector3 ray5End = new Vector3();
-
-            ray1Start = transform.position + (transform.right * collisionWidth) + transform.up;
-            ray1End = transform.position + (transform.right * collisionWidth) + (transform.forward * rayCheckLength) + transform.up;
-            ray2Start = transform.position + transform.up;
-            ray2End = transform.position + (transform.forward * rayCheckLength) + transform.up;
-            ray3Start = transform.position - (transform.right * collisionWidth) + transform.up;
-            ray3End = transform.position - (transform.right * collisionWidth) + (transform.forward * rayCheckLength) + transform.up;
-            ///////
-            ray4Start = transform.position + transform.up;
-            ray4End = transform.position + (transform.right * rayCheckLength) + transform.up;
-            ray5Start = transform.position + transform.up;
-            ray5End = transform.position - (transform.right * rayCheckLength) + transform.up;
-
-            Debug.DrawLine(ray1Start, ray1End, Color.red);
-            Debug.DrawLine(ray2Start, ray2End, Color.yellow);
-            Debug.DrawLine(ray3Start, ray3End, Color.red);
-            ///////
-            Debug.DrawLine(ray4Start, ray4End, Color.blue);
-            Debug.DrawLine(ray5Start, ray5End, Color.blue);
-
-            ////////////////////////////////////// Literally everything above this line is just to construct and visualise the raycasts
-
-            if (Physics.Raycast(ray1Start, transform.forward, out hit1, rayCheckLength))
-            {
-                if (hit1.transform.gameObject.tag == "Wall")
-                {
-                    collisionMarker.transform.position = hit1.point;
-                    Debug.DrawLine(hit1.point, hit1.point + hit1.normal, Color.white);
-
-                    //adjustmentVector = ((hit1.point - transform.position) * -1) + transform.up; //// old test thing
-                    Vector3 tempVector = (ray1End - hit1.point);
-                    adjustmentVector = Vector3.Reflect(tempVector, hit1.normal);
-
-                    Debug.DrawLine(hit1.point, hit1.point + adjustmentVector, Color.magenta);
-                }
-            }
-            else if (Physics.Raycast(ray2Start, transform.forward, out hit2, rayCheckLength))
-            {
-                if (hit2.transform.gameObject.tag == "Wall")
-                {
-                    collisionMarker.transform.position = hit2.point;
-                    Debug.DrawLine(hit2.point, hit2.point + hit2.normal, Color.white);
-
-                    Vector3 tempVector = (ray2End - hit2.point);
-                    adjustmentVector = Vector3.Reflect(tempVector, hit2.normal);
-
-                    Debug.DrawLine(hit2.point, hit2.point + adjustmentVector, Color.magenta);
-                }
-            }
-            else if(Physics.Raycast(ray3Start, transform.forward, out hit3, rayCheckLength))
-            {
-                if (hit3.transform.gameObject.tag == "Wall")
-                {
-                    collisionMarker.transform.position = hit3.point;
-                    Debug.DrawLine(hit3.point, hit3.point + hit3.normal, Color.white);
-
-                    Vector3 tempVector = (ray3End - hit3.point);
-                    adjustmentVector = Vector3.Reflect(tempVector, hit3.normal);
-
-                    Debug.DrawLine(hit3.point, hit3.point + adjustmentVector, Color.magenta);
-                }
-            }
-            else if (Physics.Raycast(ray4Start, transform.forward, out hit4, rayCheckLength))
-            {
-                if (hit4.transform.gameObject.tag == "Wall")
-                {
-                    collisionMarker.transform.position = hit4.point;
-                    Debug.DrawLine(hit4.point, hit4.point + hit4.normal, Color.white);
-
-                    Vector3 tempVector = (ray4End - hit4.point);
-                    adjustmentVector = Vector3.Reflect(tempVector, hit4.normal);
-
-                    Debug.DrawLine(hit4.point, hit4.point + adjustmentVector, Color.magenta);
-                }
-            }
-            else if (Physics.Raycast(ray5Start, transform.forward, out hit5, rayCheckLength))
-            {
-                if (hit5.transform.gameObject.tag == "Wall")
-                {
-                    collisionMarker.transform.position = hit5.point;
-                    Debug.DrawLine(hit5.point, hit5.point + hit5.normal, Color.white);
-
-                    Vector3 tempVector = (ray5End - hit5.point);
-                    adjustmentVector = Vector3.Reflect(tempVector, hit5.normal);
-
-                    Debug.DrawLine(hit5.point, hit5.point + adjustmentVector, Color.magenta);
-                }
-            }
-            */
-        } // old fucked shit
-
-        // ok, let's try this again
-
-        for (int i = 0; i < rayCount; i++)
-        {
-            float rayIncrement = (rayArcWidth * 2) / rayCount;
-
-            RaycastHit hitInfo;
-
-            ///////////////////////////////////// this section that tries to calculate an arc of rays is fucked, but I've wasted enough time on it for now, come back to it later)
-            /*
-            Vector3 tempVector = Vector3.forward;
-            tempVector.x -= rayArcWidth;
-            tempVector.x += rayIncrement * i;
-
-            float tempAngle = Mathf.Acos(Vector3.Dot(Vector3.forward, transform.forward) / (Vector3.forward.magnitude * transform.forward.magnitude));
-            Quaternion tempRotation = Quaternion.AngleAxis(-tempAngle, Vector3.up);
-            tempVector = tempRotation * tempVector;
-            
-            /////////////////////////////////////
-
-            Vector3 checkVector = transform.forward;// + tempVector;  // by commenting out this tempvector getting added on, it's essentially skipping all the shit above
-
-            Vector3 normalisedMoveVector = Vector3.Normalize(checkVector);
-            */
-            Vector3 normalisedMoveVector = Vector3.Normalize(moveVector);
-
-            ////Quaternion tempQuat = Quaternion.LookRotation(Vector3.Normalize(moveVector + new Vector3(rayIncrement * i, 0.0f, 0.0f)));
-            ////Vector3 normalisedMoveVector = Vector3.RotateTowards(moveVector, tempQuat.eulerAngles, 1000.0f, 1000.0f);
-
-            
-
-            Debug.DrawRay(transform.position + Vector3.up, normalisedMoveVector + (transform.forward * rayCheckLength), new Color(1.0f, 0.5f, 0.0f));
-            Debug.DrawRay(transform.position + Vector3.up + (transform.right * collisionWidth), normalisedMoveVector, new Color(1.0f, 0.5f, 0.0f));
-            Debug.DrawRay(transform.position + Vector3.up - (transform.right * collisionWidth), normalisedMoveVector, new Color(1.0f, 0.5f, 0.0f));
-
-            if (Physics.Raycast(transform.position + Vector3.up, normalisedMoveVector + (transform.forward * rayCheckLength), out hitInfo, rayCheckLength))
-            {
-                if ((hitInfo.transform.gameObject.tag == "Wall") || (hitInfo.transform.gameObject.tag == "WallPlayerOnly"))
-                {
-                    Debug.DrawRay(hitInfo.point, hitInfo.normal, new Color(1.0f, 0.5f, 0.5f));
-
-                    {
-                        /*
-                        if (Mathf.Abs(hitInfo.normal.z) > 0.0f)
-                        {
-                            ////Vector3 temp = transform.TransformPoint(moveVector);
-                            ////temp.z = 0.0f;
-                            ////moveVector = transform.InverseTransformPoint(temp);
-
-                            //moveVector.z = 0.0f;
-
-
-                            //////Vector3 temp = transform.TransformPoint(moveVector);
-                            //////float newMagnitude = temp.x;
-                            //////moveVector = new Vector3(newMagnitude, 0.0f, 0.0f);
-                            //moveVector = Vector3.Normalize(moveVector);
-
-                            //////Debug.DrawRay(transform.position, moveVector, new Color(0.5f, 0.0f, 1.0f));
-
-
-                            moveVector = hitInfo.normal;
-                        }   // several fucked attempts in here
-                        if (Mathf.Abs(hitInfo.normal.x) > 0.0f)
-                            moveVector.x = 0.0f;
-                        */
-                    }   // several fucked attempts in here
-
-                    //moveVector = hitInfo.normal * rayCheckLength;
-                    moveVector = Vector3.Reflect(moveVector, hitInfo.normal);
-                }
-            }
-            if (Physics.Raycast(transform.position + Vector3.up + (transform.right * collisionWidth), normalisedMoveVector, out hitInfo, rayCheckLength))
-            {
-                if ((hitInfo.transform.gameObject.tag == "Wall") || (hitInfo.transform.gameObject.tag == "WallPlayerOnly"))
-                {
-                    Debug.DrawRay(hitInfo.point, hitInfo.normal, new Color(1.0f, 0.5f, 0.5f));
-                    //moveVector = hitInfo.normal * rayCheckLength;
-                    moveVector = Vector3.Reflect(moveVector, hitInfo.normal);
-                }
-            }
-            if (Physics.Raycast(transform.position + Vector3.up - (transform.right * collisionWidth), normalisedMoveVector, out hitInfo, rayCheckLength))
-            {
-                if ((hitInfo.transform.gameObject.tag == "Wall") || (hitInfo.transform.gameObject.tag == "WallPlayerOnly"))
-                {
-                    Debug.DrawRay(hitInfo.point, hitInfo.normal, new Color(1.0f, 0.5f, 0.5f));
-                    //moveVector = hitInfo.normal * rayCheckLength;
-                    moveVector = Vector3.Reflect(moveVector, hitInfo.normal);
-                }
-            }
-        }
-    }  /////////////////////////////////////////////////////////////////// old, replaced by character controller
-
-
 
 
     /////////////////////////////////////////////////////////////////////////////
