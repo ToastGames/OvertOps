@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RoomManager : MonoBehaviour
+public class LevelManager : MonoBehaviour
 {
     public int maxWeapons;
     public int maxAmmo;

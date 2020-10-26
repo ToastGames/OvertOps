@@ -355,7 +355,7 @@ public class LevelGenerator : MonoBehaviour
                 }
 
 
-                if (i > 0)
+                if ((i > 0) && (prevDoor != null))
                 {
                     GameObject prevStyleListObject = prevRoom.transform.Find("StyleList").gameObject;
 

@@ -45,6 +45,16 @@ public class Player : MonoBehaviour
     [HideInInspector] public float currentMovementSpeed;
     [HideInInspector] public bool inHackerman = false;
 
+    private float hackermanTimer = 0.0f;
+    public float hackermanDuration;
+    [HideInInspector] public Vector3 terminalReturnPosition;
+    [HideInInspector] public Quaternion terminalReturnRotation;
+    private GameObject hackermanPickupObjects;
+
+
+    [HideInInspector] public bool interactPressed = false;
+
+
     ////////////////////////////////////////////// Weapon Stuff <-- Replace most of this with Weapon Def stuff
 
     public GameObject shotFXPistol;
@@ -64,6 +74,10 @@ public class Player : MonoBehaviour
     private float hurtTime;
     private float deathTime;
 
+    private void Awake()
+    {
+        hackermanPickupObjects = GameObject.FindGameObjectWithTag("Object_Parent_Hackerman");
+    }
 
     private void Start()
     {
@@ -83,13 +97,36 @@ public class Player : MonoBehaviour
         CalculateMovement();
 
         CheckState();
+
+        CheckHackerman();
+
+        if (Keyboard.current.fKey.wasPressedThisFrame)
+            interactPressed = true;
+        else
+            interactPressed = false;
+
+        Debug.Log(interactPressed);
+        Debug.Log(hackermanPickupObjects);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
-    //
-    //      PLAYER IS FUUUUUUCKED..... BASICALLY GOING TO GUT IT AND START AGAIN        // <-- currently in the process of doing so, its _better_ but still has big problems
-    //
-    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    private void CheckHackerman()
+    {
+        if (inHackerman)
+            hackermanTimer += Time.deltaTime;
+        else
+            hackermanTimer = 0.0f;
+
+        if (hackermanTimer >= hackermanDuration)
+        {
+            inHackerman = false;
+            hackermanPickupObjects.SetActive(false);
+            transform.position = terminalReturnPosition;
+            transform.rotation = terminalReturnRotation;
+        }
+    }
+
 
     private void CheckState()
     {
@@ -206,7 +243,6 @@ public class Player : MonoBehaviour
         // ok, this stuff I added myself;
         mouseRotation = mouseDelta.x * mouseRotSpeed * Time.deltaTime;
         Mathf.Clamp(mouseRotation, -mouseRotSpeed, mouseRotSpeed);
-
     }
 
 
@@ -217,7 +253,7 @@ public class Player : MonoBehaviour
 
     public void Shoot(InputAction.CallbackContext context)
     {
-        //Debug.Log("##########");
+        Debug.Log("##########");
         if (canFire)
         {
             playerState = PlayerState.Shooting;

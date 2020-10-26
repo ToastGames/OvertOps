@@ -50,10 +50,6 @@ MonoBehaviour:
   RoomCount: 5
   RoomPrefabs:
   - {fileID: 4604455631257033578, guid: b55cd101b2737dd45aa37c5a86d92785, type: 3}
-  - {fileID: 5317768823311363746, guid: b6d00dcc422084343bdf1aa245d13898, type: 3}
-  - {fileID: 5317768823311363746, guid: 1b1e09b181c431643ab12bc08592a326, type: 3}
-  - {fileID: 5317768823311363746, guid: 319127be5a26eed4192d6c3b12d0e662, type: 3}
-  - {fileID: 5317768823311363746, guid: 0157bb6209a220b43930fbfd1d52f76d, type: 3}
   doorObject: {fileID: 573395455113094864, guid: f50fe988f34dedc4787a5dfe9abf7e88,
     type: 3}
   elevatorDoorObject: {fileID: 2547344022091865278, guid: 5e90ddab932c13f40a961f937378ed1a,

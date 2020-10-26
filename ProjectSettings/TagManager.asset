@@ -28,6 +28,7 @@ TagManager:
   - HACKERMANOBJECTS_Parent
   - Object_Parent_Hackerman
   - Enemy
+  - GameManager
   layers:
   - Default
   - TransparentFX
