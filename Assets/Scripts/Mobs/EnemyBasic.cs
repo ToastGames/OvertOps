@@ -194,16 +194,9 @@ public class EnemyBasic : MonoBehaviour
         spritePlane.transform.eulerAngles = new Vector3(0.0f, playerTarget.transform.eulerAngles.y, 0.0f);
     }
 
-    private void OnTriggerEnter(Collider other)                             // Doesn't do anything yet, but we're going to need this when it comes to getting shot and damaging the player etc
-    {
-        /*
-        if (other.tag == "Player")
-            other.gameObject.GetComponent<Player>().isDead = true;
 
-        if (other.tag == "PlayerProjectile")
-            Kill();
-        */
-    }
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
     public void Kill()                                                      // This function is also never called, it's here as a legacy from when I copy and pasted the initial basic enemy behaviour from Shape Wars
     {
@@ -212,7 +205,7 @@ public class EnemyBasic : MonoBehaviour
 
     void UpdateAnimation()
     {
-        // ALL THE NUMBERS (angles) ARE HARD CODED AS FUCK.......... PROBABLY FIX THIS AS SOME POINT
+        // ALL THE NUMBERS (angles) ARE HARD CODED AS FUCK.......... (this seems to be fixed now?)
 
         if ((angleToPlayer > -forwardAngle) && (angleToPlayer < forwardAngle))
         {
@@ -347,24 +340,5 @@ public class EnemyBasic : MonoBehaviour
         enemyPrefab.transform.eulerAngles = new Vector3(0.0f, enemyPrefab.transform.eulerAngles.y, 0.0f);   // zero out X and Z angles after billboarding so enemy sprite stays aligned to the vertical ( Y ) axis
     }
 
-
-    /////////////////////////// This function purely exists to draw the debug rays at editor time and is an exact copy and paste of the code above
-    /////////////////////////// (again, it's really bad to dupe code like this, so at some point I should probably turn this into a fucntion that gets called from here and from the collision detection
-
-    private void OnDrawGizmos()
-    {
-        /*
-        Vector3 offsetLeft = new Vector3((rayWidth / 2) * -1, 0.0f, 0.0f) + Vector3.up;
-        Vector3 offsetRight = new Vector3((rayWidth / 2), 0.0f, 0.0f) + Vector3.up;
-        offsetLeft = Quaternion.AngleAxis(transform.eulerAngles.y, Vector3.up) * offsetLeft;
-        offsetRight = Quaternion.AngleAxis(transform.eulerAngles.y, Vector3.up) * offsetRight;
-
-        Debug.DrawRay(enemyPrefab.transform.position + offsetLeft, enemyPrefab.transform.forward * wallCollisionRange, Color.red);
-        Debug.DrawRay(enemyPrefab.transform.position + offsetRight, enemyPrefab.transform.forward * wallCollisionRange, Color.blue);
-
-        ////// Draw line between enemy and player (this is the ray that will be checked for line of sight               // ALSO, probably not going to do shit because the enemies only spawn at runtime now
-        Debug.DrawLine(transform.position + Vector3.up, playerTarget.transform.position + Vector3.up, Color.magenta);   // ok, it does, but only at run time, so there are double magenta lines...
-        */
-    }
 
 }

@@ -271,46 +271,8 @@ public class LevelGenerator : MonoBehaviour
 
 
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            // Intersection detection of room generation is STILL BUGGY AS FUCK. Need to come back to this later with fresh eyes
+            // Intersection detection of room generation
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-            {
-            /*
-            testPoints[0] = currentCollider.transform.position.x + currentCollider.bounds.extents.x;
-            testPoints[1] = currentCollider.transform.position.x - currentCollider.bounds.extents.x;
-            testPoints[2] = currentCollider.transform.position.z + currentCollider.bounds.extents.z;
-            testPoints[3] = currentCollider.transform.position.z - currentCollider.bounds.extents.z;
-
-            bool keepChecking = true;
-
-            for (int j = 0; j < allRoomColliders.Count; j++)
-            {
-                if ((i > 0) && (keepChecking))
-                {
-                    testPoints2[0] = allRoomColliders[j].transform.position.x + allRoomColliders[j].bounds.extents.x;
-                    testPoints2[1] = allRoomColliders[j].transform.position.x - allRoomColliders[j].bounds.extents.x;
-                    testPoints2[2] = allRoomColliders[j].transform.position.z + allRoomColliders[j].bounds.extents.z;
-                    testPoints2[3] = allRoomColliders[j].transform.position.z - allRoomColliders[j].bounds.extents.z;
-
-                    if ((((testPoints[1] > testPoints2[1]) && (testPoints[1] < testPoints2[0])) ||
-                         ((testPoints[0] < testPoints2[0]) && (testPoints[0] > testPoints2[1])))
-                        &&
-                        (((testPoints[3] > testPoints2[3]) && (testPoints[3] < testPoints2[2])) ||
-                         ((testPoints[2] < testPoints2[2]) && (testPoints[2] > testPoints2[3]))))
-                    {
-                        isCollision = true;
-                        keepChecking = false;
-                    }
-                    else
-                        isCollision = false;
-                }
-            }
-            allRoomColliders.Add(currentCollider);  // <-- do I still need this shit? maybe strip it out later if other method ends up working
-            */
-            }   //turning off old version and starting again from scratch
-
-
-            // changed location of this shit to way up the top straight after the room gets spawned
 
 
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////
