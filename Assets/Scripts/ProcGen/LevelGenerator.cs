@@ -58,6 +58,7 @@ public class LevelGenerator : MonoBehaviour
 
         for (int i = 0; i < 4; i++) { testPoints.Add(0.0f); testPoints2.Add(0.0f); } // putting all this on one line to save space because it's not important
 
+        int prevStyleType = 0;
 
         // Assign nodes to variables by tag so it doesn't matter if the prefab heirarchy gets rearranged
 
@@ -360,10 +361,10 @@ public class LevelGenerator : MonoBehaviour
                     GameObject prevStyleListObject = prevRoom.transform.Find("StyleList").gameObject;
 
                     // set doorway textures for _previous_ doorway (if there is one)
-                    prevDoor.transform.GetChild(0).transform.GetChild(0).GetComponent<MeshRenderer>().material.SetTexture("_OverlayTexture", prevStyleListObject.GetComponent<RoomStyleTypes>().roomStyleDefs[newRoomStyleType].GetComponent<RoomStyleDef>().DoorFloorTexture);
-                    prevDoor.transform.GetChild(0).transform.GetChild(1).GetComponent<MeshRenderer>().material.SetTexture("_OverlayTexture", prevStyleListObject.GetComponent<RoomStyleTypes>().roomStyleDefs[newRoomStyleType].GetComponent<RoomStyleDef>().DoorWallTexture);
-                    prevDoor.transform.GetChild(0).transform.GetChild(2).GetComponent<MeshRenderer>().material.SetTexture("_OverlayTexture", prevStyleListObject.GetComponent<RoomStyleTypes>().roomStyleDefs[newRoomStyleType].GetComponent<RoomStyleDef>().DoorWallTexture);
-                    prevDoor.transform.GetChild(0).transform.GetChild(3).GetComponent<MeshRenderer>().material.SetTexture("_OverlayTexture", prevStyleListObject.GetComponent<RoomStyleTypes>().roomStyleDefs[newRoomStyleType].GetComponent<RoomStyleDef>().DoorRoofTexture);
+                    prevDoor.transform.GetChild(0).transform.GetChild(0).GetComponent<MeshRenderer>().material.SetTexture("_OverlayTexture", prevStyleListObject.GetComponent<RoomStyleTypes>().roomStyleDefs[prevStyleType].GetComponent<RoomStyleDef>().DoorFloorTexture);
+                    prevDoor.transform.GetChild(0).transform.GetChild(1).GetComponent<MeshRenderer>().material.SetTexture("_OverlayTexture", prevStyleListObject.GetComponent<RoomStyleTypes>().roomStyleDefs[prevStyleType].GetComponent<RoomStyleDef>().DoorWallTexture);
+                    prevDoor.transform.GetChild(0).transform.GetChild(2).GetComponent<MeshRenderer>().material.SetTexture("_OverlayTexture", prevStyleListObject.GetComponent<RoomStyleTypes>().roomStyleDefs[prevStyleType].GetComponent<RoomStyleDef>().DoorWallTexture);
+                    prevDoor.transform.GetChild(0).transform.GetChild(3).GetComponent<MeshRenderer>().material.SetTexture("_OverlayTexture", prevStyleListObject.GetComponent<RoomStyleTypes>().roomStyleDefs[prevStyleType].GetComponent<RoomStyleDef>().DoorRoofTexture);
                 }
 
                 // set doorway textures for _next_ doorway
@@ -403,6 +404,8 @@ public class LevelGenerator : MonoBehaviour
 
                 prevRoom = newGameObject;
                 prevDoor = newDoorObject;
+
+                prevStyleType = newRoomStyleType;
 
                 //////////////////////////////////////////////// here seems like as good a place as any to spawn the hackerman doors
 
