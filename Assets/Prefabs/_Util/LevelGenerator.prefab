@@ -77,4 +77,4 @@ MonoBehaviour:
     type: 2}
   lineObject: {fileID: 5197568281040942818, guid: df69ec70d43a1024aa37b9bbc4b0686f,
     type: 3}
-  linePercentChance: 15
+  linePercentChance: 5

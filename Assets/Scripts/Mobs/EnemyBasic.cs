@@ -43,6 +43,7 @@ public class EnemyBasic : MonoBehaviour
     private GameObject playerTarget;            // these 5 things are private because they cannot be assigned in te prefab, and have to be scraped out of the scene by traversing the heirarchy
 
     public GameObject shootParticles;
+    public Transform shootFXLocation;
 
     public float wallCollisionRange;            // gameplay variables, tweak to taste
     public float rayWidth;
@@ -77,6 +78,12 @@ public class EnemyBasic : MonoBehaviour
 
     private float stateTimePassed = 0.0f;
     private bool canShoot = false;
+
+    ////////////////////////////////
+
+    public AudioClip shootSoundClip;
+    public GameObject emptySound;
+
 
     void Start()
     {
@@ -136,10 +143,18 @@ public class EnemyBasic : MonoBehaviour
 
                 if (canShoot)
                 {
-                    Instantiate(shootParticles, enemyPrefab.transform.position, Quaternion.identity);
+                    GameObject newEmptySound = Instantiate(emptySound, transform.position, transform.rotation) as GameObject;
+                    newEmptySound.GetComponent<EmptySound>().soundToPlay = shootSoundClip;
+                    newEmptySound.GetComponent<EmptySound>().playSound();
+                    Destroy(newEmptySound, shootSoundClip.length);
+
+
+                    Instantiate(shootParticles, shootFXLocation.position, Quaternion.identity);
                     playerTarget.GetComponent<Player>().health -= shootDamage;
                     stateTimePassed = 0.0f;
                     canShoot = false;
+
+                    Debug.Log(playerTarget.GetComponent<Player>().health);
                 }
             }
             if (CheckForPlayer() == false)

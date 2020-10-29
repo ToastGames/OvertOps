@@ -9,7 +9,9 @@ public class Player : MonoBehaviour
     // NEEDS COMMENTS PASS //
     /////////////////////////
 
-    public enum PlayerState { Idle, Shooting, Reloading, Walking, Hurt, Dying }
+    public enum PlayerState { Idle, Shooting, Reloading, Walking, Hurt, Dying, Dead }
+
+    private GameManager gameManager;
 
     private CharacterController playerController;
 
@@ -54,6 +56,8 @@ public class Player : MonoBehaviour
 
     [HideInInspector] public bool interactPressed = false;
 
+    public List<AudioClip> weaponSounds = new List<AudioClip>();
+    private AudioSource playerAudio;
 
     ////////////////////////////////////////////// Weapon Stuff <-- Replace most of this with Weapon Def stuff
 
@@ -81,11 +85,17 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
+        gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         playerState = PlayerState.Idle;
 
         playerController = GetComponent<CharacterController>();
+        playerAudio = GetComponent<AudioSource>();
+
+        ////// currently just always set the shoot sound to audio 1 --> later change the audio clip when the weapon changes
+        playerAudio.clip = weaponSounds[0];
     }
 
 
@@ -96,20 +106,23 @@ public class Player : MonoBehaviour
         CheckMouseMovement();
         CalculateMovement();
 
+        CheckInput();
         CheckState();
 
         CheckHackerman();
 
-        if (Keyboard.current.fKey.wasPressedThisFrame)
-            interactPressed = true;
-        else
-            interactPressed = false;
-
-        Debug.Log(interactPressed);
-        Debug.Log(hackermanPickupObjects);
+        CheckHealth();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    private void CheckHealth()
+    {
+        if (health <= 0)
+            KillPlayer();
+    }
+
+
 
     private void CheckHackerman()
     {
@@ -152,6 +165,7 @@ public class Player : MonoBehaviour
             {
                 justFired = false;
                 shotFXPistol.SetActive(true);
+                playerAudio.Play();
                 firing = true;
             }
             if (firing)
@@ -183,7 +197,7 @@ public class Player : MonoBehaviour
 
         if (Physics.Raycast(transform.position + Vector3.up, transform.forward, out hitInfo, Mathf.Infinity, mask, QueryTriggerInteraction.Collide))
         {
-            Debug.Log(hitInfo.transform.gameObject);
+            //Debug.Log(hitInfo.transform.gameObject);
 
             if (hitInfo.transform.gameObject.tag == "Enemy")
             {
@@ -227,6 +241,27 @@ public class Player : MonoBehaviour
         
     }
 
+    /////////////////////////////////////////////////////////////////////////////
+
+    private void KillPlayer()
+    {
+        playerState = PlayerState.Dead;
+        transform.GetChild(1).transform.GetChild(0).transform.GetChild(2).gameObject.SetActive(true);
+    }
+
+    private void UnKillPlayer()
+    {
+        playerState = PlayerState.Idle;
+        transform.GetChild(1).transform.GetChild(0).transform.GetChild(2).gameObject.SetActive(false);
+        gameManager.ReLoadLevel();
+    }
+
+
+    /////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////// INPUT STUFF ////////////////////////////////
+
+
     private void CheckMouseMovement()
     {
         // Why the FUCK does this work?
@@ -241,16 +276,54 @@ public class Player : MonoBehaviour
         Vector2 mouseDelta = mouse.delta.ReadValue();
 
         // ok, this stuff I added myself;
-        mouseRotation = mouseDelta.x * mouseRotSpeed * Time.deltaTime;
-        Mathf.Clamp(mouseRotation, -mouseRotSpeed, mouseRotSpeed);
+        if (playerState != PlayerState.Dead)
+        {
+            mouseRotation = mouseDelta.x * mouseRotSpeed * Time.deltaTime;
+            Mathf.Clamp(mouseRotation, -mouseRotSpeed, mouseRotSpeed);
+        }
     }
 
+
+    private void CheckInput()
+    {
+        var mouse = Mouse.current;
+
+        if (playerState != PlayerState.Dead)
+        {
+            if (mouse.leftButton.isPressed)
+            {
+                if (canFire)
+                {
+                    playerState = PlayerState.Shooting;
+                    justFired = true;
+                    canFire = false;
+                }
+            }
+
+            if (Keyboard.current.fKey.wasPressedThisFrame)
+                interactPressed = true;
+            else
+                interactPressed = false;
+        }
+        else
+        {
+            if (Keyboard.current.rKey.wasPressedThisFrame)
+                UnKillPlayer();
+        }
+
+
+        if (Keyboard.current.kKey.wasPressedThisFrame)
+            KillPlayer();
+    }
 
     /////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////
     //////////////////////////////// INPUT STUFF ////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////// KINDA FUCKED ///////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////
 
+    /*
     public void Shoot(InputAction.CallbackContext context)
     {
         Debug.Log("##########");
@@ -262,18 +335,24 @@ public class Player : MonoBehaviour
         }
     }
 
+    */
+
+
     public void Walk(InputAction.CallbackContext context)
     {
-        FBMovement = context.ReadValue<float>();
+        if (playerState != PlayerState.Dead)
+            FBMovement = context.ReadValue<float>();
     }
 
     public void Strafe(InputAction.CallbackContext context)
     {
-        LRMovement = context.ReadValue<float>();
+        if (playerState != PlayerState.Dead)
+            LRMovement = context.ReadValue<float>();
     }
 
     public void Turn(InputAction.CallbackContext context)
     {
-        YRotation = context.ReadValue<float>();
+        if (playerState != PlayerState.Dead)
+            YRotation = context.ReadValue<float>();
     }
 }

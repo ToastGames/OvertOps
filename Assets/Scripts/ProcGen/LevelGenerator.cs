@@ -110,7 +110,7 @@ public class LevelGenerator : MonoBehaviour
             Instantiate(testObject2, pos4, currentCollider.transform.rotation);
             Debug.Log(allRoomColliders.Count);
             */
-            }
+            } // Debug spawn objects at the corners of the bounds /////////////////////////////////////////
 
             for (int b = 0; b < allRoomColliders.Count; b++)
             {
@@ -339,6 +339,14 @@ public class LevelGenerator : MonoBehaviour
                 newDoorObject.transform.GetChild(0).transform.GetChild(2).GetComponent<MeshRenderer>().material.SetTexture("_TrimTexture", styleListObject.GetComponent<RoomStyleTypes>().roomStyleDefs[newRoomStyleType].GetComponent<RoomStyleDef>().DoorTrimTexture);
                 newDoorObject.transform.GetChild(0).transform.GetChild(3).GetComponent<MeshRenderer>().material.SetTexture("_TrimTexture", styleListObject.GetComponent<RoomStyleTypes>().roomStyleDefs[newRoomStyleType].GetComponent<RoomStyleDef>().DoorTrimTexture);
 
+                // spawn a plug object at the "entrance" to the level, where the start room would be (but isn't in hackerland)
+                if (i == 0)
+                {
+                    GameObject newHackermanPlugObject = Instantiate(doorPlugObject, newHackermanRoom.transform.GetChild(0).transform.position, newHackermanRoom.transform.GetChild(0).transform.rotation) as GameObject;
+                    newHackermanPlugObject.transform.Rotate(Vector3.up, 180.0f);
+                    newHackermanPlugObject.transform.SetParent(newHackermanRoom.transform.GetChild(6).transform);        // parent all plugs to "PLUG" child of prefab
+                    newHackermanPlugObject.transform.GetChild(0).GetComponent<MeshRenderer>().material = hackermanMaterial;
+                }
 
                 for (int j = 0; j < newGameObject.transform.GetChild(1).childCount; j++)                     // creat a PLUG object at ALL OUT locations
                 {
@@ -371,21 +379,30 @@ public class LevelGenerator : MonoBehaviour
 
                 //////////////////////////////////////////////// here seems like as good a place as any to spawn the hackerman doors
 
-                GameObject newHackermanDoorObject = null;
-                newHackermanDoorObject = Instantiate(doorObject, newPos + Vector3.up * 4, newRot) as GameObject;                   // create door at out location
-                newHackermanDoorObject.transform.SetParent(newHackermanRoom.transform.GetChild(7).transform);            // parent all doors to "DOOR" child of prefab
+                // spawn a plug object at the "exit" to the level, where the elevator would be (but isn't in hackerland)
+                if (i == RoomCount - 1)
+                {
+                    GameObject newHackermanPlugObject = Instantiate(doorPlugObject, newPos + Vector3.up * 4, newRot) as GameObject;
+                    newHackermanPlugObject.transform.SetParent(newHackermanRoom.transform.GetChild(7).transform);               // parent all plugs to "DOOR" child of prefab
+                    newHackermanPlugObject.transform.GetChild(0).GetComponent<MeshRenderer>().material = hackermanMaterial;
+                }
+                else
+                {
+                    GameObject newHackermanDoorObject = null;
+                    newHackermanDoorObject = Instantiate(doorObject, newPos + Vector3.up * 4, newRot) as GameObject;            // create door at out location
+                    newHackermanDoorObject.transform.SetParent(newHackermanRoom.transform.GetChild(7).transform);               // parent all doors to "DOOR" child of prefab
 
-                // DOORS (are a bit of a fuck around to change to hackerman materials)
+                    // DOORS (are a bit of a fuck around to change to hackerman materials)
 
-                doorsParent = newHackermanDoorObject.gameObject;      // Find Door Parent Object (which is actually it's first child called "Internal"
+                    doorsParent = newHackermanDoorObject.gameObject;      // Find Door Parent Object (which is actually it's first child called "Internal"
 
-                for (int d = 0; d < doorsParent.transform.GetChild(0).transform.childCount; d++)
-                    doorsParent.transform.GetChild(0).transform.GetChild(d).GetComponent<MeshRenderer>().material = hackermanMaterial;
+                    for (int d = 0; d < doorsParent.transform.GetChild(0).transform.childCount; d++)
+                        doorsParent.transform.GetChild(0).transform.GetChild(d).GetComponent<MeshRenderer>().material = hackermanMaterial;
 
-                doorsParent.transform.GetChild(1).transform.GetChild(1).transform.GetChild(0).GetComponent<MeshRenderer>().material = hackermanMaterialDoor;
-                doorsParent.transform.GetChild(1).transform.GetChild(1).transform.GetChild(1).GetComponent<MeshRenderer>().material = hackermanMaterialDoor;
-                doorsParent.transform.GetChild(1).transform.GetChild(1).transform.GetChild(2).GetComponent<MeshRenderer>().material = hackermanMaterialHiddenWall;
-
+                    doorsParent.transform.GetChild(1).transform.GetChild(1).transform.GetChild(0).GetComponent<MeshRenderer>().material = hackermanMaterialDoor;
+                    doorsParent.transform.GetChild(1).transform.GetChild(1).transform.GetChild(1).GetComponent<MeshRenderer>().material = hackermanMaterialDoor;
+                    doorsParent.transform.GetChild(1).transform.GetChild(1).transform.GetChild(2).GetComponent<MeshRenderer>().material = hackermanMaterialHiddenWall;
+                }
 
             }   // END OF ROOM FOR LOOP
 

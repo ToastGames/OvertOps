@@ -18909,7 +18909,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1892089239
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22855,11 +22855,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8665959728155307983, guid: b1888d0c6b6e5314ba194b9669b3b9cd,
-        type: 3}
-      propertyPath: RoomCount
-      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b1888d0c6b6e5314ba194b9669b3b9cd, type: 3}

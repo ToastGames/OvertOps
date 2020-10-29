@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4334717779694377508}
   - component: {fileID: 4334717779694377509}
   m_Layer: 13
-  m_Name: EnemyBasic2-Test-Green
+  m_Name: EnemyBasic
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a9ec2e886af0cc4b8134276b4604bd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shootParticles: {fileID: 7192695510427784256, guid: eb113368a6c87514cae9008f2cfd8c7f,
+  shootParticles: {fileID: 1024530232080236147, guid: 6c2e279cbcba2c44b99edf484ed293f8,
     type: 3}
   wallCollisionRange: 1
   rayWidth: 0.6
@@ -152,7 +152,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 61a624f43902e174393f98e82c5eed9a, type: 2}
+  - {fileID: 2100000, guid: f1a4a19cf31773e4088601c7764f84fc, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
