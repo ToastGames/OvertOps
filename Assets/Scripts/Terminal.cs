@@ -13,12 +13,12 @@ public class Terminal : MonoBehaviour
 
     private void Awake()
     {
-        hackermanPickupObjects = GameObject.FindGameObjectWithTag("Object_Parent_Hackerman");
+        hackermanPickupObjects = GameObject.FindGameObjectWithTag("Object_Parent_Hackerman");   // scrape hackerman objects out of scene so they can be unhidden later
     }
 
     private void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();     // get the player component and the player object separately apparently
         playerObject = GameObject.FindGameObjectWithTag("Player");
     }
 
@@ -26,27 +26,23 @@ public class Terminal : MonoBehaviour
     {
         if ((active == true) && (player.interactPressed))
         {
-            player.terminalReturnPosition = playerObject.transform.position;
-            player.terminalReturnRotation = playerObject.transform.rotation;
+            player.terminalReturnPosition = playerObject.transform.position;    // this is supposed to se the player return loaction and rotation, but I'm not convinced it's 100% working properly
+            player.terminalReturnRotation = playerObject.transform.rotation;    // which is weird, beause there's nothing to it, it's just setting a variable with the current pos and rot
 
-            playerObject.transform.Translate(Vector3.up * 4);
-            playerObject.transform.Rotate(new Vector3(0.0f, 180.0f, 0.0f));
-            playerObject.GetComponent<Player>().inHackerman = true;
+            playerObject.transform.Translate(Vector3.up * 4);                   // teleport the player 4 units upwards into hackerland
+            playerObject.transform.Rotate(new Vector3(0.0f, 180.0f, 0.0f));     // rotate the player 180 so they aren't facing the wall when they enter hackerland
+            playerObject.GetComponent<Player>().inHackerman = true;             // setting on the player script that they are in hackerland, so it can hide objects and do whatever else
 
-            hackermanPickupObjects.SetActive(true); // activate the hackerman bonus objects (they are hidden by default so they don't render through the roof)
+            hackermanPickupObjects.SetActive(true);                             // unhide hackerman objects
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        // for now, terminals will activate automatically until I can get my head around the fucking new input system
-
         if (other.tag == "Player")
         {
-            playerObject = other.gameObject;
+            playerObject = other.gameObject;            // if player enters the Terminal trigger, bool active is set so that it can be checked agains in update in conjunction with player input
             active = true;
         }
     }
-
-
 }

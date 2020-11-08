@@ -43,6 +43,7 @@ public class EnemyBasic : MonoBehaviour
     private GameObject playerTarget;            // these 5 things are private because they cannot be assigned in te prefab, and have to be scraped out of the scene by traversing the heirarchy
 
     public GameObject shootParticles;
+    public GameObject projectilePrefab;
     public Transform shootFXLocation;
 
     public float wallCollisionRange;            // gameplay variables, tweak to taste
@@ -131,14 +132,12 @@ public class EnemyBasic : MonoBehaviour
 
             if ((Time.time % agroShootCyclePeriod) < (agroShootCyclePeriod / 2))            // periodically alternate between 2 sub-states (shooting and moving)
             {
-                //Debug.Log("111111111111111");
                 Reorient(playerTarget.transform.position - enemyPrefab.transform.position);                   // make sure the enemy is always facing the PLAYER (transform, not sprite)
                 enemyPrefab.transform.Translate(Vector3.forward * speed * Time.deltaTime);                    // just move forward a bit (determined by speed value)
                 transform.GetChild(0).GetComponent<Renderer>().material.SetFloat("_AnimationNumber", 1);      // change to walking straight forward anim
             }
             else
             {
-                //Debug.Log("222222222222222");
                 transform.GetChild(0).GetComponent<Renderer>().material.SetFloat("_AnimationNumber", 6);      // change to shooting anim
 
                 if (canShoot)
@@ -150,7 +149,9 @@ public class EnemyBasic : MonoBehaviour
 
 
                     Instantiate(shootParticles, shootFXLocation.position, Quaternion.identity);
-                    playerTarget.GetComponent<Player>().health -= shootDamage;
+                    Instantiate(projectilePrefab, shootFXLocation.position, enemyPrefab.transform.rotation);
+
+                    //playerTarget.GetComponent<Player>().health -= shootDamage;                    // remove this disgusting hack that forces the player to always take damage when an enemy shoots, no matter what
                     stateTimePassed = 0.0f;
                     canShoot = false;
 

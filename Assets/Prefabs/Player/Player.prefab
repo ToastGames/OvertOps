@@ -346,7 +346,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.973333, g: 1, b: 0, a: 0}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -469,6 +469,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91bb9561f60c14c40b919e5ae559417d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  testObject: {fileID: 7192695510427784256, guid: 25cc1fbeaaac1804aad71d3b02fe4256,
+    type: 3}
   wepDefs: {fileID: 1319545160396954706, guid: 3d44deb7d63453c4cb56ba362056ec81, type: 3}
   playerSpriteObject: {fileID: 2055514331}
   currentWeapon: 1
@@ -477,10 +479,6 @@ MonoBehaviour:
   rotSpeed: 5
   mouseRotSpeed: 2.5
   health: 100
-  rayCount: 10
-  rayCheckLength: 0.4
-  collisionWidth: 0.2
-  rayArcWidth: 0.3
   currentMovementSpeed: 0
   inHackerman: 0
   hackermanDuration: 7
@@ -851,7 +849,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 1, g: 0.17079794, b: 0, a: 0}
+  m_BackGroundColor: {r: 1, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0

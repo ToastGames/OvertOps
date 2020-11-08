@@ -24,6 +24,10 @@ public class Door : MonoBehaviour
     private Vector3 startPos;               // more housekeeping variables
     private Vector3 endPos;                 // start pos and end pos are extracted rather than assigned
 
+    public AudioClip doorOpenSoundClip;
+    public GameObject emptySound;
+
+
     private void Start()
     {
         startPos = transform.position;                  // start from the initial position of this object's transform
@@ -60,6 +64,12 @@ public class Door : MonoBehaviour
         {
             transform.GetChild(1).transform.GetChild(0).GetComponent<Renderer>().material.SetTexture("_BaseMap", altTexture);       // when triggered the two "faces" of the door have their texture changed
             transform.GetChild(1).transform.GetChild(1).GetComponent<Renderer>().material.SetTexture("_BaseMap", altTexture);       // to whatever texture is set in the inspector
+
+            GameObject newEmptySound = Instantiate(emptySound, transform.position, transform.rotation) as GameObject;               // < This is how we are doing sound apparently
+            newEmptySound.GetComponent<EmptySound>().soundToPlay = doorOpenSoundClip;                                               // <
+            newEmptySound.GetComponent<EmptySound>().playSound();                                                                   // <
+            Destroy(newEmptySound, doorOpenSoundClip.length);                                                                       // <
+
             isTriggered = true;                                                                                                     // triggering the door sets this bool to true so the movement stuff above knows the door's been triggered
         }
     }

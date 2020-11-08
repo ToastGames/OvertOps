@@ -18922,7 +18922,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c845bdc55dbbda419970fb14b26190c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  triggerColour: {r: 0, g: 1, b: 0.45285773, a: 0.65882355}
+  triggerColour: {r: 0, g: 1, b: 0.45285773, a: 0}
   triggerWireColour: {r: 0, g: 1, b: 0.011662006, a: 0.23529412}
 --- !u!65 &1892089240
 BoxCollider:
@@ -22801,6 +22801,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: LevelGenerator
       objectReference: {fileID: 0}
+    - target: {fileID: 2112276520246929597, guid: b1888d0c6b6e5314ba194b9669b3b9cd,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2112276520246929598, guid: b1888d0c6b6e5314ba194b9669b3b9cd,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -23097,7 +23102,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2623050840395687934
 Transform:
   m_ObjectHideFlags: 0

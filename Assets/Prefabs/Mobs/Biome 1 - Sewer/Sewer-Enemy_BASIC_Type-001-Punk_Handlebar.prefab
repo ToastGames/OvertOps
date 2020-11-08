@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4334717779694377508}
   - component: {fileID: 4334717779694377509}
   m_Layer: 13
-  m_Name: Sewer-Enemy_BASIC_Type-001-Punk
+  m_Name: Sewer-Enemy_BASIC_Type-001-Punk_Handlebar
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -50,6 +50,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shootParticles: {fileID: 1024530232080236147, guid: 6c2e279cbcba2c44b99edf484ed293f8,
     type: 3}
+  projectilePrefab: {fileID: 3589054596442655432, guid: 7ab5b0bf729c2e245ac0835d73da2257,
+    type: 3}
   shootFXLocation: {fileID: 7910128472382557978}
   wallCollisionRange: 1
   rayWidth: 0.6
@@ -65,7 +67,7 @@ MonoBehaviour:
   patrolSpeed: 0.5
   roamSpeed: 0.7
   agroSpeed: 0.3
-  agroShootCyclePeriod: 1.5
+  agroShootCyclePeriod: 0.8
   shootSoundClip: {fileID: 8300000, guid: ba43171d690d091448bb4d7b2360430f, type: 3}
   emptySound: {fileID: 5670872531807199508}
 --- !u!136 &4334717779694377508
@@ -294,6 +296,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4334717779694377528}
     m_Modifications:
+    - target: {fileID: -970745373134271164, guid: 3fe9e5007fbb4ac4d894703a756d5caf,
+        type: 3}
+      propertyPath: soundToPlay
+      value: 
+      objectReference: {fileID: 8300000, guid: afb70a26df8d392439fd2a39096c8669, type: 3}
     - target: {fileID: 4704865564505667842, guid: 3fe9e5007fbb4ac4d894703a756d5caf,
         type: 3}
       propertyPath: m_LocalPosition.x

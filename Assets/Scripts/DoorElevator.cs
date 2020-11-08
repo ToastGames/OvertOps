@@ -69,6 +69,7 @@ public class DoorElevator : MonoBehaviour
         {
             //transform.GetChild(1).transform.GetChild(0).GetComponent<Renderer>().material.SetTexture("_BaseMap", altTexture);         // these are currently commented out because they were fucked for some reason
             //transform.GetChild(1).transform.GetChild(1).GetComponent<Renderer>().material.SetTexture("_BaseMap", altTexture);         // which is weird, because they should work exactly the same as in "DOOR"
+                                                                                                                                        // maybe there was no "altTexture" defined?
             isTriggered = true;
             LightFadeObject.SetActive(true);    // turn on the sweet "bright light" effect object
         }

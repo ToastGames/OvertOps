@@ -330,6 +330,9 @@ MonoBehaviour:
   doorPauseTime: 0.2
   doorMoveTime: 0.4
   altTexture: {fileID: 2800000, guid: 6622ca8ebae6c1e40994439990d4d8d9, type: 3}
+  doorOpenSoundClip: {fileID: 8300000, guid: 2171098dadae45d4c8bbfa6a4bfaa930, type: 3}
+  emptySound: {fileID: 7117987090161413652, guid: 3fe9e5007fbb4ac4d894703a756d5caf,
+    type: 3}
 --- !u!1 &5916433649878780726
 GameObject:
   m_ObjectHideFlags: 0
