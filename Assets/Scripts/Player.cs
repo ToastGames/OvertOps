@@ -221,7 +221,8 @@ public class Player : MonoBehaviour
 
             if (hitInfo.transform.gameObject.tag == "Enemy")    // WHY am I also checking the object's tag if I'm only checking the enemy layer?
             {
-                Destroy(hitInfo.transform.gameObject);          // Currently when an enemy is hit, their game object is just destroyed, but we want to change this to setting their state to DYING, then DEAD
+                //Destroy(hitInfo.transform.gameObject);          // Currently when an enemy is hit, their game object is just destroyed, but we want to change this to setting their state to DYING, then DEAD
+                hitInfo.transform.gameObject.GetComponent<EnemyBasic>().Kill();
             }
         }
     }

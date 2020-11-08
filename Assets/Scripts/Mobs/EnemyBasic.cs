@@ -67,6 +67,7 @@ public class EnemyBasic : MonoBehaviour
     public float roamSpeed;
     public float agroSpeed;
     public float agroShootCyclePeriod;          // float to mod time by to alternate between standing+shooting and walking towards player
+    public float deathDuration;
 
     private float speed;                        // speed will change based on state
     private bool pathLoop;                      // this batch of private variables are more about making the enemy behaviour actually do it's thing
@@ -165,8 +166,8 @@ public class EnemyBasic : MonoBehaviour
         {
             Reorient(currentNodePosition - enemyPrefab.transform.position);                               // make sure the enemy is always facing the direction they are walking towards (transform, not sprite)
             enemyPrefab.transform.Translate(Vector3.forward * speed * Time.deltaTime);                    // move enemy a bit (determined by speed value) along their forward vector (why reorienting first is important)
-                                            // ^ why is this Vector3 and not transform?
-            // this IF statement is a funcking nightmare to understand. It's all just to pick the next path node
+                                                                                                          // ^ why is this Vector3 and not transform?
+                                                                                                          // this IF statement is a funcking nightmare to understand. It's all just to pick the next path node
 
             if (Mathf.Abs(Vector3.Magnitude(enemyPrefab.transform.position - currentNodePosition)) < nodeProximityThreshold)  // it's fired off if the enemy gets close enough (withing "proximity" of the node)
             {
@@ -202,6 +203,22 @@ public class EnemyBasic : MonoBehaviour
 
             // END of EPIC IF statement to determine where to go next on the path
         }
+        else if (state == EnemyState.Dying) // DYING ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        {
+            transform.GetChild(0).GetComponent<Renderer>().material.SetFloat("_AnimationNumber", 4);      // change to dying anim
+            GetComponent<CapsuleCollider>().enabled = false;                                              // disable collision
+            stateTimePassed += Time.deltaTime;
+            if (stateTimePassed >= deathDuration)
+            {
+                state = EnemyState.Dead;
+            }
+        }
+        else if (state == EnemyState.Dead) // DYING ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        {
+            transform.GetChild(0).GetComponent<Renderer>().material.SetFloat("_AnimationNumber", 4);      // change to dying anim
+            transform.GetChild(0).GetComponent<Renderer>().material.SetFloat("_FrameRate", 0);          // set frame rate to 0 to linger on final frame
+            transform.GetChild(0).GetComponent<Renderer>().material.SetFloat("_FrameOffset", 3);      // 
+        }
 
         //spritePlane.transform.LookAt(playerTarget.transform, Vector3.up);                                       // billboard sprite object to player
         //spritePlane.transform.eulerAngles = new Vector3(0.0f, spritePlane.transform.eulerAngles.y, 0.0f);       // zero out X and Z angles after billboarding so enemy sprite stays aligned to the vertical ( Y ) axis
@@ -216,7 +233,9 @@ public class EnemyBasic : MonoBehaviour
 
     public void Kill()                                                      // This function is also never called, it's here as a legacy from when I copy and pasted the initial basic enemy behaviour from Shape Wars
     {
-        Destroy(gameObject);                                                // Maybe we want to just turn it off rather than destroy it?
+        //Destroy(gameObject);                                                // Maybe we want to just turn it off rather than destroy it?
+        state = EnemyState.Dying;
+        stateTimePassed = 0.0f;
     }
 
     void UpdateAnimation()

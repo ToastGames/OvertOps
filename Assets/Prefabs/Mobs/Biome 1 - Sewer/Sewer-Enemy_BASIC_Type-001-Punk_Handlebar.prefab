@@ -68,6 +68,7 @@ MonoBehaviour:
   roamSpeed: 0.7
   agroSpeed: 0.3
   agroShootCyclePeriod: 0.8
+  deathDuration: 0.35
   shootSoundClip: {fileID: 8300000, guid: ba43171d690d091448bb4d7b2360430f, type: 3}
   emptySound: {fileID: 5670872531807199508}
 --- !u!136 &4334717779694377508
