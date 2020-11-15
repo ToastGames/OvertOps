@@ -21,6 +21,7 @@ public class Player : MonoBehaviour
 
     public WeaponDefList wepDefs;                   // list of all weapon definitions (currently not being used for anything)
     public MeshRenderer playerSpriteObject;         // this should be obtained from dragging the child object with the spritesheet on it into this variable
+    private Material playerSpriteMaterial;
 
     public int currentWeapon = 1;                   // weapons are -1 = Hackerman
                                                     //              0 = Melee
@@ -79,6 +80,7 @@ public class Player : MonoBehaviour
 
     public float pistolFireTime;
 
+    private float fakeTime;
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////
     // variables below this line need reassessing ///////////////////////////////////////////////////////////
@@ -103,8 +105,12 @@ public class Player : MonoBehaviour
         gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();  // basically everything needs a reference to the game manager
 
         Cursor.visible = false;                         // turn off cursor
-        Cursor.lockState = CursorLockMode.Locked;       // and lock it to the center of the screen
+        Cursor.lockState = CursorLockMode.Locked;       // and lock it to the center of the scre-en
         playerState = PlayerState.Idle;                 // set initial player state as idle
+        playerSpriteMaterial = playerSpriteObject.GetComponent<Renderer>().material;
+        playerSpriteMaterial.SetFloat("_AnimationNumber", 1);
+        playerSpriteMaterial.SetFloat("_FrameOffset", 0);
+        fakeTime = 0.0f;
 
         playerController = GetComponent<CharacterController>();     // scrape character controller component off player object
         playerAudio = GetComponent<AudioSource>();                  // same with audio source
@@ -121,13 +127,17 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        playerSpriteObject.material = wepDefs.WeaponDefs[currentWeapon].gameObject.GetComponent<WeaponDef>().spriteSheet;   // this probably needs to get rolled into a fucntion at some point to deal with weapon stuff
+        //playerSpriteObject.material = wepDefs.WeaponDefs[currentWeapon].gameObject.GetComponent<WeaponDef>().spriteSheet;   // this probably needs to get rolled into a fucntion at some point to deal with weapon stuff
+
+        CheckState();
+
+        fakeTime += Time.deltaTime;
+        playerSpriteMaterial.SetFloat("_FakeTime", fakeTime);
 
         CheckMouseMovement();
         CalculateMovement();
 
         CheckInput();
-        CheckState();
 
         CheckHackerman();   // if in hackerland, do hackerman stuff
 
@@ -147,7 +157,7 @@ public class Player : MonoBehaviour
     private void CheckHackerman()
     {
         if (inHackerman)
-            hackermanTimer += Time.deltaTime;               // if in hackerlad, start the timer
+            hackermanTimer += Time.deltaTime;               // if in hackerland, start the timer
         else
             hackermanTimer = 0.0f;                          // otherwise, it gets reset to 0
 
@@ -166,16 +176,17 @@ public class Player : MonoBehaviour
     {
         if (playerState == PlayerState.Idle)                ////////////////// IDLE
         {
-            {
-                /*
-                tempMaterial.SetFloat("_AnimationNumber", playerSpriteDefList.GetComponent<SpriteDefList>().SpriteFramesDefs[1].GetComponent<SpriteFamesDef>().idleAnimNumber);
-                tempMaterial.SetFloat("_FrameOffset", playerSpriteDefList.GetComponent<SpriteDefList>().SpriteFramesDefs[1].GetComponent<SpriteFamesDef>().idleStartFrame);
-                tempMaterial.SetFloat("_FrameCount", playerSpriteDefList.GetComponent<SpriteDefList>().SpriteFramesDefs[1].GetComponent<SpriteFamesDef>().idleEndFrame - playerSpriteDefList.GetComponent<SpriteDefList>().SpriteFramesDefs[1].GetComponent<SpriteFamesDef>().idleStartFrame + 1);
-                */
-            }  // old fucked shit
+            playerSpriteMaterial.SetFloat("_AnimationNumber", 1);
+            playerSpriteMaterial.SetFloat("_FrameOffset", 0);
+            playerSpriteMaterial.SetFloat("_FrameRate", 4);
         }
         if (playerState == PlayerState.Shooting)            ////////////////// SHOOTING
         {
+            playerSpriteMaterial.SetFloat("_AnimationNumber", 3);
+            playerSpriteMaterial.SetFloat("_FrameOffset", 0);
+            playerSpriteMaterial.SetFloat("_FrameRate", (1 / pistolFireTime) * 4);
+
+
             timePassed += Time.deltaTime;                   // used to track how long "FIRING" should go for
 
             if (justFired)                                  // at the moment the weapon is fired, do some one-off stuff
@@ -197,6 +208,9 @@ public class Player : MonoBehaviour
                         timePassed = 0.0f;                  // reset the timer
                         firing = false;                     // no longer firing
                         canFire = true;                     // can fire again
+
+                        playerState = PlayerState.Idle;
+                        fakeTime = 0.0f;
                     }
                 }
             }
@@ -327,6 +341,7 @@ public class Player : MonoBehaviour
                 if (canFire)
                 {
                     playerState = PlayerState.Shooting;
+                    fakeTime = 0.0f;
                     justFired = true;
                     canFire = false;
                 }

@@ -488,7 +488,7 @@ MonoBehaviour:
   weaponSounds:
   - {fileID: 8300000, guid: d21f282ab6c3c8946b684e9394996537, type: 3}
   shotFXPistol: {fileID: 2025837436939155599}
-  pistolFireTime: 0.2
+  pistolFireTime: 0.4
 --- !u!136 &9110544893476643930
 CapsuleCollider:
   m_ObjectHideFlags: 0

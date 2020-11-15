@@ -81,6 +81,10 @@ public class EnemyBasic : MonoBehaviour
     private float stateTimePassed = 0.0f;
     private bool canShoot = false;
 
+    private Material enemySpriteMaterial;
+    private float fakeTime;
+
+
     ////////////////////////////////
 
     public AudioClip shootSoundClip;
@@ -108,12 +112,22 @@ public class EnemyBasic : MonoBehaviour
         currentNodePosition = patrolPath.pathNodes[currentNode].transform.position;                     // set "current position" -> the nex path to move to as the first node in the node path position list
         enemyPrefab.transform.position = patrolPath.pathNodes[0].transform.position;
         speed = patrolSpeed;
+
+        enemySpriteMaterial = spritePlane.GetComponent<Renderer>().material;
+        enemySpriteMaterial.SetFloat("_AnimationNumber", 1);
+        enemySpriteMaterial.SetFloat("_FrameOffset", 0);
+        fakeTime = 0.0f;
+
     }
 
     void Update()
     {
         CalculateAngleToPlayer();
         UpdateAnimation();
+
+        fakeTime += Time.deltaTime;
+        enemySpriteMaterial.SetFloat("_FakeTime", fakeTime);
+
 
         ///////////////////////////////////////////////
         //         STATE specific behaviour          //
@@ -135,11 +149,11 @@ public class EnemyBasic : MonoBehaviour
             {
                 Reorient(playerTarget.transform.position - enemyPrefab.transform.position);                   // make sure the enemy is always facing the PLAYER (transform, not sprite)
                 enemyPrefab.transform.Translate(Vector3.forward * speed * Time.deltaTime);                    // just move forward a bit (determined by speed value)
-                transform.GetChild(0).GetComponent<Renderer>().material.SetFloat("_AnimationNumber", 1);      // change to walking straight forward anim
+                enemySpriteMaterial.SetFloat("_AnimationNumber", 1);                                          // change to walking straight forward anim
             }
             else
             {
-                transform.GetChild(0).GetComponent<Renderer>().material.SetFloat("_AnimationNumber", 6);      // change to shooting anim
+                enemySpriteMaterial.SetFloat("_AnimationNumber", 6);                                          // change to shooting anim
 
                 if (canShoot)
                 {
@@ -149,7 +163,8 @@ public class EnemyBasic : MonoBehaviour
                     Destroy(newEmptySound, shootSoundClip.length);
 
 
-                    Instantiate(shootParticles, shootFXLocation.position, Quaternion.identity);
+                    GameObject newParticles = Instantiate(shootParticles, shootFXLocation.position, Quaternion.identity) as GameObject;
+                    Destroy(newParticles, 2);                                                                                                       // kind of hard coding killing the enemy shot FX after 2 seconds
                     Instantiate(projectilePrefab, shootFXLocation.position, enemyPrefab.transform.rotation);
 
                     //playerTarget.GetComponent<Player>().health -= shootDamage;                    // remove this disgusting hack that forces the player to always take damage when an enemy shoots, no matter what
@@ -205,8 +220,13 @@ public class EnemyBasic : MonoBehaviour
         }
         else if (state == EnemyState.Dying) // DYING ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         {
-            transform.GetChild(0).GetComponent<Renderer>().material.SetFloat("_AnimationNumber", 4);      // change to dying anim
-            GetComponent<CapsuleCollider>().enabled = false;                                              // disable collision
+            enemySpriteMaterial.SetFloat("_UseFakeTime1or0", 1);
+            fakeTime = 0.0f;
+
+            enemySpriteMaterial.SetFloat("_AnimationNumber", 4);      // change to dying anim
+            enemySpriteMaterial.SetFloat("_FrameRate", (1 / deathDuration) * 4);
+
+            GetComponent<CapsuleCollider>().enabled = false;          // disable collision
             stateTimePassed += Time.deltaTime;
             if (stateTimePassed >= deathDuration)
             {
@@ -215,9 +235,9 @@ public class EnemyBasic : MonoBehaviour
         }
         else if (state == EnemyState.Dead) // DYING ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         {
-            transform.GetChild(0).GetComponent<Renderer>().material.SetFloat("_AnimationNumber", 4);      // change to dying anim
-            transform.GetChild(0).GetComponent<Renderer>().material.SetFloat("_FrameRate", 0);          // set frame rate to 0 to linger on final frame
-            transform.GetChild(0).GetComponent<Renderer>().material.SetFloat("_FrameOffset", 3);      // 
+            enemySpriteMaterial.SetFloat("_AnimationNumber", 4);      // change to dying anim
+            enemySpriteMaterial.SetFloat("_FrameRate", 0);            // set frame rate to 0 to linger on final frame
+            enemySpriteMaterial.SetFloat("_FrameOffset", 3);          // 
         }
 
         //spritePlane.transform.LookAt(playerTarget.transform, Vector3.up);                                       // billboard sprite object to player

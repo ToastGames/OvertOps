@@ -45,4 +45,13 @@ public class Terminal : MonoBehaviour
             active = true;
         }
     }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "Player")
+        {
+            active = false;
+        }
+    }
+
 }
