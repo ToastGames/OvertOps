@@ -102,8 +102,8 @@ public class Player : MonoBehaviour
     {
         gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();  // basically everything needs a reference to the game manager
 
-        Cursor.visible = false;                         // turn of cursor
-        Cursor.lockState = CursorLockMode.Locked;       // and lock it to the centre of the screeen
+        Cursor.visible = false;                         // turn off cursor
+        Cursor.lockState = CursorLockMode.Locked;       // and lock it to the center of the screen
         playerState = PlayerState.Idle;                 // set initial player state as idle
 
         playerController = GetComponent<CharacterController>();     // scrape character controller component off player object
